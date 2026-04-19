@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="application-name" content="Angela Moraes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Angela Moraes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#3e2c1a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzNlMmMxYSIvPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiBmaWxsPSJ1cmwoI2dyYWQpIi8+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2UyYzFhO3N0b3Atb3BhY2l0eToxIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzJhMWYxNDtzdG9wLW9wYWNpdHk6MSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBEaWFtb25kIG9ybmFtZW50IHRvcCAtLT4KICA8cmVjdCB4PSIyNDkiIHk9IjY4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDI1NiA3NSkiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuOCIvPgogIDwhLS0gRGlhbW9uZCBvcm5hbWVudCBib3R0b20gLS0+CiAgPHJlY3QgeD0iMjQ5IiB5PSI0MjIiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgMjU2IDQyOSkiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuOCIvPgogIDwhLS0gSG9yaXpvbnRhbCBsaW5lcyAtLT4KICA8bGluZSB4MT0iODAiIHkxPSI3NSIgeDI9IjIyNiIgeTI9Ijc1IiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40Ii8+CiAgPGxpbmUgeDE9IjI4NiIgeTE9Ijc1IiB4Mj0iNDMyIiB5Mj0iNzUiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjQiLz4KICA8bGluZSB4MT0iODAiIHkxPSI0MjkiIHgyPSIyMjYiIHkyPSI0MjkiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjQiLz4KICA8bGluZSB4MT0iMjg2IiB5MT0iNDI5IiB4Mj0iNDMyIiB5Mj0iNDI5IiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40Ii8+CiAgPCEtLSBDb3JuZXIgb3JuYW1lbnRzIC0tPgogIDxyZWN0IHg9IjcyIiB5PSI2OCIgd2lkdGg9IjgiIGhlaWdodD0iOCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgNzYgNzIpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI0MjgiIHk9IjY4IiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MzIgNzIpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI3MiIgeT0iNDMyIiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA3NiA0MzYpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI0MjgiIHk9IjQzMiIgd2lkdGg9IjgiIGhlaWdodD0iOCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgNDMyIDQzNikiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuMyIvPgogIDwhLS0gQU0gbGV0dGVycyBpbiBDb3Jtb3JhbnQgc3R5bGUgLSBlbGVnYW50IHNlcmlmIC0tPgogIDx0ZXh0IHg9IjI1NiIgeT0iMzIwIiAKICAgIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgCiAgICBmb250LXNpemU9IjIxMCIgCiAgICBmb250LXdlaWdodD0iMzAwIgogICAgZm9udC1zdHlsZT0iaXRhbGljIgogICAgdGV4dC1hbmNob3I9Im1pZGRsZSIgCiAgICBmaWxsPSIjQzlBODRDIgogICAgbGV0dGVyLXNwYWNpbmc9Ii04Ij5BTTwvdGV4dD4KICA8IS0tIFRoaW4gZ29sZCBib3JkZXIgLS0+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjUwOCIgaGVpZ2h0PSI1MDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSIxMiIgeT0iMTIiIHdpZHRoPSI0ODgiIGhlaWdodD0iNDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMC41IiBvcGFjaXR5PSIwLjIiLz4KPC9zdmc+">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzNlMmMxYSIvPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiBmaWxsPSJ1cmwoI2dyYWQpIi8+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2UyYzFhO3N0b3Atb3BhY2l0eToxIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzJhMWYxNDtzdG9wLW9wYWNpdHk6MSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBEaWFtb25kIG9ybmFtZW50IHRvcCAtLT4KICA8cmVjdCB4PSIyNDkiIHk9IjY4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDI1NiA3NSkiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuOCIvPgogIDwhLS0gRGlhbW9uZCBvcm5hbWVudCBib3R0b20gLS0+CiAgPHJlY3QgeD0iMjQ5IiB5PSI0MjIiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgMjU2IDQyOSkiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuOCIvPgogIDwhLS0gSG9yaXpvbnRhbCBsaW5lcyAtLT4KICA8bGluZSB4MT0iODAiIHkxPSI3NSIgeDI9IjIyNiIgeTI9Ijc1IiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40Ii8+CiAgPGxpbmUgeDE9IjI4NiIgeTE9Ijc1IiB4Mj0iNDMyIiB5Mj0iNzUiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjQiLz4KICA8bGluZSB4MT0iODAiIHkxPSI0MjkiIHgyPSIyMjYiIHkyPSI0MjkiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjQiLz4KICA8bGluZSB4MT0iMjg2IiB5MT0iNDI5IiB4Mj0iNDMyIiB5Mj0iNDI5IiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40Ii8+CiAgPCEtLSBDb3JuZXIgb3JuYW1lbnRzIC0tPgogIDxyZWN0IHg9IjcyIiB5PSI2OCIgd2lkdGg9IjgiIGhlaWdodD0iOCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgNzYgNzIpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI0MjgiIHk9IjY4IiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MzIgNzIpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI3MiIgeT0iNDMyIiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA3NiA0MzYpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI0MjgiIHk9IjQzMiIgd2lkdGg9IjgiIGhlaWdodD0iOCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgNDMyIDQzNikiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuMyIvPgogIDwhLS0gQU0gbGV0dGVycyBpbiBDb3Jtb3JhbnQgc3R5bGUgLSBlbGVnYW50IHNlcmlmIC0tPgogIDx0ZXh0IHg9IjI1NiIgeT0iMzIwIiAKICAgIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgCiAgICBmb250LXNpemU9IjIxMCIgCiAgICBmb250LXdlaWdodD0iMzAwIgogICAgZm9udC1zdHlsZT0iaXRhbGljIgogICAgdGV4dC1hbmNob3I9Im1pZGRsZSIgCiAgICBmaWxsPSIjQzlBODRDIgogICAgbGV0dGVyLXNwYWNpbmc9Ii04Ij5BTTwvdGV4dD4KICA8IS0tIFRoaW4gZ29sZCBib3JkZXIgLS0+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjUwOCIgaGVpZ2h0PSI1MDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSIxMiIgeT0iMTIiIHdpZHRoPSI0ODgiIGhlaWdodD0iNDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMC41IiBvcGFjaXR5PSIwLjIiLz4KPC9zdmc+">
+<link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzNlMmMxYSIvPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiBmaWxsPSJ1cmwoI2dyYWQpIi8+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2UyYzFhO3N0b3Atb3BhY2l0eToxIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzJhMWYxNDtzdG9wLW9wYWNpdHk6MSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPCEtLSBEaWFtb25kIG9ybmFtZW50IHRvcCAtLT4KICA8cmVjdCB4PSIyNDkiIHk9IjY4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDI1NiA3NSkiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuOCIvPgogIDwhLS0gRGlhbW9uZCBvcm5hbWVudCBib3R0b20gLS0+CiAgPHJlY3QgeD0iMjQ5IiB5PSI0MjIiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgMjU2IDQyOSkiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuOCIvPgogIDwhLS0gSG9yaXpvbnRhbCBsaW5lcyAtLT4KICA8bGluZSB4MT0iODAiIHkxPSI3NSIgeDI9IjIyNiIgeTI9Ijc1IiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40Ii8+CiAgPGxpbmUgeDE9IjI4NiIgeTE9Ijc1IiB4Mj0iNDMyIiB5Mj0iNzUiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjQiLz4KICA8bGluZSB4MT0iODAiIHkxPSI0MjkiIHgyPSIyMjYiIHkyPSI0MjkiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjQiLz4KICA8bGluZSB4MT0iMjg2IiB5MT0iNDI5IiB4Mj0iNDMyIiB5Mj0iNDI5IiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40Ii8+CiAgPCEtLSBDb3JuZXIgb3JuYW1lbnRzIC0tPgogIDxyZWN0IHg9IjcyIiB5PSI2OCIgd2lkdGg9IjgiIGhlaWdodD0iOCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgNzYgNzIpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI0MjgiIHk9IjY4IiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA0MzIgNzIpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI3MiIgeT0iNDMyIiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB0cmFuc2Zvcm09InJvdGF0ZSg0NSA3NiA0MzYpIiBmaWxsPSIjQzlBODRDIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSI0MjgiIHk9IjQzMiIgd2lkdGg9IjgiIGhlaWdodD0iOCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgNDMyIDQzNikiIGZpbGw9IiNDOUE4NEMiIG9wYWNpdHk9IjAuMyIvPgogIDwhLS0gQU0gbGV0dGVycyBpbiBDb3Jtb3JhbnQgc3R5bGUgLSBlbGVnYW50IHNlcmlmIC0tPgogIDx0ZXh0IHg9IjI1NiIgeT0iMzIwIiAKICAgIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgCiAgICBmb250LXNpemU9IjIxMCIgCiAgICBmb250LXdlaWdodD0iMzAwIgogICAgZm9udC1zdHlsZT0iaXRhbGljIgogICAgdGV4dC1hbmNob3I9Im1pZGRsZSIgCiAgICBmaWxsPSIjQzlBODRDIgogICAgbGV0dGVyLXNwYWNpbmc9Ii04Ij5BTTwvdGV4dD4KICA8IS0tIFRoaW4gZ29sZCBib3JkZXIgLS0+CiAgPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjUwOCIgaGVpZ2h0PSI1MDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0M5QTg0QyIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjMiLz4KICA8cmVjdCB4PSIxMiIgeT0iMTIiIHdpZHRoPSI0ODgiIGhlaWdodD0iNDg4IiBmaWxsPSJub25lIiBzdHJva2U9IiNDOUE4NEMiIHN0cm9rZS13aWR0aD0iMC41IiBvcGFjaXR5PSIwLjIiLz4KPC9zdmc+">
+<title>Gestão · Angela Moraes Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7JIbhg1o-fOSYW6mcpTQ1z9ZMLAxjeOg",
+    authDomain: "angela-moraes-studio.firebaseapp.com",
+    projectId: "angela-moraes-studio",
+    storageBucket: "angela-moraes-studio.firebasestorage.app",
+    messagingSenderId: "592086279388",
+    appId: "1:592086279388:web:8571ac6c6b2dc5f5bd4019",
+    measurementId: "G-ESNV3YH8V5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Expor globalmente
+  window.__fb = { auth, db, signInWithEmailAndPassword, signOut, onAuthStateChanged, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, orderBy };
+
+  // Verificar autenticação ao carregar
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-screen').style.display = 'block';
+      document.getElementById('user-email-display').textContent = user.email;
+      window.initApp();
+    } else {
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('app-screen').style.display = 'none';
+    }
+  });
+</script>
+<style>
+:root {
+  --gold:#C9A84C;--gold-light:#E8CC7A;--gold-pale:#F5E9C8;--gold-dim:#9A7420;--gold-bg:#FDFAF2;
+  --rose:#c9897a;--rose-pale:#f2ddd9;--bege:#f7f0e6;--bege2:#ede3d4;
+  --marrom:#7a5c3e;--marrom-dark:#3e2c1a;--ink:#2a1f14;--ink2:#3e2e20;--ink3:#6e5a48;
+  --pearl:#fdfaf6;--pearl2:#f0e8dc;--white:#fffcf8;--success:#4a7c5a;--danger:#8b3a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--white);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;font-size:16px;min-height:100vh;}
+
+/* ══════════════════════════════
+   TELA DE LOGIN
+══════════════════════════════ */
+#login-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  background:linear-gradient(135deg,var(--marrom-dark) 0%,#4a2e10 50%,var(--marrom) 100%);
+  position:relative;overflow:hidden;
+}
+#login-screen::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(201,168,76,0.03) 60px,rgba(201,168,76,0.03) 120px);
+}
+/* Ornamentos de fundo no login */
+.login-ornament-corner{position:absolute;width:200px;height:200px;pointer-events:none;}
+.login-ornament-corner.tl{top:0;left:0;}
+.login-ornament-corner.tr{top:0;right:0;transform:scaleX(-1);}
+.login-ornament-corner.bl{bottom:0;left:0;transform:scaleY(-1);}
+.login-ornament-corner.br{bottom:0;right:0;transform:scale(-1);}
+
+.login-box{
+  position:relative;z-index:1;
+  background:var(--pearl);
+  border:1px solid var(--gold-pale);
+  border-top:3px solid var(--gold);
+  padding:52px 48px;
+  width:100%;max-width:420px;
+  box-shadow:0 32px 80px rgba(0,0,0,0.35);
+}
+.login-box::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.login-logo-area{text-align:center;margin-bottom:36px;}
+.login-logo-area .salon-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;font-weight:300;letter-spacing:0.08em;
+  color:var(--ink);
+  line-height:1;
+}
+.login-logo-area .salon-sub{
+  font-size:10px;letter-spacing:0.55em;text-transform:uppercase;
+  color:var(--ink3);margin-top:8px;
+}
+.login-ornament{display:flex;align-items:center;gap:10px;margin:20px 0;}
+.login-ornament-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-pale));}
+.login-ornament-line.rev{background:linear-gradient(90deg,var(--gold-pale),transparent);}
+.login-ornament-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
+.login-ornament-sm{width:4px;height:4px;background:var(--gold-pale);transform:rotate(45deg);}
+
+.login-title{
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:400;
+  color:var(--ink2);text-align:center;margin-bottom:28px;
+  letter-spacing:0.04em;
+}
+.login-form .form-group{margin-bottom:18px;}
+.login-form label{
+  display:block;font-size:10px;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:8px;font-weight:500;
+}
+.login-form input{
+  width:100%;padding:13px 16px;
+  border:1px solid var(--bege2);background:var(--white);
+  font-family:'Jost',sans-serif;font-size:15px;color:var(--ink);
+  outline:none;transition:border-color 0.2s;
+}
+.login-form input:focus{border-color:var(--gold);}
+.login-btn{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  color:var(--white);border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:0.45em;text-transform:uppercase;
+  transition:all 0.25s;margin-top:8px;
+  position:relative;overflow:hidden;
+}
+.login-btn::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);
+  transition:left 0.5s;
+}
+.login-btn:hover::before{left:100%;}
+.login-btn:hover{box-shadow:0 4px 20px rgba(201,168,76,0.4);}
+.login-error{
+  color:var(--danger);font-size:13px;text-align:center;
+  margin-top:14px;display:none;
+  padding:10px;background:rgba(139,58,58,0.06);border-left:3px solid var(--danger);
+}
+
+/* ══════════════════════════════
+   APP PRINCIPAL
+══════════════════════════════ */
+#app-screen{display:none;}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,var(--marrom-dark) 0%,#5a3e22 50%,var(--marrom) 100%);
+  padding:0 5vw;display:flex;align-items:stretch;justify-content:space-between;
+  border-bottom:2px solid var(--gold);position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(201,168,76,0.015) 40px,rgba(201,168,76,0.015) 80px);
+}
+/* Ornamento dourado decorativo no header */
+header::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:300px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,0.5),transparent);
+}
+.header-brand{display:flex;align-items:center;gap:24px;padding:24px 0;position:relative;z-index:1;}
+.brand-logo{height:78px;width:auto;object-fit:contain;filter:brightness(0) saturate(100%) invert(78%) sepia(30%) saturate(600%) hue-rotate(5deg) brightness(95%);}
+.brand-text .salon-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;letter-spacing:0.12em;
+  color:var(--gold-light);line-height:1;
+}
+.brand-text .sub{font-size:9px;letter-spacing:0.6em;text-transform:uppercase;color:rgba(245,237,224,0.4);margin-top:4px;}
+
+/* Ornamentos decorativos entre brand e stats */
+.header-ornament{
+  display:flex;align-items:center;gap:0;position:relative;z-index:1;
+  padding:0 32px;
+}
+.header-ornament-line{width:1px;height:40px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.3),transparent);}
+.header-ornament-diamonds{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 12px;}
+.header-ornament-d1{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);opacity:0.7;}
+.header-ornament-d2{width:4px;height:4px;background:var(--gold-pale);transform:rotate(45deg);opacity:0.4;}
+.header-ornament-d3{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);opacity:0.7;}
+
+.header-right{display:flex;align-items:center;gap:0;position:relative;z-index:1;}
+.header-stats{display:flex;align-items:center;}
+.hstat{padding:0 28px;border-left:1px solid rgba(201,168,76,0.2);text-align:right;}
+.hstat:first-child{border-left:none;}
+.hstat-val{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-light);}
+.hstat-label{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(245,237,224,0.4);margin-top:3px;}
+.logout-btn{
+  margin-left:24px;padding:8px 18px;
+  border:1px solid rgba(201,168,76,0.3);background:transparent;
+  color:rgba(245,237,224,0.5);font-family:'Jost',sans-serif;
+  font-size:9px;letter-spacing:0.4em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;
+}
+.logout-btn:hover{border-color:var(--gold);color:var(--gold-light);}
+#user-email-display{font-size:10px;color:rgba(245,237,224,0.3);letter-spacing:0.1em;margin-left:16px;}
+
+/* NAV */
+nav{background:var(--bege);border-bottom:1px solid var(--bege2);padding:0 5vw;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(62,44,26,0.08);}
+nav::-webkit-scrollbar{height:0;}
+.tab{padding:20px 26px;font-size:11px;letter-spacing:0.45em;text-transform:uppercase;color:var(--ink3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;font-family:'Jost',sans-serif;font-weight:500;transition:all 0.25s;white-space:nowrap;position:relative;}
+.tab::after{content:'';position:absolute;bottom:-1px;left:50%;right:50%;height:2px;background:var(--gold);transition:all 0.3s ease;}
+.tab.active{color:var(--gold-dim);}
+.tab.active::after{left:0;right:0;}
+.tab:hover{color:var(--gold);}
+
+/* MAIN */
+main{padding:52px 5vw;max-width:1400px;}
+.section{display:none;animation:fadeUp 0.35s ease;}
+.section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SEC HEADER */
+.sec-header{margin-bottom:44px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--ink);letter-spacing:0.02em;line-height:1;}
+.sec-title em{font-style:italic;color:var(--gold-dim);}
+.sec-sub{font-size:12px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3);margin-top:12px;}
+.ornament-row{display:flex;align-items:center;gap:10px;margin-top:18px;}
+.ornament-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent);}
+.ornament-line.rev{background:linear-gradient(90deg,transparent,var(--gold));}
+.ornament-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
+.ornament-diamond-sm{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;opacity:0.5;}
+/* Ornamento decorativo de seção — estrela dourada */
+.ornament-star{color:var(--gold);font-size:15px;flex-shrink:0;opacity:0.7;}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;margin-bottom:36px;}
+.card{background:var(--white);border:1px solid var(--bege2);border-top:3px solid var(--gold);padding:30px 26px;box-shadow:0 2px 16px rgba(62,44,26,0.05);position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 70%);}
+/* Ornamento no canto do card */
+.card::after{
+  content:'◆';position:absolute;bottom:10px;right:14px;
+  font-size:10px;color:var(--gold-pale);opacity:0.6;
+}
+.card-label{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;font-weight:500;}
+.card-value{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,42px);font-weight:300;color:var(--ink);}
+.card-value.gold{color:var(--gold-dim);}
+.card-value.rose{color:var(--rose);}
+
+/* PANEL */
+.panel{background:var(--white);border:1px solid var(--bege2);border-left:3px solid var(--gold);padding:38px 42px;margin-bottom:30px;box-shadow:0 2px 20px rgba(62,44,26,0.06);position:relative;}
+.panel::before{content:'';position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,var(--gold),transparent 60%);}
+/* Ornamento decorativo no painel */
+.panel::after{
+  content:'';position:absolute;top:12px;right:12px;
+  width:40px;height:40px;
+  background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.panel-title{font-family:'Playfair Display',serif;font-size:21px;font-weight:400;color:var(--ink);margin-bottom:26px;display:flex;align-items:center;gap:14px;}
+.panel-title-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
+.panel-ornament{display:flex;align-items:center;gap:8px;margin:22px 0;}
+.panel-ornament-line{flex:1;height:1px;background:var(--pearl2);}
+.panel-ornament-diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);}
+
+/* FORMULÁRIO */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:22px;}
+.form-group{display:flex;flex-direction:column;gap:8px;}
+label{font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3);font-weight:500;}
+input,select,textarea{
+  padding:13px 16px;border:1px solid var(--bege2);background:var(--white);
+  font-family:'Jost',sans-serif;font-size:16px;color:var(--ink);outline:none;
+  transition:border-color 0.2s;-webkit-appearance:none;width:100%;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);}
+textarea{resize:vertical;min-height:80px;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a8a7a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;}
+
+/* BOTÕES */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:1px solid var(--bege2);background:var(--white);font-family:'Jost',sans-serif;font-size:10px;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink2);cursor:pointer;transition:all 0.2s;}
+.btn:hover{border-color:var(--gold);color:var(--gold-dim);}
+.btn-dark{background:var(--marrom-dark);color:var(--gold-light);border-color:var(--marrom-dark);}
+.btn-dark:hover{background:var(--gold-dim);color:var(--white);border-color:var(--gold-dim);}
+.btn-sm{padding:7px 14px;font-size:9px;}
+.btn-danger{background:var(--danger);color:#fff;border-color:var(--danger);}
+.btn-danger:hover{background:#a04040;}
+
+/* SERVIÇO CHIP */
+.servicos-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px;}
+.servico-chip{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 20px;border:1px solid var(--bege2);
+  background:var(--white);cursor:pointer;
+  transition:all 0.2s;font-family:'Jost',sans-serif;
+  font-size:13px;font-weight:400;color:var(--ink2);
+  position:relative;overflow:hidden;
+}
+.servico-chip::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--gold);transform:scaleX(0);transition:transform 0.25s;
+}
+.servico-chip:hover::before,.servico-chip.active::before{transform:scaleX(1);}
+.servico-chip.active{background:var(--gold-bg);border-color:var(--gold);}
+.servico-chip-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+/* TAMANHOS DE CABELO */
+.tamanhos-row{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--pearl2);
+  animation:fadeUp 0.2s ease;
+}
+.tamanho-btn{
+  padding:8px 18px;border:1px solid var(--bege2);
+  background:var(--white);cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:12px;font-weight:400;
+  color:var(--ink3);transition:all 0.18s;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  position:relative;
+}
+.tamanho-btn:hover{border-color:var(--gold);color:var(--ink);}
+.tamanho-btn.active{
+  background:var(--marrom-dark);color:var(--gold-light);
+  border-color:var(--marrom-dark);
+}
+.tamanho-btn .tb-nome{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;}
+.tamanho-btn .tb-val{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold-dim);}
+.tamanho-btn.active .tb-val{color:var(--gold-light);}
+.tamanho-btn .tb-dur{font-size:10px;color:var(--ink3);letter-spacing:0.1em;}
+.tamanho-btn.active .tb-dur{color:rgba(245,233,198,0.6);}
+.tamanhos-label{
+  font-size:10px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:4px;width:100%;
+}
+
+/* RESULTADO */
+.resultado-box{display:flex;gap:0;border:1px solid var(--gold-pale);background:var(--gold-bg);overflow:hidden;}
+.rb-item{flex:1;padding:20px 24px;border-right:1px solid var(--gold-pale);}
+.rb-item:last-child{border-right:none;}
+.rb-label{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
+.rb-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--ink);}
+.rb-val.gold{color:var(--gold-dim);}
+.rb-val.success{color:var(--success);}
+
+/* TABELA */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tbl{width:100%;border-collapse:collapse;font-size:15px;}
+.tbl thead tr{border-bottom:2px solid var(--gold);}
+.tbl th{padding:13px 16px;text-align:left;font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);font-weight:500;white-space:nowrap;}
+.tbl td{padding:14px 16px;border-bottom:1px solid var(--pearl2);vertical-align:middle;}
+.tbl tbody tr:hover{background:var(--gold-bg);}
+
+/* BADGES */
+.badge{display:inline-block;padding:4px 12px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
+.badge-pix{background:rgba(74,124,90,0.1);color:var(--success);}
+.badge-dinheiro{background:rgba(201,168,76,0.15);color:var(--gold-dim);}
+.badge-cartao{background:rgba(122,139,191,0.15);color:#5a6aaa;}
+.badge-outros{background:var(--pearl2);color:var(--ink3);}
+.badge-item{background:var(--rose-pale);color:var(--rose);}
+.aniv-badge{background:linear-gradient(135deg,var(--gold-pale),var(--gold-bg));color:var(--gold-dim);border:1px solid var(--gold-pale);padding:3px 10px;font-size:10px;letter-spacing:0.15em;}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:64px 24px;}
+.empty-state-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink3);font-weight:400;}
+.empty-state-sub{font-size:12px;color:var(--ink3);opacity:0.6;margin-top:8px;letter-spacing:0.2em;}
+
+/* AUTOCOMPLETE */
+.autocomplete-wrap{position:relative;}
+.autocomplete-list{position:absolute;top:100%;left:0;right:0;background:var(--white);border:1px solid var(--bege2);border-top:none;z-index:200;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(62,44,26,0.12);}
+.autocomplete-item{padding:12px 16px;cursor:pointer;transition:background 0.15s;border-bottom:1px solid var(--pearl2);}
+.autocomplete-item:hover{background:var(--gold-bg);}
+.autocomplete-item-name{font-size:15px;color:var(--ink);}
+.autocomplete-item-sub{font-size:12px;color:var(--ink3);margin-top:2px;}
+
+/* AGENDA */
+.hora-col{width:68px;}
+.hora-label{font-size:11px;color:var(--ink3);vertical-align:middle;padding:10px 12px;}
+.agenda-item{padding:7px 10px;margin:3px 0;font-size:12px;color:#fff;cursor:default;border-radius:2px;}
+.agenda-item strong{display:block;font-size:12px;}
+.agenda-item span{font-size:11px;opacity:0.85;}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink2);}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(42,31,20,0.65);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px);}
+.modal-bg.open{display:flex;}
+.modal{background:var(--pearl);border:1px solid var(--gold-pale);border-top:3px solid var(--gold);padding:44px 40px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 60px rgba(0,0,0,0.25);}
+.modal::before{content:'';position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.modal-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:28px;display:flex;align-items:center;gap:12px;}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;color:var(--ink3);cursor:pointer;padding:4px 8px;line-height:1;}
+.modal-close:hover{color:var(--ink);}
+
+/* FOTO DO SERVIÇO */
+.servico-foto-area{
+  border:2px dashed var(--gold-pale);
+  background:var(--gold-bg);
+  padding:24px;text-align:center;cursor:pointer;
+  transition:border-color 0.2s;margin-bottom:20px;
+}
+.servico-foto-area:hover{border-color:var(--gold);}
+.servico-foto-area img{max-height:140px;max-width:100%;object-fit:contain;margin-bottom:8px;}
+.servico-foto-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);}
+.servico-foto-hint{font-size:12px;color:var(--ink3);margin-top:4px;opacity:0.6;}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--marrom-dark);color:var(--gold-light);padding:14px 28px;font-size:13px;letter-spacing:0.1em;opacity:0;transition:all 0.35s;z-index:2000;pointer-events:none;border-top:2px solid var(--gold);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* LEMBRETE ANIVERSÁRIO */
+.aniv-banner{
+  background:linear-gradient(135deg,var(--gold-bg),#fff9ee);
+  border:1px solid var(--gold);
+  border-left:4px solid var(--gold);
+  padding:20px 28px;margin-bottom:32px;
+  display:none;
+  position:relative;overflow:hidden;
+}
+.aniv-banner::before{
+  content:'';position:absolute;top:0;right:0;width:80px;height:80px;
+  background:radial-gradient(circle at top right,rgba(201,168,76,0.15),transparent 70%);
+}
+.aniv-banner-title{
+  font-family:'Playfair Display',serif;font-size:17px;font-weight:400;
+  color:var(--gold-dim);display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.aniv-banner-list{font-size:15px;color:var(--ink2);line-height:1.8;}
+.aniv-banner-list strong{color:var(--ink);font-weight:500;}
+
+/* ORNAMENTOS DECORATIVOS GERAIS */
+.deco-line-gold{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:32px 0;opacity:0.4;}
+.deco-diamonds{display:flex;justify-content:center;align-items:center;gap:8px;margin:16px 0;}
+.deco-d1{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);}
+.deco-d2{width:5px;height:5px;background:var(--gold-pale);transform:rotate(45deg);}
+.deco-d3{width:3px;height:3px;background:var(--gold-pale);transform:rotate(45deg);opacity:0.5;}
+
+/* Borda ornamental nos painéis de serviço */
+.servico-panel-ornament{
+  position:absolute;top:8px;right:8px;
+  display:flex;gap:3px;
+}
+.spo-d{width:4px;height:4px;transform:rotate(45deg);}
+
+/* LOADING FIREBASE */
+#fb-loading{
+  position:fixed;inset:0;background:var(--white);z-index:9999;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;
+}
+.fb-loader{width:40px;height:40px;border:2px solid var(--gold-pale);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:600px){
+  .header-brand{gap:14px;}
+  .brand-logo{height:52px;}
+  .brand-text .salon-title{font-size:20px;}
+  .hstat-val{font-size:18px;}
+  .hstat{padding:0 14px;}
+  .header-ornament{display:none;}
+  .panel{padding:24px 20px;}
+  .modal{padding:28px 20px;}
+  .login-box{padding:36px 28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Loading inicial -->
+<div id="fb-loading">
+  <div class="fb-loader"></div>
+  <div style="font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3)">Carregando...</div>
+</div>
+
+<!-- ══════════════════════════════
+     TELA DE LOGIN
+══════════════════════════════ -->
+<div id="login-screen" style="display:none;">
+  <!-- Ornamentos de canto SVG -->
+  <svg class="login-ornament-corner tl" viewBox="0 0 200 200" fill="none">
+    <path d="M0 0 L80 0 L0 80 Z" fill="rgba(201,168,76,0.04)"/>
+    <path d="M10 0 L10 60 M0 10 L60 10" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/>
+    <circle cx="10" cy="10" r="3" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
+    <rect x="7" y="7" width="6" height="6" transform="rotate(45 10 10)" fill="rgba(201,168,76,0.2)"/>
+  </svg>
+  <svg class="login-ornament-corner tr" viewBox="0 0 200 200" fill="none">
+    <path d="M0 0 L80 0 L0 80 Z" fill="rgba(201,168,76,0.04)"/>
+    <path d="M10 0 L10 60 M0 10 L60 10" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/>
+    <rect x="7" y="7" width="6" height="6" transform="rotate(45 10 10)" fill="rgba(201,168,76,0.2)"/>
+  </svg>
+  <svg class="login-ornament-corner bl" viewBox="0 0 200 200" fill="none">
+    <path d="M0 0 L80 0 L0 80 Z" fill="rgba(201,168,76,0.04)"/>
+    <path d="M10 0 L10 60 M0 10 L60 10" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/>
+    <rect x="7" y="7" width="6" height="6" transform="rotate(45 10 10)" fill="rgba(201,168,76,0.2)"/>
+  </svg>
+  <svg class="login-ornament-corner br" viewBox="0 0 200 200" fill="none">
+    <path d="M0 0 L80 0 L0 80 Z" fill="rgba(201,168,76,0.04)"/>
+    <path d="M10 0 L10 60 M0 10 L60 10" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/>
+    <rect x="7" y="7" width="6" height="6" transform="rotate(45 10 10)" fill="rgba(201,168,76,0.2)"/>
+  </svg>
+
+  <div class="login-box">
+    <div class="login-logo-area">
+      <div class="login-ornament">
+        <div class="login-ornament-line rev"></div>
+        <div class="login-ornament-sm"></div>
+        <div class="login-ornament-diamond"></div>
+        <div class="login-ornament-sm"></div>
+        <div class="login-ornament-line"></div>
+      </div>
+      <div class="salon-name">Angela Moraes</div>
+      <div class="salon-sub">Studio</div>
+      <div class="login-ornament">
+        <div class="login-ornament-line rev"></div>
+        <div class="login-ornament-sm"></div>
+        <div class="login-ornament-diamond"></div>
+        <div class="login-ornament-sm"></div>
+        <div class="login-ornament-line"></div>
+      </div>
+    </div>
+    <div class="login-title">Acesso ao Sistema</div>
+    <div class="login-form">
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="login-senha" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')fazerLogin()">
+      </div>
+      <button class="login-btn" onclick="fazerLogin()">Entrar</button>
+      <div class="login-error" id="login-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     APP PRINCIPAL
+══════════════════════════════ -->
+<div id="app-screen">
+
+<header>
+  <div class="header-brand">
+    <div class="brand-text">
+      <div class="salon-title">Angela Moraes</div>
+      <div class="sub">Studio · Gestão</div>
+    </div>
+  </div>
+
+  <!-- Ornamento decorativo central -->
+  <div class="header-ornament">
+    <div class="header-ornament-line"></div>
+    <div class="header-ornament-diamonds">
+      <div class="header-ornament-d1"></div>
+      <div class="header-ornament-d2"></div>
+      <div class="header-ornament-d3"></div>
+    </div>
+    <div class="header-ornament-line"></div>
+  </div>
+
+  <div class="header-right">
+    <div class="header-stats">
+      <div class="hstat"><div class="hstat-val" id="hs-hoje">0</div><div class="hstat-label">Hoje</div></div>
+      <div class="hstat"><div class="hstat-val" id="hs-semana">R$ 0</div><div class="hstat-label">Semana</div></div>
+      <div class="hstat"><div class="hstat-val" id="hs-mes">R$ 0</div><div class="hstat-label">Mes</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;margin-left:24px;">
+      <span id="user-email-display" style="font-size:10px;color:rgba(245,237,224,0.3);letter-spacing:0.1em;"></span>
+      <button class="logout-btn" onclick="fazerLogout()">Sair</button>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" onclick="showTab('atendimento',this)">Atendimento</button>
+  <button class="tab" onclick="showTab('historico',this)">Historico</button>
+  <button class="tab" onclick="showTab('clientes',this)">Clientes</button>
+  <button class="tab" onclick="showTab('servicos',this)">Serviços</button>
+  <button class="tab" onclick="showTab('agenda',this)">Agenda da Semana</button>
+</nav>
+
+<main>
+
+<!-- ══ ATENDIMENTO ══ -->
+<section id="sec-atendimento" class="section active">
+  <!-- Lembrete de Aniversários -->
+  <div class="aniv-banner" id="aniv-lembrete">
+    <div class="aniv-banner-title">
+      <span>🎂</span> Aniversários amanhã
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,var(--gold-pale),transparent);margin-left:8px;"></div>
+    </div>
+    <div class="aniv-banner-list" id="aniv-lembrete-lista"></div>
+  </div>
+
+  <div class="sec-header">
+    <div class="sec-title">Registrar <em>Atendimento</em></div>
+    <div class="sec-sub">Selecione o servico e preencha os dados</div>
+    <div class="ornament-row">
+      <div class="ornament-line"></div>
+      <div class="ornament-star">✦</div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-star">✦</div>
+      <div class="ornament-line rev"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><div class="panel-title-diamond"></div>Selecione o Serviço</div>
+    <div class="servicos-chips" id="servicos-chips-atend"></div>
+    <div id="tamanhos-wrap" style="display:none;">
+      <div class="tamanhos-row" id="tamanhos-row"></div>
+    </div>
+    <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
+    <div class="panel-title"><div class="panel-title-diamond"></div>Dados do Atendimento</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Data</label><input type="date" id="r-data"></div>
+      <div class="form-group"><label>Horario</label><input type="time" id="r-horario"></div>
+      <div class="form-group"><label>Cliente</label>
+        <div class="autocomplete-wrap">
+          <input type="text" id="r-cliente" placeholder="Digite o nome..." autocomplete="off" oninput="autocompleteCliente(this.value)">
+          <div class="autocomplete-list" id="ac-cliente" style="display:none"></div>
+        </div>
+        <input type="hidden" id="r-cliente-id">
+      </div>
+      <div class="form-group"><label>Forma de Pagamento</label>
+        <select id="r-pagto">
+          <option value="Pix">Pix</option><option value="Dinheiro">Dinheiro</option>
+          <option value="Credito">Cartao Credito</option><option value="Debito">Cartao Debito</option><option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Valor Cobrado (R$)</label><input type="number" id="r-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
+      <div class="form-group"><label>Duracao do Servico</label><input type="text" id="r-duracao" placeholder="—" readonly style="background:var(--pearl2);cursor:default;opacity:0.7;"></div>
+    </div>
+    <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
+    <div class="panel-title"><div class="panel-title-diamond"></div>Item Vendido (opcional)</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Item Comprado</label><input type="text" id="r-item" placeholder="Ex: Shampoo, Mascara..."></div>
+      <div class="form-group"><label>Valor do Item (R$)</label><input type="number" id="r-item-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
+    </div>
+    <div class="form-group" style="margin-bottom:26px;"><label>Observacoes</label><textarea id="r-obs" rows="2" placeholder="Anotacoes sobre o atendimento..."></textarea></div>
+    <div class="resultado-box">
+      <div class="rb-item"><div class="rb-label">Servico</div><div class="rb-val" id="rr-servico">—</div></div>
+      <div class="rb-item"><div class="rb-label">Item</div><div class="rb-val gold" id="rr-item">—</div></div>
+      <div class="rb-item"><div class="rb-label">Total</div><div class="rb-val success" id="rr-total">—</div></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:30px;">
+      <button class="btn btn-dark" onclick="registrarAtendimento()"><span>Registrar Atendimento</span></button>
+    </div>
+  </div>
+
+  <div class="sec-header" style="margin-top:52px;">
+    <div class="sec-title" style="font-size:clamp(24px,3vw,34px);">Atendimentos <em>de Hoje</em></div>
+    <div class="ornament-row"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line rev"></div></div>
+  </div>
+  <div class="cards-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+    <div class="card"><div class="card-label">Hoje</div><div class="card-value rose" id="card-hoje-qtd">0</div></div>
+    <div class="card"><div class="card-label">Faturamento Hoje</div><div class="card-value gold" id="card-hoje-total">R$ 0</div></div>
+    <div class="card"><div class="card-label">Semana</div><div class="card-value gold" id="card-semana-total">R$ 0</div></div>
+    <div class="card"><div class="card-label">Clientes</div><div class="card-value" id="card-clientes-total">0</div></div>
+  </div>
+  <div id="agenda-lista"></div>
+</section>
+
+<!-- ══ HISTORICO ══ -->
+<section id="sec-historico" class="section">
+  <div class="sec-header">
+    <div class="sec-title">Historico de <em>Atendimentos</em></div>
+    <div class="sec-sub">Consulte e filtre seus registros</div>
+    <div class="ornament-row"><div class="ornament-line"></div><div class="ornament-star">✦</div><div class="ornament-diamond"></div><div class="ornament-star">✦</div><div class="ornament-line rev"></div></div>
+  </div>
+  <div class="cards-grid">
+    <div class="card"><div class="card-label">Hoje</div><div class="card-value gold" id="hsum-dia">R$ 0</div><div style="font-size:12px;color:var(--ink3);margin-top:6px;" id="hsum-dia-qtd">0 atendimentos</div></div>
+    <div class="card"><div class="card-label">Esta Semana</div><div class="card-value gold" id="hsum-semana">R$ 0</div><div style="font-size:12px;color:var(--ink3);margin-top:6px;" id="hsum-semana-qtd">0 atendimentos</div></div>
+    <div class="card"><div class="card-label">Este Mes</div><div class="card-value gold" id="hsum-mes">R$ 0</div><div style="font-size:12px;color:var(--ink3);margin-top:6px;" id="hsum-mes-qtd">0 atendimentos</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><div class="panel-title-diamond"></div>Filtros</div>
+    <div class="form-grid">
+      <div class="form-group"><label>De</label><input type="date" id="f-de" oninput="renderHistorico()"></div>
+      <div class="form-group"><label>Ate</label><input type="date" id="f-ate" oninput="renderHistorico()"></div>
+      <div class="form-group"><label>Servico</label><input type="text" id="f-servico" placeholder="Filtrar por serviço..." oninput="renderHistorico()"></div>
+    </div>
+    <div style="display:flex;gap:20px;align-items:center;padding:18px 0 0;border-top:1px solid var(--pearl2);flex-wrap:wrap;">
+      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Total</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold-dim);" id="hist-total">R$ 0</div></div>
+      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Atendimentos</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink);" id="hist-qtd">0</div></div>
+      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Ticket Medio</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink);" id="hist-ticket">R$ 0</div></div>
+      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Itens Vendidos</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink);" id="hist-itens">0</div></div>
+    </div>
+  </div>
+  <div id="hist-empty" class="empty-state" style="display:none;"><div class="empty-state-title">Nenhum registro encontrado</div><div class="empty-state-sub">Tente ajustar os filtros</div></div>
+  <div id="hist-lista"></div>
+</section>
+
+<!-- ══ CLIENTES ══ -->
+<section id="sec-clientes" class="section">
+  <div class="sec-header">
+    <div class="sec-title"><em>Clientes</em></div>
+    <div class="sec-sub" id="clientes-count-label">0 clientes cadastradas</div>
+    <div class="ornament-row"><div class="ornament-line"></div><div class="ornament-star">✦</div><div class="ornament-diamond"></div><div class="ornament-star">✦</div><div class="ornament-line rev"></div></div>
+  </div>
+  <div style="margin-bottom:28px;"><button class="btn btn-dark" onclick="abrirModalCliente()"><span>+ Nova Cliente</span></button></div>
+  <div id="clientes-empty" class="empty-state" style="display:none;"><div class="empty-state-title">Nenhuma cliente cadastrada</div><div class="empty-state-sub">Adicione sua primeira cliente</div></div>
+  <div id="clientes-table" style="display:none;">
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Nome</th><th>WhatsApp</th><th>Aniversario</th><th>Instagram</th><th>Como Conheceu</th><th>Visitas</th><th>Ultima Visita</th><th>Acoes</th></tr></thead>
+        <tbody id="clientes-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICOS ══ -->
+<section id="sec-servicos" class="section">
+  <div class="sec-header">
+    <div class="sec-title"><em>Serviços</em></div>
+    <div class="sec-sub">Gerencie seus serviços e preços</div>
+    <div class="ornament-row"><div class="ornament-line"></div><div class="ornament-star">✦</div><div class="ornament-diamond"></div><div class="ornament-star">✦</div><div class="ornament-line rev"></div></div>
+  </div>
+  <div style="margin-bottom:28px;"><button class="btn btn-dark" onclick="abrirModalServico()"><span>+ Novo Serviço</span></button></div>
+  <div id="servicos-lista"></div>
+</section>
+
+<!-- ══ AGENDA ══ -->
+<section id="sec-agenda" class="section">
+  <div class="sec-header">
+    <div class="sec-title">Agenda da <em>Semana</em></div>
+    <div class="sec-sub" id="agenda-semana-label"></div>
+    <div class="ornament-row"><div class="ornament-line"></div><div class="ornament-star">✦</div><div class="ornament-diamond"></div><div class="ornament-star">✦</div><div class="ornament-line rev"></div></div>
+  </div>
+  <div class="legend" id="legend-agenda"></div>
+  <div class="tbl-wrap">
+    <table class="tbl" style="min-width:700px;">
+      <thead id="agenda-semana-head"></thead>
+      <tbody id="agenda-semana-body"></tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+</div><!-- fim app-screen -->
+
+<!-- ══ MODAL CLIENTE ══ -->
+<div class="modal-bg" id="modal-cliente-bg">
+  <div class="modal">
+    <button class="modal-close" onclick="fecharModalCliente()">×</button>
+    <div class="modal-title"><div class="panel-title-diamond"></div><span id="modal-cliente-title">Nova Cliente</span></div>
+    <input type="hidden" id="mc-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Nome *</label><input type="text" id="mc-nome" placeholder="Nome completo"></div>
+      <div class="form-group"><label>WhatsApp</label><input type="tel" id="mc-whats" placeholder="(11) 99999-9999"></div>
+      <div class="form-group"><label>Aniversario</label><input type="date" id="mc-aniv"></div>
+      <div class="form-group"><label>Instagram</label><input type="text" id="mc-ig" placeholder="@usuario"></div>
+      <div class="form-group"><label>Como Conheceu</label><input type="text" id="mc-como" placeholder="Instagram, Indicacao..."></div>
+    </div>
+    <div class="form-group" style="margin-bottom:24px;"><label>Observacoes</label><textarea id="mc-obs" rows="2" placeholder="Notas sobre a cliente..."></textarea></div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <button class="btn" onclick="fecharModalCliente()"><span>Cancelar</span></button>
+      <button class="btn btn-dark" onclick="salvarCliente()"><span>Salvar</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL HISTÓRICO CLIENTE ══ -->
+<div class="modal-bg" id="modal-hist-cliente-bg">
+  <div class="modal" style="max-width:700px;">
+    <button class="modal-close" onclick="document.getElementById('modal-hist-cliente-bg').classList.remove('open')">×</button>
+    <div class="modal-title"><div class="panel-title-diamond"></div><span id="modal-hist-cliente-title"></span></div>
+    <div id="modal-hist-cliente-content"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL SERVIÇO ══ -->
+<div class="modal-bg" id="modal-servico-bg">
+  <div class="modal" style="max-width:600px;">
+    <button class="modal-close" onclick="fecharModalServico()">×</button>
+    <div class="modal-title"><div class="panel-title-diamond"></div><span id="modal-servico-title">Novo Serviço</span></div>
+    <input type="hidden" id="ms-id">
+
+    <!-- FOTO DO SERVIÇO -->
+    <div class="servico-foto-area" onclick="document.getElementById('ms-foto-input').click()" id="ms-foto-area">
+      <div id="ms-foto-preview" style="display:none;">
+        <img id="ms-foto-img" src="" alt="Foto do servico">
+      </div>
+      <div id="ms-foto-placeholder">
+        <div style="font-size:28px;color:var(--gold-pale);margin-bottom:8px;">✦</div>
+        <div class="servico-foto-label">Foto do Serviço</div>
+        <div class="servico-foto-hint">Clique para adicionar uma imagem</div>
+      </div>
+    </div>
+    <input type="file" id="ms-foto-input" accept="image/*" style="display:none;" onchange="onFotoServicoChange(event)">
+    <input type="hidden" id="ms-foto-data">
+
+    <div class="form-grid" style="margin-bottom:20px;">
+      <div class="form-group"><label>Nome do Serviço *</label><input type="text" id="ms-nome" placeholder="Ex: Progressiva, Corte..."></div>
+      <div class="form-group"><label>Duracao</label><input type="text" id="ms-duracao" placeholder="Ex: 2h30"></div>
+      <div class="form-group"><label>Cor</label><input type="color" id="ms-cor" value="#7b9e7b" style="height:48px;padding:4px 8px;cursor:pointer;"></div>
+    </div>
+
+    <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
+    <p style="font-size:11px;color:var(--ink3);margin-bottom:16px;letter-spacing:0.1em;">Valor e duração por tamanho de cabelo:</p>
+    <div id="ms-tamanhos-grid" style="display:grid;gap:12px;"></div>
+
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:30px;">
+      <button class="btn" onclick="fecharModalServico()"><span>Cancelar</span></button>
+      <button class="btn btn-dark" onclick="salvarServico()"><span>Salvar Serviço</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// AUTENTICAÇÃO
+// ══════════════════════════════════════════════
+window.fazerLogin = async function(){
+  const email = document.getElementById('login-email').value.trim();
+  const senha = document.getElementById('login-senha').value;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display='none';
+  if(!email||!senha){errEl.textContent='Preencha e-mail e senha.';errEl.style.display='block';return;}
+  try{
+    const {auth,signInWithEmailAndPassword} = window.__fb;
+    await signInWithEmailAndPassword(auth,email,senha);
+  }catch(e){
+    const msgs={
+      'auth/user-not-found':'Usuario nao encontrado.',
+      'auth/wrong-password':'Senha incorreta.',
+      'auth/invalid-email':'E-mail invalido.',
+      'auth/invalid-credential':'E-mail ou senha incorretos.',
+      'auth/too-many-requests':'Muitas tentativas. Aguarde um momento.'
+    };
+    errEl.textContent=msgs[e.code]||'Erro ao entrar. Verifique suas credenciais.';
+    errEl.style.display='block';
+  }
+};
+
+window.fazerLogout = async function(){
+  if(!confirm('Deseja sair?'))return;
+  const {auth,signOut} = window.__fb;
+  await signOut(auth);
+};
+
+// Esconder loading quando Firebase carregas
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    document.getElementById('fb-loading').style.display='none';
+    // Se Firebase nao configurado ainda, mostrar login mesmo assim
+    if(!window.__fb){
+      document.getElementById('login-screen').style.display='flex';
+    }
+  },1500);
+});
+
+// ══════════════════════════════════════════════
+// DADOS — Firebase Firestore
+// ══════════════════════════════════════════════
+let atendimentos=[],clientes=[],servicos=[],servicoSelecionado=null;
+
+// Fallback: se Firebase nao configurado, usar localStorage
+function usandoFirebase(){return window.__fb && window.__fb.db;}
+
+async function fbSave(colecao, item){
+  if(!usandoFirebase()){localStorage.setItem('am_'+colecao+'_'+item.id,JSON.stringify(item));return;}
+  const {db,doc,setDoc,collection} = window.__fb;
+  await setDoc(doc(collection(db,colecao),item.id),item);
+}
+async function fbDelete(colecao, id){
+  if(!usandoFirebase()){localStorage.removeItem('am_'+colecao+'_'+id);return;}
+  const {db,doc,deleteDoc,collection} = window.__fb;
+  await deleteDoc(doc(collection(db,colecao),id));
+}
+async function fbLoad(colecao){
+  if(!usandoFirebase()){
+    // fallback localStorage
+    const keys=Object.keys(localStorage).filter(k=>k.startsWith('am_'+colecao+'_'));
+    return keys.map(k=>{try{return JSON.parse(localStorage.getItem(k));}catch{return null;}}).filter(Boolean);
+  }
+  const {db,collection,getDocs} = window.__fb;
+  const snap = await getDocs(collection(db,colecao));
+  return snap.docs.map(d=>d.data());
+}
+
+// ══════════════════════════════════════════════
+// INICIALIZAÇÃO
+// ══════════════════════════════════════════════
+const TAMANHOS=['Curto','Medio','Longo','Extra Longo'];
+const CORES_DEFAULT=['#7b9e7b','#7a8bbf','#b08060','#8b7bb5','#b07898','#6a9aaa','#a09060','#bf7a7a'];
+const DIAS_PT=['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
+const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function fmt(v){return(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function fmtDate(s){return s?new Date(s+'T12:00:00').toLocaleDateString('pt-BR'):'—';}
+function hoje(){return new Date().toISOString().slice(0,10);}
+function mesAtual(){return hoje().slice(0,7);}
+function inicioSemana(){const d=new Date(),dow=d.getDay(),diff=d.getDate()-dow+(dow===0?-6:1);return new Date(new Date().setDate(diff)).toISOString().slice(0,10);}
+function getCorServico(nome){const s=servicos.find(x=>x.nome?.toLowerCase()===nome?.toLowerCase());return s?.cor||'#9a8a7a';}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3200);}
+function badgePagto(p){if(p==='Pix')return'badge-pix';if(p==='Dinheiro')return'badge-dinheiro';if(p==='Credito'||p==='Debito')return'badge-cartao';return'badge-outros';}
+function dotServico(cor){return`<span style="width:9px;height:9px;border-radius:50%;background:${cor};flex-shrink:0;display:inline-block;"></span>`;}
+
+window.initApp = async function(){
+  // Carregar dados
+  [atendimentos, clientes, servicos] = await Promise.all([
+    fbLoad('atendimentos'),
+    fbLoad('clientes'),
+    fbLoad('servicos')
+  ]);
+
+  // Serviços padrão (sem Coloracao e Escova) se vazio
+  if(!servicos.length){
+    servicos=[
+      {id:uid(),nome:'Progressiva',cor:'#7b9e7b',duracao:'2h30',tamanhos:{Curto:{valor:180},Medio:{valor:220},Longo:{valor:260},'Extra Longo':{valor:300}}},
+      {id:uid(),nome:'Iluminado',cor:'#7a8bbf',duracao:'3h30',tamanhos:{Curto:{valor:250},Medio:{valor:300},Longo:{valor:350},'Extra Longo':{valor:420}}},
+      {id:uid(),nome:'Corte',cor:'#b08060',duracao:'1h',tamanhos:{Curto:{valor:60},Medio:{valor:70},Longo:{valor:80},'Extra Longo':{valor:90}}},
+      {id:uid(),nome:'Tratamento',cor:'#8b7bb5',duracao:'1h30',tamanhos:{Curto:{valor:100},Medio:{valor:120},Longo:{valor:150},'Extra Longo':{valor:180}}}
+    ];
+    for(const s of servicos) await fbSave('servicos',s);
+  }
+
+  const now=new Date(),pad=n=>n.toString().padStart(2,'0');
+  document.getElementById('r-data').value=now.toISOString().slice(0,10);
+  document.getElementById('r-horario').value=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+  renderChipsServico();
+  renderAgendaHoje();
+  updateHeader();
+  verificarAniversarios();
+};
+
+// ══════════════════════════════════════════════
+// ANIVERSÁRIOS — lembrete 1 dia antes
+// ══════════════════════════════════════════════
+function verificarAniversarios(){
+  const amanha = new Date();
+  amanha.setDate(amanha.getDate()+1);
+  const mesAmanha = String(amanha.getMonth()+1).padStart(2,'0');
+  const diaAmanha = String(amanha.getDate()).padStart(2,'0');
+
+  const aniversariantes = clientes.filter(c=>{
+    if(!c.aniv)return false;
+    const[,M,D]=c.aniv.split('-');
+    return M===mesAmanha && D===diaAmanha;
+  });
+
+  const banner = document.getElementById('aniv-lembrete');
+  if(!aniversariantes.length){banner.style.display='none';return;}
+
+  banner.style.display='block';
+  document.getElementById('aniv-lembrete-lista').innerHTML =
+    aniversariantes.map(c=>`<div>🌟 <strong>${c.nome}</strong>${c.whats?` — <a href="https://wa.me/55${c.whats.replace(/\D/g,'')}" target="_blank" style="color:var(--gold-dim);text-decoration:none;">Enviar mensagem no WhatsApp</a>`:''}</div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════
+window.showTab=function(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='atendimento'){renderChipsServico();renderAgendaHoje();verificarAniversarios();}
+  if(id==='historico')renderHistorico();
+  if(id==='clientes')renderClientes();
+  if(id==='servicos')renderServicos();
+  if(id==='agenda')renderAgendaSemana();
+};
+
+// ══════════════════════════════════════════════
+// SERVIÇOS CHIPS — com seleção de tamanho
+// ══════════════════════════════════════════════
+function renderChipsServico(){
+  const el=document.getElementById('servicos-chips-atend');
+  if(!el)return;
+  el.innerHTML=servicos.map(s=>`<div class="servico-chip" id="chip-${s.id}" onclick="selecionarServicoChip('${s.id}')"><div class="servico-chip-dot" style="background:${s.cor}"></div><span>${s.nome}</span></div>`).join('');
+  // Limpar tamanhos ao re-renderizar
+  document.getElementById('tamanhos-wrap').style.display='none';
+  document.getElementById('tamanhos-row').innerHTML='';
+}
+
+window.selecionarServicoChip=function(id){
+  const s=servicos.find(x=>x.id===id);
+  if(!s)return;
+
+  // Toggle: se clicar no mesmo serviço já ativo, desselecionar
+  if(servicoSelecionado?.id===id){
+    servicoSelecionado=null;
+    tamSelecionado=null;
+    document.querySelectorAll('.servico-chip').forEach(c=>c.classList.remove('active'));
+    document.getElementById('tamanhos-wrap').style.display='none';
+    document.getElementById('r-duracao').value='';
+    document.getElementById('r-valor').value='';
+    calcAtendimento();
+    return;
+  }
+
+  servicoSelecionado=s;
+  tamSelecionado=null;
+  document.querySelectorAll('.servico-chip').forEach(c=>c.classList.remove('active'));
+  document.getElementById('chip-'+id)?.classList.add('active');
+
+  // Verificar se serviço tem tamanhos com valores cadastrados
+  const temTamanhos=s.tamanhos && TAMANHOS.some(t=>s.tamanhos[t]?.valor>0);
+
+  if(temTamanhos){
+    // Mostrar botões de tamanho
+    const wrap=document.getElementById('tamanhos-wrap');
+    const row=document.getElementById('tamanhos-row');
+    row.innerHTML=`<div class="tamanhos-label">Tamanho do cabelo</div>`+
+      TAMANHOS.filter(t=>s.tamanhos?.[t]?.valor>0).map(t=>{
+        const info=s.tamanhos[t];
+        const dur=info.duracao||s.duracao||'';
+        return`<button class="tamanho-btn" id="tbtn-${t.replace(' ','_')}" onclick="selecionarTamanho('${t.replace(/'/g,"\\'")}','${s.id}')">
+          <span class="tb-nome">${t}</span>
+          <span class="tb-val">${fmt(info.valor)}</span>
+          ${dur?`<span class="tb-dur">⏱ ${dur}</span>`:''}
+        </button>`;
+      }).join('');
+    wrap.style.display='block';
+    // Limpar valor/duração até escolher tamanho
+    document.getElementById('r-duracao').value='';
+    document.getElementById('r-valor').value='';
+  } else {
+    // Sem tamanhos: preencher duração única
+    document.getElementById('tamanhos-wrap').style.display='none';
+    document.getElementById('r-duracao').value=s.duracao||'—';
+    document.getElementById('r-valor').value='';
+  }
+  calcAtendimento();
+};
+
+let tamSelecionado=null;
+window.selecionarTamanho=function(tamanho,servicoId){
+  const s=servicos.find(x=>x.id===servicoId);
+  if(!s)return;
+  tamSelecionado=tamanho;
+  const info=s.tamanhos?.[tamanho]||{};
+  // Highlight botão ativo
+  document.querySelectorAll('.tamanho-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tbtn-'+tamanho.replace(' ','_'))?.classList.add('active');
+  // Preencher valor e duração
+  if(info.valor>0) document.getElementById('r-valor').value=info.valor.toFixed(2);
+  const dur=info.duracao||s.duracao||'—';
+  document.getElementById('r-duracao').value=dur;
+  calcAtendimento();
+};
+
+// ══════════════════════════════════════════════
+// ATENDIMENTO
+// ══════════════════════════════════════════════
+window.autocompleteCliente=function(q){
+  const ac=document.getElementById('ac-cliente');
+  if(!q.trim()){ac.style.display='none';return;}
+  const res=clientes.filter(c=>c.nome?.toLowerCase().includes(q.toLowerCase())).slice(0,8);
+  if(!res.length){ac.style.display='none';return;}
+  ac.innerHTML=res.map(c=>{
+    const ats=atendimentos.filter(a=>a.clienteId===c.id);
+    const ultima=ats.sort((a,b)=>b.data?.localeCompare(a.data||'')||0)[0]?.data;
+    const sub=[c.whats?c.whats:'',ats.length?ats.length+' visita'+(ats.length!==1?'s':''):'nova cliente',ultima?'última: '+fmtDate(ultima):''].filter(Boolean).join(' · ');
+    return`<div class="autocomplete-item" onclick="selecionarCliente('${c.id}','${c.nome.replace(/'/g,"\\'")}')"><div class="autocomplete-item-name">${c.nome}</div><div class="autocomplete-item-sub">${sub}</div></div>`;
+  }).join('');
+  ac.style.display='block';
+};
+window.selecionarCliente=function(id,nome){
+  document.getElementById('r-cliente').value=nome;
+  document.getElementById('r-cliente-id').value=id;
+  document.getElementById('ac-cliente').style.display='none';
+};
+
+function calcAtendimento(){
+  const v=parseFloat(document.getElementById('r-valor').value)||0;
+  const iv=parseFloat(document.getElementById('r-item-valor').value)||0;
+  const cor=servicoSelecionado?.cor||'var(--ink)';
+  document.getElementById('rr-servico').textContent=v>0?fmt(v):'—';
+  document.getElementById('rr-servico').style.color=cor;
+  document.getElementById('rr-item').textContent=iv>0?fmt(iv):'—';
+  document.getElementById('rr-total').textContent=(v||iv)?fmt(v+iv):'—';
+}
+window.calcAtendimento=calcAtendimento;
+
+window.registrarAtendimento=async function(){
+  const data=document.getElementById('r-data').value;
+  const horario=document.getElementById('r-horario').value;
+  const clienteNome=document.getElementById('r-cliente').value.trim();
+  const clienteId=document.getElementById('r-cliente-id').value;
+  const servico=servicoSelecionado?.nome||'';
+  const corServico=servicoSelecionado?.cor||'#9a8a7a';
+  const duracao=document.getElementById('r-duracao').value;
+  const tamanho=tamSelecionado||'';
+  const valor=parseFloat(document.getElementById('r-valor').value)||0;
+  const pagto=document.getElementById('r-pagto').value;
+  const item=document.getElementById('r-item').value.trim();
+  const itemValor=parseFloat(document.getElementById('r-item-valor').value)||0;
+  const obs=document.getElementById('r-obs').value;
+  if(!data){toast('Informe a data.');return;}
+  if(!servico){toast('Selecione um serviço.');return;}
+  if(!valor){toast('Informe o valor.');return;}
+  const total=valor+itemValor;
+  const id=uid();
+  const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,pagto,item,itemValor,total,obs,ts:Date.now()};
+  atendimentos.push(registro);
+  await fbSave('atendimentos',registro);
+  ['r-cliente','r-cliente-id','r-valor','r-duracao','r-item','r-item-valor','r-obs'].forEach(x=>document.getElementById(x).value='');
+  document.querySelectorAll('.servico-chip').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tamanhos-wrap').style.display='none';
+  document.getElementById('tamanhos-row').innerHTML='';
+  servicoSelecionado=null;
+  tamSelecionado=null;
+  calcAtendimento();
+  updateHeader();
+  renderAgendaHoje();
+  toast('Atendimento registrado! Total: '+fmt(total));
+};
+
+window.removerAtendimento=async function(id){
+  if(!confirm('Remover este atendimento?'))return;
+  atendimentos=atendimentos.filter(a=>a.id!==id);
+  await fbDelete('atendimentos',id);
+  updateHeader();
+  renderAgendaHoje();
+  toast('Atendimento removido.');
+};
+
+// ══════════════════════════════════════════════
+// HEADER / STATS
+// ══════════════════════════════════════════════
+function updateHeader(){
+  const h=hoje(),ini=inicioSemana(),mes=mesAtual();
+  const atH=atendimentos.filter(a=>a.data===h);
+  const atS=atendimentos.filter(a=>a.data>=ini&&a.data<=h);
+  const atM=atendimentos.filter(a=>a.data?.slice(0,7)===mes);
+  document.getElementById('hs-hoje').textContent=atH.length;
+  document.getElementById('hs-semana').textContent=fmt(atS.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('hs-mes').textContent=fmt(atM.reduce((s,a)=>s+(a.total||0),0));
+}
+
+// ══════════════════════════════════════════════
+// AGENDA HOJE
+// ══════════════════════════════════════════════
+function renderAgendaHoje(){
+  updateHeader();
+  const h=hoje(),ini=inicioSemana();
+  const atHoje=atendimentos.filter(a=>a.data===h).sort((a,b)=>(a.horario||'').localeCompare(b.horario||''));
+  const atSemana=atendimentos.filter(a=>a.data>=ini&&a.data<=h);
+  document.getElementById('card-hoje-qtd').textContent=atHoje.length;
+  document.getElementById('card-hoje-total').textContent=fmt(atHoje.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('card-semana-total').textContent=fmt(atSemana.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('card-clientes-total').textContent=clientes.length;
+  const el=document.getElementById('agenda-lista');
+  if(!atHoje.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-state-title">Nenhum atendimento hoje</div><div class="empty-state-sub">Registre um atendimento acima</div></div>`;
+    return;
+  }
+  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Horario</th><th>Cliente</th><th>Servico</th><th>Tamanho</th><th>Duracao</th><th>Pagamento</th><th>Item</th><th>Total</th><th>Acao</th></tr></thead><tbody>${atHoje.map(a=>`<tr><td><strong>${a.horario||'—'}</strong></td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td><td><button class="btn btn-sm btn-danger" onclick="removerAtendimento('${a.id}')"><span>Remover</span></button></td></tr>`).join('')}</tbody></table></div>`;
+}
+
+// ══════════════════════════════════════════════
+// HISTÓRICO
+// ══════════════════════════════════════════════
+function renderHistorico(){
+  const h=hoje(),ini=inicioSemana(),mes=mesAtual();
+  const atH=atendimentos.filter(a=>a.data===h);
+  const atS=atendimentos.filter(a=>a.data>=ini&&a.data<=h);
+  const atM=atendimentos.filter(a=>a.data?.slice(0,7)===mes);
+  document.getElementById('hsum-dia').textContent=fmt(atH.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('hsum-dia-qtd').textContent=atH.length+' atendimento'+(atH.length!==1?'s':'');
+  document.getElementById('hsum-semana').textContent=fmt(atS.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('hsum-semana-qtd').textContent=atS.length+' atendimento'+(atS.length!==1?'s':'');
+  document.getElementById('hsum-mes').textContent=fmt(atM.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('hsum-mes-qtd').textContent=atM.length+' atendimento'+(atM.length!==1?'s':'');
+  const de=document.getElementById('f-de').value,ate=document.getElementById('f-ate').value,fs=document.getElementById('f-servico').value.toLowerCase();
+  let arr=[...atendimentos];
+  if(de)arr=arr.filter(a=>a.data>=de);
+  if(ate)arr=arr.filter(a=>a.data<=ate);
+  if(fs)arr=arr.filter(a=>a.servico?.toLowerCase().includes(fs));
+  arr.sort((a,b)=>((b.data||'')+(b.horario||'')).localeCompare((a.data||'')+(a.horario||'')));
+  document.getElementById('hist-total').textContent=fmt(arr.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('hist-qtd').textContent=arr.length;
+  document.getElementById('hist-ticket').textContent=arr.length?fmt(arr.reduce((s,a)=>s+(a.total||0),0)/arr.length):fmt(0);
+  document.getElementById('hist-itens').textContent=arr.filter(a=>a.item).length;
+  const el=document.getElementById('hist-lista'),empty=document.getElementById('hist-empty');
+  if(!arr.length){empty.style.display='block';el.innerHTML='';return;}
+  empty.style.display='none';
+  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horario</th><th>Cliente</th><th>Servico</th><th>Tamanho</th><th>Duracao</th><th>Pagamento</th><th>Item</th><th>Total</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td></tr>`).join('')}</tbody></table></div>`;
+}
+window.renderHistorico=renderHistorico;
+
+// ══════════════════════════════════════════════
+// CLIENTES
+// ══════════════════════════════════════════════
+function renderClientes(){
+  const empty=document.getElementById('clientes-empty'),tbl=document.getElementById('clientes-table'),tbody=document.getElementById('clientes-tbody');
+  document.getElementById('clientes-count-label').textContent=clientes.length+' cliente'+(clientes.length!==1?'s':'')+' cadastrada'+(clientes.length!==1?'s':'');
+  if(!clientes.length){empty.style.display='block';tbl.style.display='none';return;}
+  empty.style.display='none';tbl.style.display='block';
+  tbody.innerHTML=[...clientes].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR')).map(c=>{
+    const ats=atendimentos.filter(a=>a.clienteId===c.id).sort((a,b)=>b.data?.localeCompare(a.data||'')||0);
+    const qtd=ats.length,ultima=ats[0]?.data;
+    let anivStr='—',anivBadge='';
+    if(c.aniv){
+      const[Y,M,D]=c.aniv.split('-');
+      anivStr=`${D}/${M}`;
+      const ag=new Date(),anivEste=new Date(ag.getFullYear(),parseInt(M)-1,parseInt(D));
+      const diff=Math.round((anivEste-ag)/(1000*60*60*24));
+      if(diff>=0&&diff<=30)anivBadge=`<span class="aniv-badge">Em ${diff} dias</span>`;
+      else if(diff<0){const prox=new Date(ag.getFullYear()+1,parseInt(M)-1,parseInt(D));const d2=Math.round((prox-ag)/(1000*60*60*24));if(d2<=30)anivBadge=`<span class="aniv-badge">Em ${d2} dias</span>`;}
+    }
+    return`<tr><td><strong>${c.nome}</strong></td><td>${c.whats?`<a href="https://wa.me/55${c.whats.replace(/\D/g,'')}" target="_blank" style="color:var(--success);text-decoration:none;">${c.whats}</a>`:'—'}</td><td>${anivStr}${anivBadge}</td><td>${c.ig||'—'}</td><td>${c.como||'—'}</td><td style="text-align:center"><span class="badge badge-pix">${qtd} visita${qtd!==1?'s':''}</span></td><td>${ultima?fmtDate(ultima):'—'}</td><td><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn btn-sm" onclick="verHistoricoCliente('${c.id}')"><span>Historico</span></button><button class="btn btn-sm" onclick="editarCliente('${c.id}')"><span>Editar</span></button><button class="btn btn-sm btn-danger" onclick="removerCliente('${c.id}')"><span>Remover</span></button></div></td></tr>`;
+  }).join('');
+}
+
+window.verHistoricoCliente=function(id){
+  const c=clientes.find(x=>x.id===id);if(!c)return;
+  const ats=atendimentos.filter(a=>a.clienteId===id).sort((a,b)=>b.data?.localeCompare(a.data||'')||0);
+  const total=ats.reduce((s,a)=>s+(a.total||0),0);
+  document.getElementById('modal-hist-cliente-title').textContent=c.nome;
+  document.getElementById('modal-hist-cliente-content').innerHTML=`<div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;"><div style="background:var(--gold-bg);border:1px solid var(--gold-pale);padding:14px 20px;flex:1;min-width:120px;"><div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Total gasto</div><div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-dim);">${fmt(total)}</div></div><div style="background:var(--gold-bg);border:1px solid var(--gold-pale);padding:14px 20px;flex:1;min-width:120px;"><div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Visitas</div><div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-dim);">${ats.length}</div></div></div>${ats.length?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Servico</th><th>Duracao</th><th>Total</th></tr></thead><tbody>${ats.map(a=>`<tr><td>${fmtDate(a.data)}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.duracao||'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td></tr>`).join('')}</tbody></table></div>`:'<p style="text-align:center;color:var(--ink3);padding:24px 0;">Nenhum atendimento registrado.</p>'}`;
+  document.getElementById('modal-hist-cliente-bg').classList.add('open');
+};
+
+window.abrirModalCliente=function(){
+  document.getElementById('modal-cliente-title').textContent='Nova Cliente';
+  document.getElementById('mc-id').value='';
+  ['mc-nome','mc-whats','mc-ig','mc-obs','mc-como'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('mc-aniv').value='';
+  document.getElementById('modal-cliente-bg').classList.add('open');
+};
+window.fecharModalCliente=function(){document.getElementById('modal-cliente-bg').classList.remove('open');};
+
+window.salvarCliente=async function(){
+  const nome=document.getElementById('mc-nome').value.trim();
+  if(!nome){toast('Informe o nome.');return;}
+  const id=document.getElementById('mc-id').value||uid();
+  const dado={id,nome,whats:document.getElementById('mc-whats').value.trim(),aniv:document.getElementById('mc-aniv').value,ig:document.getElementById('mc-ig').value.trim(),como:document.getElementById('mc-como').value.trim(),obs:document.getElementById('mc-obs').value.trim()};
+  const idx=clientes.findIndex(c=>c.id===id);
+  if(idx>=0)clientes[idx]=dado;else clientes.push(dado);
+  await fbSave('clientes',dado);
+  fecharModalCliente();renderClientes();updateHeader();toast('Cliente salva!');
+};
+
+window.editarCliente=function(id){
+  const c=clientes.find(x=>x.id===id);if(!c)return;
+  document.getElementById('modal-cliente-title').textContent='Editar Cliente';
+  document.getElementById('mc-id').value=c.id;
+  document.getElementById('mc-nome').value=c.nome||'';
+  document.getElementById('mc-whats').value=c.whats||'';
+  document.getElementById('mc-aniv').value=c.aniv||'';
+  document.getElementById('mc-ig').value=c.ig||'';
+  document.getElementById('mc-como').value=c.como||'';
+  document.getElementById('mc-obs').value=c.obs||'';
+  document.getElementById('modal-cliente-bg').classList.add('open');
+};
+
+window.removerCliente=async function(id){
+  if(!confirm('Remover esta cliente?'))return;
+  clientes=clientes.filter(c=>c.id!==id);
+  await fbDelete('clientes',id);
+  renderClientes();updateHeader();toast('Cliente removida.');
+};
+
+// ══════════════════════════════════════════════
+// SERVIÇOS — duração única (sem por tamanho)
+// ══════════════════════════════════════════════
+function renderServicos(){
+  const el=document.getElementById('servicos-lista');
+  if(!el)return;
+  if(!servicos.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-state-title">Nenhum serviço cadastrado</div></div>`;
+    return;
+  }
+  el.innerHTML=servicos.map(s=>`
+    <div class="panel" style="border-left-color:${s.cor};position:relative;">
+      <div class="panel-title" style="justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <span style="display:flex;align-items:center;gap:12px;">
+          <span style="width:14px;height:14px;border-radius:50%;background:${s.cor};flex-shrink:0;"></span>
+          ${s.nome}
+          ${s.duracao?`<span style="font-size:12px;color:var(--ink3);font-family:'Jost',sans-serif;font-weight:400;">⏱ ${s.duracao}</span>`:''}
+        </span>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-sm" onclick="editarServico('${s.id}')"><span>Editar</span></button>
+          <button class="btn btn-sm btn-danger" onclick="removerServico('${s.id}')"><span>Remover</span></button>
+        </div>
+      </div>
+      ${s.foto?`<div style="margin-bottom:20px;"><img src="${s.foto}" alt="${s.nome}" style="height:100px;object-fit:cover;border:1px solid var(--gold-pale);"></div>`:''}
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+        ${TAMANHOS.map(t=>{
+          const info=s.tamanhos?.[t]||{};
+          return`<div style="background:var(--bege);padding:14px 16px;border-left:3px solid ${s.cor}40;">
+            <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;">${t}</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-dim);">${info.valor?fmt(info.valor):'—'}</div>
+            ${info.duracao?`<div style="font-size:11px;color:var(--ink3);margin-top:4px;">⏱ ${info.duracao}</div>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function buildTamanhosGrid(servico){
+  document.getElementById('ms-tamanhos-grid').innerHTML=TAMANHOS.map(t=>{
+    const key=t.replace(' ','_');
+    const info=servico?.tamanhos?.[t]||{};
+    return`<div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:end;border-bottom:1px solid var(--pearl2);padding-bottom:14px;">
+      <div class="form-group"><label>${t} — Valor (R$)</label><input type="number" id="ms-val-${key}" placeholder="0,00" step="0.01" value="${info.valor||''}"></div>
+      <div class="form-group"><label>Duração</label><input type="text" id="ms-dur-${key}" placeholder="Ex: 2h" value="${info.duracao||''}"></div>
+    </div>`;
+  }).join('');
+}
+
+window.onFotoServicoChange=function(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const data=ev.target.result;
+    document.getElementById('ms-foto-data').value=data;
+    document.getElementById('ms-foto-img').src=data;
+    document.getElementById('ms-foto-preview').style.display='block';
+    document.getElementById('ms-foto-placeholder').style.display='none';
+  };
+  reader.readAsDataURL(file);
+};
+
+window.abrirModalServico=function(){
+  document.getElementById('modal-servico-title').textContent='Novo Serviço';
+  document.getElementById('ms-id').value='';
+  document.getElementById('ms-nome').value='';
+  document.getElementById('ms-duracao').value='';
+  document.getElementById('ms-cor').value=CORES_DEFAULT[servicos.length%CORES_DEFAULT.length];
+  document.getElementById('ms-foto-data').value='';
+  document.getElementById('ms-foto-img').src='';
+  document.getElementById('ms-foto-preview').style.display='none';
+  document.getElementById('ms-foto-placeholder').style.display='block';
+  buildTamanhosGrid(null);
+  document.getElementById('modal-servico-bg').classList.add('open');
+};
+window.fecharModalServico=function(){document.getElementById('modal-servico-bg').classList.remove('open');};
+
+window.salvarServico=async function(){
+  const nome=document.getElementById('ms-nome').value.trim();
+  if(!nome){toast('Informe o nome.');return;}
+  const cor=document.getElementById('ms-cor').value;
+  const duracao=document.getElementById('ms-duracao').value.trim();
+  const foto=document.getElementById('ms-foto-data').value||'';
+  const tamanhos={};
+  TAMANHOS.forEach(t=>{
+    const key=t.replace(' ','_');
+    tamanhos[t]={
+      valor:parseFloat(document.getElementById('ms-val-'+key).value)||0,
+      duracao:document.getElementById('ms-dur-'+key).value.trim()||''
+    };
+  });
+  const id=document.getElementById('ms-id').value||uid();
+  const idx=servicos.findIndex(s=>s.id===id);
+  const dado={id,nome,cor,duracao,foto,tamanhos};
+  if(idx>=0)servicos[idx]=dado;else servicos.push(dado);
+  await fbSave('servicos',dado);
+  fecharModalServico();renderServicos();renderChipsServico();toast('Serviço salvo!');
+};
+
+window.editarServico=function(id){
+  const s=servicos.find(x=>x.id===id);if(!s)return;
+  document.getElementById('modal-servico-title').textContent='Editar Serviço';
+  document.getElementById('ms-id').value=s.id;
+  document.getElementById('ms-nome').value=s.nome||'';
+  document.getElementById('ms-duracao').value=s.duracao||'';
+  document.getElementById('ms-cor').value=s.cor||'#7b9e7b';
+  // Foto
+  if(s.foto){
+    document.getElementById('ms-foto-data').value=s.foto;
+    document.getElementById('ms-foto-img').src=s.foto;
+    document.getElementById('ms-foto-preview').style.display='block';
+    document.getElementById('ms-foto-placeholder').style.display='none';
+  }else{
+    document.getElementById('ms-foto-data').value='';
+    document.getElementById('ms-foto-img').src='';
+    document.getElementById('ms-foto-preview').style.display='none';
+    document.getElementById('ms-foto-placeholder').style.display='block';
+  }
+  buildTamanhosGrid(s);
+  document.getElementById('modal-servico-bg').classList.add('open');
+};
+
+window.removerServico=async function(id){
+  if(!confirm('Remover este serviço?'))return;
+  servicos=servicos.filter(s=>s.id!==id);
+  await fbDelete('servicos',id);
+  renderServicos();renderChipsServico();toast('Serviço removido.');
+};
+
+// ══════════════════════════════════════════════
+// AGENDA SEMANA
+// ══════════════════════════════════════════════
+function renderLegend(containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  el.innerHTML=servicos.map(s=>`<div class="legend-item"><div class="legend-dot" style="background:${s.cor}"></div><span>${s.nome}</span></div>`).join('');
+}
+
+function renderAgendaSemana(){
+  renderLegend('legend-agenda');
+  const now=new Date(),dow=now.getDay();
+  const semana=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-dow+i);return d;});
+  const todayStr=hoje();
+  document.getElementById('agenda-semana-label').textContent=`${semana[0].getDate()} ${MESES_PT[semana[0].getMonth()]} — ${semana[6].getDate()} ${MESES_PT[semana[6].getMonth()]}`;
+  const horarioSet=new Set();
+  for(let h=7;h<=20;h++)horarioSet.add(`${h.toString().padStart(2,'0')}:00`);
+  semana.forEach(d=>{
+    const ds=d.toISOString().slice(0,10);
+    atendimentos.filter(a=>a.data===ds&&a.horario).forEach(a=>horarioSet.add(a.horario.slice(0,5)));
+  });
+  const horarios=[...horarioSet].sort();
+  document.getElementById('agenda-semana-head').innerHTML=`<tr><th class="hora-col">Hora</th>${semana.map(d=>{const ds=d.toISOString().slice(0,10),isH=ds===todayStr;return`<th style="${isH?'background:rgba(201,168,76,0.12);':''}"><div style="font-size:10px;color:var(--ink3);letter-spacing:0.3em;">${DIAS_PT[d.getDay()]}</div><div style="font-family:'Cormorant Garamond',serif;font-size:${isH?'24px':'20px'};color:${isH?'var(--gold-dim)':'var(--ink)'};">${d.getDate()}</div><div style="font-size:9px;color:var(--ink3);">${MESES_PT[d.getMonth()]}</div></th>`;}).join('')}</tr>`;
+  document.getElementById('agenda-semana-body').innerHTML=horarios.map(hora=>`<tr><td class="hora-label">${hora}</td>${semana.map(d=>{const ds=d.toISOString().slice(0,10),isH=ds===todayStr;const ats=atendimentos.filter(a=>a.data===ds&&a.horario?.startsWith(hora));return`<td style="${isH?'background:rgba(201,168,76,0.04);':''}">${ats.map(a=>`<div class="agenda-item" style="background:${a.corServico||getCorServico(a.servico)};"><strong>${a.servico||'—'}</strong><span>${a.clienteNome||''}</span></div>`).join('')}</td>`;}).join('')}</tr>`).join('');
+}
+window.renderAgendaSemana=renderAgendaSemana;
+
+// Fechar autocomplete ao clicar fora
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.autocomplete-wrap'))
+    document.querySelectorAll('.autocomplete-list').forEach(el=>el.style.display='none');
+});
+</script>
+</body>
+</html>
