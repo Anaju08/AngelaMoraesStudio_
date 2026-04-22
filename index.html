@@ -40,6 +40,7 @@
 
   // Verificar autenticação ao carregar
   onAuthStateChanged(auth, (user) => {
+    document.getElementById('fb-loading').style.display='none';
     if (user) {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app-screen').style.display = 'block';
@@ -287,8 +288,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .btn-danger{background:var(--danger);color:#fff;border-color:var(--danger);}
 .btn-danger:hover{background:#a04040;}
 
-/* SERVIÇO CHIP */
-.servicos-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px;}
+/* SERVIÇO CHIP — multi-select */
+.servicos-chips{display:flex;flex-direction:column;gap:0;margin-bottom:4px;}
+.chip-wrap{display:flex;flex-direction:column;}
 .servico-chip{
   display:inline-flex;align-items:center;gap:10px;
   padding:10px 20px;border:1px solid var(--bege2);
@@ -296,6 +298,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   transition:all 0.2s;font-family:'Jost',sans-serif;
   font-size:13px;font-weight:400;color:var(--ink2);
   position:relative;overflow:hidden;
+  align-self:flex-start;
 }
 .servico-chip::before{
   content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
@@ -303,15 +306,29 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 }
 .servico-chip:hover::before,.servico-chip.active::before{transform:scaleX(1);}
 .servico-chip.active{background:var(--gold-bg);border-color:var(--gold);}
+.servico-chip.tem-tamanho-selecionado{background:var(--marrom-dark);border-color:var(--marrom-dark);color:var(--gold-light);}
+.servico-chip.tem-tamanho-selecionado::before{transform:scaleX(1);background:var(--gold-light);}
 .servico-chip-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.servico-chip-check{font-size:13px;margin-left:4px;}
+.servico-chip-resumo{
+  font-size:11px;color:var(--gold-light);opacity:0.85;
+  letter-spacing:0.05em;margin-left:2px;
+}
 
-/* TAMANHOS DE CABELO */
-.tamanhos-row{
-  display:flex;flex-wrap:wrap;gap:8px;
-  margin-top:14px;padding-top:14px;
-  border-top:1px solid var(--pearl2);
+/* CHIPS em linha horizontal dentro do wrap */
+.chips-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px;}
+
+/* TAMANHOS INLINE — aparece abaixo do chip pai */
+.tamanhos-inline{
+  display:none;flex-wrap:wrap;gap:8px;
+  padding:12px 16px 14px 16px;
+  background:var(--pearl);
+  border:1px solid var(--gold-pale);
+  border-top:none;
+  margin-bottom:8px;
   animation:fadeUp 0.2s ease;
 }
+.tamanhos-inline.open{display:flex;}
 .tamanho-btn{
   padding:8px 18px;border:1px solid var(--bege2);
   background:var(--white);cursor:pointer;
@@ -334,6 +351,28 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   font-size:10px;letter-spacing:0.35em;text-transform:uppercase;
   color:var(--ink3);margin-bottom:4px;width:100%;
 }
+
+/* RESUMO DOS SERVIÇOS SELECIONADOS */
+.servicos-resumo{
+  margin-top:14px;padding:14px 18px;
+  background:var(--gold-bg);border:1px solid var(--gold-pale);
+  border-left:3px solid var(--gold);
+  display:none;
+}
+.servicos-resumo.open{display:block;}
+.resumo-title{font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;}
+.resumo-lista{display:flex;flex-direction:column;gap:6px;}
+.resumo-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);}
+.resumo-item-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.resumo-item-nome{flex:1;}
+.resumo-item-tam{font-size:11px;color:var(--ink3);background:var(--pearl2);padding:2px 8px;}
+.resumo-item-val{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold-dim);}
+.resumo-item-rem{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:16px;padding:0 4px;line-height:1;}
+.resumo-item-rem:hover{color:var(--danger);}
+.resumo-total-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--gold-pale);}
+.resumo-total-label{font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);}
+.resumo-total-val{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-dim);font-weight:300;}
+.resumo-dur-val{font-size:12px;color:var(--ink3);margin-top:2px;text-align:right;letter-spacing:0.1em;}
 
 /* RESULTADO */
 .resultado-box{display:flex;gap:0;border:1px solid var(--gold-pale);background:var(--gold-bg);overflow:hidden;}
@@ -606,10 +645,19 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     </div>
   </div>
   <div class="panel">
-    <div class="panel-title"><div class="panel-title-diamond"></div>Selecione o Serviço</div>
-    <div class="servicos-chips" id="servicos-chips-atend"></div>
-    <div id="tamanhos-wrap" style="display:none;">
-      <div class="tamanhos-row" id="tamanhos-row"></div>
+    <div class="panel-title"><div class="panel-title-diamond"></div>Selecione os Serviços</div>
+    <p style="font-size:11px;color:var(--ink3);letter-spacing:0.1em;margin-bottom:14px;">Clique em um serviço para escolher o tamanho. Pode combinar vários!</p>
+    <div class="chips-row" id="servicos-chips-atend"></div>
+    <div class="servicos-resumo" id="servicos-resumo">
+      <div class="resumo-title">Serviços selecionados</div>
+      <div class="resumo-lista" id="resumo-lista"></div>
+      <div class="resumo-total-row">
+        <div>
+          <div class="resumo-total-label">Total dos Serviços</div>
+          <div class="resumo-dur-val" id="resumo-dur-total"></div>
+        </div>
+        <div class="resumo-total-val" id="resumo-val-total"></div>
+      </div>
     </div>
     <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
     <div class="panel-title"><div class="panel-title-diamond"></div>Dados do Atendimento</div>
@@ -630,6 +678,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         </select>
       </div>
       <div class="form-group"><label>Valor Cobrado (R$)</label><input type="number" id="r-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
+      <div class="form-group"><label>Desconto (%)</label><input type="number" id="r-desconto" placeholder="0" min="0" max="100" step="1" oninput="calcAtendimento()" style=""></div>
       <div class="form-group"><label>Duracao do Servico</label><input type="text" id="r-duracao" placeholder="—" readonly style="background:var(--pearl2);cursor:default;opacity:0.7;"></div>
     </div>
     <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
@@ -642,6 +691,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="resultado-box">
       <div class="rb-item"><div class="rb-label">Servico</div><div class="rb-val" id="rr-servico">—</div></div>
       <div class="rb-item"><div class="rb-label">Item</div><div class="rb-val gold" id="rr-item">—</div></div>
+      <div class="rb-item"><div class="rb-label">Desconto</div><div class="rb-val" id="rr-desconto" style="color:var(--danger)">—</div></div>
       <div class="rb-item"><div class="rb-label">Total</div><div class="rb-val success" id="rr-total">—</div></div>
     </div>
     <div style="display:flex;justify-content:flex-end;margin-top:30px;">
@@ -843,21 +893,45 @@ window.fazerLogout = async function(){
   await signOut(auth);
 };
 
-// Esconder loading quando Firebase carregas
+// Esconder loading quando Firebase carrega
 document.addEventListener('DOMContentLoaded',()=>{
-  setTimeout(()=>{
+  // Fallback de segurança: se em 4 segundos o Firebase não responder, mostra login
+  const fallbackTimer = setTimeout(()=>{
     document.getElementById('fb-loading').style.display='none';
-    // Se Firebase nao configurado ainda, mostrar login mesmo assim
-    if(!window.__fb){
+    if(document.getElementById('login-screen').style.display==='none'||!document.getElementById('login-screen').style.display){
       document.getElementById('login-screen').style.display='flex';
     }
-  },1500);
+  },4000);
+
+  // Quando Firebase responder (sucesso ou falha), cancela o fallback
+  function firebaseReady(){
+    clearTimeout(fallbackTimer);
+    document.getElementById('fb-loading').style.display='none';
+  }
+
+  if(window.__fb){
+    firebaseReady();
+  } else {
+    // Aguarda o módulo Firebase inicializar
+    let checks=0;
+    const interval=setInterval(()=>{
+      checks++;
+      if(window.__fb){
+        clearInterval(interval);
+        firebaseReady();
+      } else if(checks>30){
+        clearInterval(interval);
+        firebaseReady();
+        document.getElementById('login-screen').style.display='flex';
+      }
+    },100);
+  }
 });
 
 // ══════════════════════════════════════════════
 // DADOS — Firebase Firestore
 // ══════════════════════════════════════════════
-let atendimentos=[],clientes=[],servicos=[],servicosSelecionados=[];
+let atendimentos=[],clientes=[],servicos=[];
 
 // Fallback: se Firebase nao configurado, usar localStorage
 function usandoFirebase(){return window.__fb && window.__fb.db;}
@@ -896,7 +970,7 @@ function fmt(v){return(v||0).toLocaleString('pt-BR',{style:'currency',currency:'
 function fmtDate(s){return s?new Date(s+'T12:00:00').toLocaleDateString('pt-BR'):'—';}
 function hoje(){return new Date().toISOString().slice(0,10);}
 function mesAtual(){return hoje().slice(0,7);}
-function inicioSemana(){const d=new Date(),dow=d.getDay(),diff=d.getDate()-dow+(dow===0?-6:1);return new Date(new Date().setDate(diff)).toISOString().slice(0,10);}
+function inicioSemana(){const d=new Date(),dow=d.getDay();const diff=d.getDate()-dow;return new Date(new Date().setDate(diff)).toISOString().slice(0,10);}
 function getCorServico(nome){const s=servicos.find(x=>x.nome?.toLowerCase()===nome?.toLowerCase());return s?.cor||'#9a8a7a';}
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3200);}
 function badgePagto(p){if(p==='Pix')return'badge-pix';if(p==='Dinheiro')return'badge-dinheiro';if(p==='Credito'||p==='Debito')return'badge-cartao';return'badge-outros';}
@@ -970,67 +1044,195 @@ window.showTab=function(id,btn){
 };
 
 // ══════════════════════════════════════════════
-// SERVIÇOS CHIPS — com seleção de tamanho
+// SERVIÇOS CHIPS — multi-seleção com tamanhos inline
 // ══════════════════════════════════════════════
+
+// servicosSelecionados: array de { servicoId, tamanho, valor, duracao, nome, cor }
+let servicosSelecionados = [];
+let chipAberto = null; // id do chip com tamanhos abertos
+
 function renderChipsServico(){
   const el=document.getElementById('servicos-chips-atend');
   if(!el)return;
-  el.innerHTML=servicos.map(s=>`<div class="servico-chip" id="chip-${s.id}" onclick="selecionarServicoChip('${s.id}')"><div class="servico-chip-dot" style="background:${s.cor}"></div><span>${s.nome}</span></div>`).join('');
-  // Limpar tamanhos ao re-renderizar
-  document.getElementById('tamanhos-wrap').style.display='none';
-  document.getElementById('tamanhos-row').innerHTML='';
+
+  el.innerHTML = servicos.map(s => {
+    const sel = servicosSelecionados.find(x => x.servicoId === s.id);
+    const isAberto = chipAberto === s.id;
+    const temSel = !!sel;
+    const resumo = temSel ? `<span class="servico-chip-resumo">${sel.tamanho} · ${fmt(sel.valor)}</span>` : '';
+    const check = temSel ? `<span class="servico-chip-check">✓</span>` : '';
+    return `
+      <div style="display:flex;flex-direction:column;">
+        <div class="servico-chip ${isAberto?'active':''} ${temSel?'tem-tamanho-selecionado':''}"
+             id="chip-${s.id}"
+             onclick="toggleChipServico('${s.id}')">
+          <div class="servico-chip-dot" style="background:${s.cor}"></div>
+          <span>${s.nome}</span>
+          ${resumo}
+          ${check}
+        </div>
+        <div class="tamanhos-inline ${isAberto?'open':''}" id="tinline-${s.id}">
+          ${buildTamanhosInlineHTML(s)}
+        </div>
+      </div>`;
+  }).join('');
+
+  atualizarResumo();
 }
 
-window.selecionarServicoChip=function(id){
-  const s=servicos.find(x=>x.id===id);
-  if(!s)return;
-  const idx=servicosSelecionados.findIndex(x=>x.id===id);
-  if(idx>=0){
-    servicosSelecionados.splice(idx,1);
-    document.getElementById('chip-'+id)?.classList.remove('active');
-  } else {
-    servicosSelecionados.push({id:s.id,nome:s.nome,cor:s.cor,valor:s.valor||0,duracao:s.duracao||''});
-    document.getElementById('chip-'+id)?.classList.add('active');
+function buildTamanhosInlineHTML(s){
+  const temTamanhos = s.tamanhos && TAMANHOS.some(t => s.tamanhos[t]?.valor > 0);
+  if(!temTamanhos){
+    // Sem tamanhos cadastrados — botão único
+    const sel = servicosSelecionados.find(x => x.servicoId === s.id);
+    const isActive = !!sel;
+    return `<span class="tamanhos-label" style="width:auto;margin-bottom:0;">Valor único</span>
+      <button class="tamanho-btn ${isActive?'active':''}" onclick="selecionarTamanhoMulti('${s.id}','Único',${s.duracao?`'${s.duracao}'`:"'—'"})">
+        <span class="tb-nome">Único</span>
+        <span class="tb-val">${fmt(0)}</span>
+        ${s.duracao?`<span class="tb-dur">⏱ ${s.duracao}</span>`:''}
+      </button>`;
   }
-  syncServicosDisplay();
-  calcAtendimento();
-};
-
-function syncServicosDisplay(){
-  const totalServicos=servicosSelecionados.reduce((s,x)=>s+(parseFloat(x.valor)||0),0);
-  const duracoes=servicosSelecionados.map(x=>x.duracao).filter(Boolean).join(' + ');
-  if(servicosSelecionados.length>0){
-    document.getElementById('r-valor').value=totalServicos>0?totalServicos.toFixed(2):'';
-    document.getElementById('r-duracao').value=duracoes||'—';
-  } else {
-    document.getElementById('r-valor').value='';
-    document.getElementById('r-duracao').value='';
-  }
-  let tagsEl=document.getElementById('servicos-selecionados-tags');
-  if(!tagsEl){
-    tagsEl=document.createElement('div');
-    tagsEl.id='servicos-selecionados-tags';
-    tagsEl.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;min-height:20px;';
-    const chips=document.getElementById('servicos-chips-atend');
-    if(chips) chips.after(tagsEl);
-  }
-  if(servicosSelecionados.length===0){tagsEl.innerHTML='';return;}
-  tagsEl.innerHTML=servicosSelecionados.map(x=>`<div style="display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-pale);padding:5px 12px;font-size:13px;color:var(--ink2);"><span style="width:8px;height:8px;border-radius:50%;background:${x.cor};flex-shrink:0;display:inline-block;"></span>${x.nome}${x.valor>0?`<span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-dim);margin-left:4px;">${fmt(x.valor)}</span>`:''}<span onclick="selecionarServicoChip('${x.id}')" style="cursor:pointer;color:var(--ink3);margin-left:6px;font-size:17px;line-height:1;" title="Remover">&times;</span></div>`).join('');
+  const sel = servicosSelecionados.find(x => x.servicoId === s.id);
+  return `<span class="tamanhos-label" style="width:100%;padding-bottom:4px;">Tamanho do cabelo</span>` +
+    TAMANHOS.filter(t => s.tamanhos?.[t]?.valor > 0).map(t => {
+      const info = s.tamanhos[t];
+      const dur = info.duracao || s.duracao || '';
+      const isActive = sel?.tamanho === t;
+      return `<button class="tamanho-btn ${isActive?'active':''}"
+                onclick="selecionarTamanhoMulti('${s.id}','${t}',${dur?`'${dur}'`:"'—'"},${info.valor})">
+        <span class="tb-nome">${t}</span>
+        <span class="tb-val">${fmt(info.valor)}</span>
+        ${dur?`<span class="tb-dur">⏱ ${dur}</span>`:''}
+      </button>`;
+    }).join('');
 }
 
-let tamSelecionado=null;
-window.selecionarTamanho=function(tamanho,servicoId){
-  const s=servicos.find(x=>x.id===servicoId);
-  if(!s)return;
-  tamSelecionado=tamanho;
-  const info=s.tamanhos?.[tamanho]||{};
-  document.querySelectorAll('.tamanho-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tbtn-'+tamanho.replace(' ','_'))?.classList.add('active');
-  if(info.valor>0) document.getElementById('r-valor').value=info.valor.toFixed(2);
-  const dur=info.duracao||s.duracao||'—';
-  document.getElementById('r-duracao').value=dur;
-  calcAtendimento();
+window.toggleChipServico = function(id){
+  if(chipAberto === id){
+    // Fechar este chip
+    chipAberto = null;
+  } else {
+    chipAberto = id;
+  }
+  renderChipsServico();
 };
+
+window.selecionarTamanhoMulti = function(servicoId, tamanho, duracao, valor){
+  const s = servicos.find(x => x.id === servicoId);
+  if(!s) return;
+
+  valor = valor || 0;
+  duracao = duracao || s.duracao || '—';
+
+  // Verificar se já estava selecionado com mesmo tamanho (toggle off)
+  const idx = servicosSelecionados.findIndex(x => x.servicoId === servicoId);
+  if(idx >= 0 && servicosSelecionados[idx].tamanho === tamanho){
+    // Deselecionar
+    servicosSelecionados.splice(idx, 1);
+    chipAberto = null;
+  } else if(idx >= 0){
+    // Trocar tamanho
+    servicosSelecionados[idx] = { servicoId, tamanho, valor, duracao, nome: s.nome, cor: s.cor };
+    chipAberto = null;
+  } else {
+    // Adicionar
+    servicosSelecionados.push({ servicoId, tamanho, valor, duracao, nome: s.nome, cor: s.cor });
+    chipAberto = null;
+  }
+
+  renderChipsServico();
+  sincronizarCampos();
+};
+
+function sincronizarCampos(){
+  // Calcular total dos serviços e duração somada
+  const totalServicos = servicosSelecionados.reduce((s, x) => s + (x.valor || 0), 0);
+
+  // Preencher campo valor com soma dos serviços (editável pelo usuário)
+  if(servicosSelecionados.length > 0){
+    document.getElementById('r-valor').value = totalServicos.toFixed(2);
+  } else {
+    document.getElementById('r-valor').value = '';
+  }
+
+  // Calcular duração total
+  const duracaoTotal = calcularDuracaoTotal();
+  document.getElementById('r-duracao').value = duracaoTotal;
+
+  calcAtendimento();
+}
+
+function calcularDuracaoTotal(){
+  if(!servicosSelecionados.length) return '';
+  let totalMin = 0;
+  let algumaTem = false;
+  for(const x of servicosSelecionados){
+    const min = parseDuracao(x.duracao);
+    if(min > 0){ totalMin += min; algumaTem = true; }
+  }
+  if(!algumaTem) return servicosSelecionados.map(x => x.duracao).filter(d => d && d !== '—').join(' + ') || '—';
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  return (h > 0 ? h + 'h' : '') + (m > 0 ? (h > 0 ? '' : '') + m + 'min' : (h > 0 ? '' : '0min'));
+}
+
+function parseDuracao(str){
+  if(!str || str === '—') return 0;
+  let total = 0;
+  const h = str.match(/(\d+)\s*h/); if(h) total += parseInt(h[1]) * 60;
+  const m = str.match(/(\d+)\s*min/); if(m) total += parseInt(m[1]);
+  // formato "2h30" (sem "min")
+  if(!m){
+    const hm = str.match(/(\d+)h(\d+)/);
+    if(hm) total = parseInt(hm[1])*60 + parseInt(hm[2]);
+  }
+  return total;
+}
+
+function atualizarResumo(){
+  const resumoEl = document.getElementById('servicos-resumo');
+  const listaEl = document.getElementById('resumo-lista');
+  const valEl = document.getElementById('resumo-val-total');
+  const durEl = document.getElementById('resumo-dur-total');
+
+  if(!servicosSelecionados.length){
+    resumoEl.classList.remove('open');
+    return;
+  }
+  resumoEl.classList.add('open');
+
+  const totalVal = servicosSelecionados.reduce((s, x) => s + (x.valor || 0), 0);
+  const duracaoTotal = calcularDuracaoTotal();
+
+  listaEl.innerHTML = servicosSelecionados.map((x, i) => `
+    <div class="resumo-item">
+      <div class="resumo-item-dot" style="background:${x.cor}"></div>
+      <span class="resumo-item-nome">${x.nome}</span>
+      <span class="resumo-item-tam">${x.tamanho}</span>
+      <span class="resumo-item-val">${fmt(x.valor)}</span>
+      <button class="resumo-item-rem" onclick="removerServicoSelecionado(${i})" title="Remover">×</button>
+    </div>`).join('');
+
+  valEl.textContent = fmt(totalVal);
+  durEl.textContent = duracaoTotal ? '⏱ ' + duracaoTotal : '';
+}
+
+window.removerServicoSelecionado = function(idx){
+  servicosSelecionados.splice(idx, 1);
+  renderChipsServico();
+  sincronizarCampos();
+};
+
+// Compatibilidade: servicoSelecionado legado (para registrarAtendimento)
+Object.defineProperty(window, 'servicoSelecionado', {
+  get(){ return servicosSelecionados.length ? {
+    nome: servicosSelecionados.map(x=>x.nome).join(' + '),
+    cor: servicosSelecionados[0].cor,
+    id: servicosSelecionados[0].servicoId
+  } : null; },
+  configurable: true
+});
 
 // ══════════════════════════════════════════════
 // ATENDIMENTO
@@ -1057,11 +1259,15 @@ window.selecionarCliente=function(id,nome){
 function calcAtendimento(){
   const v=parseFloat(document.getElementById('r-valor').value)||0;
   const iv=parseFloat(document.getElementById('r-item-valor').value)||0;
-  const cor=servicosSelecionados.length===1?servicosSelecionados[0].cor:'var(--gold-dim)';
+  const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
+  const descValor=parseFloat(((v*pct)/100).toFixed(2));
+  const total=(v-descValor)+iv;
+  const cor=servicosSelecionados[0]?.cor||'var(--ink)';
   document.getElementById('rr-servico').textContent=v>0?fmt(v):'—';
   document.getElementById('rr-servico').style.color=cor;
   document.getElementById('rr-item').textContent=iv>0?fmt(iv):'—';
-  document.getElementById('rr-total').textContent=(v||iv)?fmt(v+iv):'—';
+  document.getElementById('rr-desconto').textContent=descValor>0?'- '+fmt(descValor):'—';
+  document.getElementById('rr-total').textContent=(v||iv)?fmt(total):'—';
 }
 window.calcAtendimento=calcAtendimento;
 
@@ -1070,31 +1276,37 @@ window.registrarAtendimento=async function(){
   const horario=document.getElementById('r-horario').value;
   const clienteNome=document.getElementById('r-cliente').value.trim();
   const clienteId=document.getElementById('r-cliente-id').value;
-  const servico=servicosSelecionados.map(x=>x.nome).join(' + ')||'';
-  const corServico=servicosSelecionados.length===1?servicosSelecionados[0].cor:'#9a8a7a';
+
+  // Nomes e cores dos serviços selecionados
+  const servico = servicosSelecionados.length
+    ? servicosSelecionados.map(x => x.nome + (x.tamanho && x.tamanho!=='Único'?' ('+x.tamanho+')':'')).join(' + ')
+    : '';
+  const corServico = servicosSelecionados[0]?.cor || '#9a8a7a';
+  const tamanho = servicosSelecionados.map(x=>x.tamanho).filter(Boolean).join(' + ');
+
   const duracao=document.getElementById('r-duracao').value;
-  const tamanho=tamSelecionado||'';
   const valor=parseFloat(document.getElementById('r-valor').value)||0;
   const pagto=document.getElementById('r-pagto').value;
   const item=document.getElementById('r-item').value.trim();
   const itemValor=parseFloat(document.getElementById('r-item-valor').value)||0;
+  const descPct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
+  const descValor=parseFloat(((valor*descPct)/100).toFixed(2));
   const obs=document.getElementById('r-obs').value;
   if(!data){toast('Informe a data.');return;}
-  if(!servico){toast('Selecione ao menos um serviço.');return;}
+  if(!servico){toast('Selecione pelo menos um serviço com tamanho.');return;}
   if(!valor){toast('Informe o valor.');return;}
-  const total=valor+itemValor;
+  const total=(valor-descValor)+itemValor;
   const id=uid();
-  const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,pagto,item,itemValor,total,obs,ts:Date.now()};
+  const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,descPct,descValor,pagto,item,itemValor,total,obs,
+    servicosSelecionados: JSON.parse(JSON.stringify(servicosSelecionados)),
+    ts:Date.now()};
   atendimentos.push(registro);
   await fbSave('atendimentos',registro);
-  ['r-cliente','r-cliente-id','r-valor','r-duracao','r-item','r-item-valor','r-obs'].forEach(x=>document.getElementById(x).value='');
-  document.querySelectorAll('.servico-chip').forEach(c=>c.classList.remove('active'));
-  document.getElementById('tamanhos-wrap').style.display='none';
-  document.getElementById('tamanhos-row').innerHTML='';
-  servicosSelecionados=[];
-  tamSelecionado=null;
-  const tagsEl=document.getElementById('servicos-selecionados-tags');
-  if(tagsEl) tagsEl.innerHTML='';
+  ['r-cliente','r-cliente-id','r-valor','r-desconto','r-duracao','r-item','r-item-valor','r-obs'].forEach(x=>document.getElementById(x).value='');
+  // Resetar seleção múltipla
+  servicosSelecionados = [];
+  chipAberto = null;
+  renderChipsServico();
   calcAtendimento();
   updateHeader();
   renderAgendaHoje();
@@ -1287,7 +1499,7 @@ function renderServicos(){
 
 function buildTamanhosGrid(servico){
   document.getElementById('ms-tamanhos-grid').innerHTML=TAMANHOS.map(t=>{
-    const key=t.replace(' ','_');
+    const key=t.replace(/\s/g,'_');
     const info=servico?.tamanhos?.[t]||{};
     return`<div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:end;border-bottom:1px solid var(--pearl2);padding-bottom:14px;">
       <div class="form-group"><label>${t} — Valor (R$)</label><input type="number" id="ms-val-${key}" placeholder="0,00" step="0.01" value="${info.valor||''}"></div>
@@ -1333,7 +1545,7 @@ window.salvarServico=async function(){
   const foto=document.getElementById('ms-foto-data').value||'';
   const tamanhos={};
   TAMANHOS.forEach(t=>{
-    const key=t.replace(' ','_');
+    const key=t.replace(/\s/g,'_');
     tamanhos[t]={
       valor:parseFloat(document.getElementById('ms-val-'+key).value)||0,
       duracao:document.getElementById('ms-dur-'+key).value.trim()||''
