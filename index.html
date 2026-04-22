@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -629,7 +630,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         </select>
       </div>
       <div class="form-group"><label>Valor Cobrado (R$)</label><input type="number" id="r-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
-      <div class="form-group"><label>Desconto (%)</label><input type="number" id="r-desconto" placeholder="0" min="0" max="100" step="1" oninput="calcAtendimento()" style=""></div>
       <div class="form-group"><label>Duracao do Servico</label><input type="text" id="r-duracao" placeholder="—" readonly style="background:var(--pearl2);cursor:default;opacity:0.7;"></div>
     </div>
     <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
@@ -642,7 +642,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="resultado-box">
       <div class="rb-item"><div class="rb-label">Servico</div><div class="rb-val" id="rr-servico">—</div></div>
       <div class="rb-item"><div class="rb-label">Item</div><div class="rb-val gold" id="rr-item">—</div></div>
-      <div class="rb-item"><div class="rb-label">Desconto</div><div class="rb-val" id="rr-desconto" style="color:var(--danger)">—</div></div>
       <div class="rb-item"><div class="rb-label">Total</div><div class="rb-val success" id="rr-total">—</div></div>
     </div>
     <div style="display:flex;justify-content:flex-end;margin-top:30px;">
@@ -858,7 +857,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 // ══════════════════════════════════════════════
 // DADOS — Firebase Firestore
 // ══════════════════════════════════════════════
-let atendimentos=[],clientes=[],servicos=[],servicoSelecionado=null;
+let atendimentos=[],clientes=[],servicos=[],servicosSelecionados=[];
 
 // Fallback: se Firebase nao configurado, usar localStorage
 function usandoFirebase(){return window.__fb && window.__fb.db;}
@@ -985,53 +984,39 @@ function renderChipsServico(){
 window.selecionarServicoChip=function(id){
   const s=servicos.find(x=>x.id===id);
   if(!s)return;
-
-  // Toggle: se clicar no mesmo serviço já ativo, desselecionar
-  if(servicoSelecionado?.id===id){
-    servicoSelecionado=null;
-    tamSelecionado=null;
-    document.querySelectorAll('.servico-chip').forEach(c=>c.classList.remove('active'));
-    document.getElementById('tamanhos-wrap').style.display='none';
-    document.getElementById('r-duracao').value='';
-    document.getElementById('r-valor').value='';
-    calcAtendimento();
-    return;
-  }
-
-  servicoSelecionado=s;
-  tamSelecionado=null;
-  document.querySelectorAll('.servico-chip').forEach(c=>c.classList.remove('active'));
-  document.getElementById('chip-'+id)?.classList.add('active');
-
-  // Verificar se serviço tem tamanhos com valores cadastrados
-  const temTamanhos=s.tamanhos && TAMANHOS.some(t=>s.tamanhos[t]?.valor>0);
-
-  if(temTamanhos){
-    // Mostrar botões de tamanho
-    const wrap=document.getElementById('tamanhos-wrap');
-    const row=document.getElementById('tamanhos-row');
-    row.innerHTML=`<div class="tamanhos-label">Tamanho do cabelo</div>`+
-      TAMANHOS.filter(t=>s.tamanhos?.[t]?.valor>0).map(t=>{
-        const info=s.tamanhos[t];
-        const dur=info.duracao||s.duracao||'';
-        return`<button class="tamanho-btn" id="tbtn-${t.replace(' ','_')}" onclick="selecionarTamanho('${t.replace(/'/g,"\\'")}','${s.id}')">
-          <span class="tb-nome">${t}</span>
-          <span class="tb-val">${fmt(info.valor)}</span>
-          ${dur?`<span class="tb-dur">⏱ ${dur}</span>`:''}
-        </button>`;
-      }).join('');
-    wrap.style.display='block';
-    // Limpar valor/duração até escolher tamanho
-    document.getElementById('r-duracao').value='';
-    document.getElementById('r-valor').value='';
+  const idx=servicosSelecionados.findIndex(x=>x.id===id);
+  if(idx>=0){
+    servicosSelecionados.splice(idx,1);
+    document.getElementById('chip-'+id)?.classList.remove('active');
   } else {
-    // Sem tamanhos: preencher duração única
-    document.getElementById('tamanhos-wrap').style.display='none';
-    document.getElementById('r-duracao').value=s.duracao||'—';
-    document.getElementById('r-valor').value='';
+    servicosSelecionados.push({id:s.id,nome:s.nome,cor:s.cor,valor:s.valor||0,duracao:s.duracao||''});
+    document.getElementById('chip-'+id)?.classList.add('active');
   }
+  syncServicosDisplay();
   calcAtendimento();
 };
+
+function syncServicosDisplay(){
+  const totalServicos=servicosSelecionados.reduce((s,x)=>s+(parseFloat(x.valor)||0),0);
+  const duracoes=servicosSelecionados.map(x=>x.duracao).filter(Boolean).join(' + ');
+  if(servicosSelecionados.length>0){
+    document.getElementById('r-valor').value=totalServicos>0?totalServicos.toFixed(2):'';
+    document.getElementById('r-duracao').value=duracoes||'—';
+  } else {
+    document.getElementById('r-valor').value='';
+    document.getElementById('r-duracao').value='';
+  }
+  let tagsEl=document.getElementById('servicos-selecionados-tags');
+  if(!tagsEl){
+    tagsEl=document.createElement('div');
+    tagsEl.id='servicos-selecionados-tags';
+    tagsEl.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;min-height:20px;';
+    const chips=document.getElementById('servicos-chips-atend');
+    if(chips) chips.after(tagsEl);
+  }
+  if(servicosSelecionados.length===0){tagsEl.innerHTML='';return;}
+  tagsEl.innerHTML=servicosSelecionados.map(x=>`<div style="display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-pale);padding:5px 12px;font-size:13px;color:var(--ink2);"><span style="width:8px;height:8px;border-radius:50%;background:${x.cor};flex-shrink:0;display:inline-block;"></span>${x.nome}${x.valor>0?`<span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-dim);margin-left:4px;">${fmt(x.valor)}</span>`:''}<span onclick="selecionarServicoChip('${x.id}')" style="cursor:pointer;color:var(--ink3);margin-left:6px;font-size:17px;line-height:1;" title="Remover">&times;</span></div>`).join('');
+}
 
 let tamSelecionado=null;
 window.selecionarTamanho=function(tamanho,servicoId){
@@ -1039,10 +1024,8 @@ window.selecionarTamanho=function(tamanho,servicoId){
   if(!s)return;
   tamSelecionado=tamanho;
   const info=s.tamanhos?.[tamanho]||{};
-  // Highlight botão ativo
   document.querySelectorAll('.tamanho-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tbtn-'+tamanho.replace(' ','_'))?.classList.add('active');
-  // Preencher valor e duração
   if(info.valor>0) document.getElementById('r-valor').value=info.valor.toFixed(2);
   const dur=info.duracao||s.duracao||'—';
   document.getElementById('r-duracao').value=dur;
@@ -1074,15 +1057,11 @@ window.selecionarCliente=function(id,nome){
 function calcAtendimento(){
   const v=parseFloat(document.getElementById('r-valor').value)||0;
   const iv=parseFloat(document.getElementById('r-item-valor').value)||0;
-  const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
-  const descValor=parseFloat(((v*pct)/100).toFixed(2));
-  const total=(v-descValor)+iv;
-  const cor=servicoSelecionado?.cor||'var(--ink)';
+  const cor=servicosSelecionados.length===1?servicosSelecionados[0].cor:'var(--gold-dim)';
   document.getElementById('rr-servico').textContent=v>0?fmt(v):'—';
   document.getElementById('rr-servico').style.color=cor;
   document.getElementById('rr-item').textContent=iv>0?fmt(iv):'—';
-  document.getElementById('rr-desconto').textContent=descValor>0?'- '+fmt(descValor):'—';
-  document.getElementById('rr-total').textContent=(v||iv)?fmt(total):'—';
+  document.getElementById('rr-total').textContent=(v||iv)?fmt(v+iv):'—';
 }
 window.calcAtendimento=calcAtendimento;
 
@@ -1091,31 +1070,31 @@ window.registrarAtendimento=async function(){
   const horario=document.getElementById('r-horario').value;
   const clienteNome=document.getElementById('r-cliente').value.trim();
   const clienteId=document.getElementById('r-cliente-id').value;
-  const servico=servicoSelecionado?.nome||'';
-  const corServico=servicoSelecionado?.cor||'#9a8a7a';
+  const servico=servicosSelecionados.map(x=>x.nome).join(' + ')||'';
+  const corServico=servicosSelecionados.length===1?servicosSelecionados[0].cor:'#9a8a7a';
   const duracao=document.getElementById('r-duracao').value;
   const tamanho=tamSelecionado||'';
   const valor=parseFloat(document.getElementById('r-valor').value)||0;
   const pagto=document.getElementById('r-pagto').value;
   const item=document.getElementById('r-item').value.trim();
   const itemValor=parseFloat(document.getElementById('r-item-valor').value)||0;
-  const descPct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
-  const descValor=parseFloat(((valor*descPct)/100).toFixed(2));
   const obs=document.getElementById('r-obs').value;
   if(!data){toast('Informe a data.');return;}
-  if(!servico){toast('Selecione um serviço.');return;}
+  if(!servico){toast('Selecione ao menos um serviço.');return;}
   if(!valor){toast('Informe o valor.');return;}
-  const total=(valor-descValor)+itemValor;
+  const total=valor+itemValor;
   const id=uid();
-  const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,descPct,descValor,pagto,item,itemValor,total,obs,ts:Date.now()};
+  const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,pagto,item,itemValor,total,obs,ts:Date.now()};
   atendimentos.push(registro);
   await fbSave('atendimentos',registro);
-  ['r-cliente','r-cliente-id','r-valor','r-desconto','r-duracao','r-item','r-item-valor','r-obs'].forEach(x=>document.getElementById(x).value='');
+  ['r-cliente','r-cliente-id','r-valor','r-duracao','r-item','r-item-valor','r-obs'].forEach(x=>document.getElementById(x).value='');
   document.querySelectorAll('.servico-chip').forEach(c=>c.classList.remove('active'));
   document.getElementById('tamanhos-wrap').style.display='none';
   document.getElementById('tamanhos-row').innerHTML='';
-  servicoSelecionado=null;
+  servicosSelecionados=[];
   tamSelecionado=null;
+  const tagsEl=document.getElementById('servicos-selecionados-tags');
+  if(tagsEl) tagsEl.innerHTML='';
   calcAtendimento();
   updateHeader();
   renderAgendaHoje();
