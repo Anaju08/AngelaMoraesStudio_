@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -21,37 +20,36 @@
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
   import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-const firebaseConfig = {
-apiKey: “AIzaSyA7JIbhg1o-fOSYW6mcpTQ1z9ZMLAxjeOg”,
-authDomain: “angela-moraes-studio.firebaseapp.com”,
-projectId: “angela-moraes-studio”,
-storageBucket: “angela-moraes-studio.firebasestorage.app”,
-messagingSenderId: “592086279388”,
-appId: “1:592086279388:web:8571ac6c6b2dc5f5bd4019”,
-measurementId: “G-ESNV3YH8V5”
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7JIbhg1o-fOSYW6mcpTQ1z9ZMLAxjeOg",
+    authDomain: "angela-moraes-studio.firebaseapp.com",
+    projectId: "angela-moraes-studio",
+    storageBucket: "angela-moraes-studio.firebasestorage.app",
+    messagingSenderId: "592086279388",
+    appId: "1:592086279388:web:8571ac6c6b2dc5f5bd4019",
+    measurementId: "G-ESNV3YH8V5"
+  };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-// Expor globalmente
-window.__fb = { auth, db, signInWithEmailAndPassword, signOut, onAuthStateChanged, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, orderBy };
+  // Expor globalmente
+  window.__fb = { auth, db, signInWithEmailAndPassword, signOut, onAuthStateChanged, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, orderBy };
 
-// Verificar autenticação ao carregar
-onAuthStateChanged(auth, (user) => {
-if (user) {
-document.getElementById(‘login-screen’).style.display = ‘none’;
-document.getElementById(‘app-screen’).style.display = ‘block’;
-document.getElementById(‘user-email-display’).textContent = user.email;
-window.initApp();
-} else {
-document.getElementById(‘login-screen’).style.display = ‘flex’;
-document.getElementById(‘app-screen’).style.display = ‘none’;
-}
-});
+  // Verificar autenticação ao carregar
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-screen').style.display = 'block';
+      document.getElementById('user-email-display').textContent = user.email;
+      window.initApp();
+    } else {
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('app-screen').style.display = 'none';
+    }
+  });
 </script>
-
 <style>
 :root {
   --gold:#C9A84C;--gold-light:#E8CC7A;--gold-pale:#F5E9C8;--gold-dim:#9A7420;--gold-bg:#FDFAF2;
@@ -535,12 +533,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   .login-box{padding:36px 28px;}
 }
 </style>
-
 </head>
 <body>
 
 <!-- Loading inicial -->
-
 <div id="fb-loading">
   <div class="fb-loader"></div>
   <div style="font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3)">Carregando...</div>
@@ -549,7 +545,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <!-- ══════════════════════════════
      TELA DE LOGIN
 ══════════════════════════════ -->
-
 <div id="login-screen" style="display:none;">
   <!-- Ornamentos de canto SVG -->
   <svg class="login-ornament-corner tl" viewBox="0 0 200 200" fill="none">
@@ -605,6 +600,11 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
       <button class="login-btn" onclick="fazerLogin()">Entrar</button>
       <div class="login-error" id="login-error"></div>
+      <div style="text-align:center;margin-top:20px;">
+        <button onclick="acessarSemLogin()" style="background:none;border:none;color:var(--ink3);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.15em;cursor:pointer;text-decoration:underline;text-underline-offset:3px;">
+          Entrar sem login (modo local)
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -612,7 +612,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <!-- ══════════════════════════════
      APP PRINCIPAL
 ══════════════════════════════ -->
-
 <div id="app-screen">
 
 <header>
@@ -624,7 +623,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 
   <!-- Ornamento decorativo central -->
-
   <div class="header-ornament">
     <div class="header-ornament-line"></div>
     <div class="header-ornament-diamonds">
@@ -659,7 +657,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <main>
 
 <!-- ══ ATENDIMENTO ══ -->
-
 <section id="sec-atendimento" class="section active">
   <!-- Lembrete de Aniversários -->
   <div class="aniv-banner" id="aniv-lembrete">
@@ -749,7 +746,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </section>
 
 <!-- ══ HISTORICO ══ -->
-
 <section id="sec-historico" class="section">
   <div class="sec-header">
     <div class="sec-title">Historico de <em>Atendimentos</em></div>
@@ -780,7 +776,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </section>
 
 <!-- ══ CLIENTES ══ -->
-
 <section id="sec-clientes" class="section">
   <div class="sec-header">
     <div class="sec-title"><em>Clientes</em></div>
@@ -800,7 +795,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </section>
 
 <!-- ══ SERVICOS ══ -->
-
 <section id="sec-servicos" class="section">
   <div class="sec-header">
     <div class="sec-title"><em>Serviços</em></div>
@@ -812,7 +806,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </section>
 
 <!-- ══ AGENDA ══ -->
-
 <section id="sec-agenda" class="section">
   <div class="sec-header">
     <div class="sec-title">Agenda da <em>Semana</em></div>
@@ -832,7 +825,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </div><!-- fim app-screen -->
 
 <!-- ══ MODAL CLIENTE ══ -->
-
 <div class="modal-bg" id="modal-cliente-bg">
   <div class="modal">
     <button class="modal-close" onclick="fecharModalCliente()">×</button>
@@ -854,7 +846,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </div>
 
 <!-- ══ MODAL HISTÓRICO CLIENTE ══ -->
-
 <div class="modal-bg" id="modal-hist-cliente-bg">
   <div class="modal" style="max-width:700px;">
     <button class="modal-close" onclick="document.getElementById('modal-hist-cliente-bg').classList.remove('open')">×</button>
@@ -864,49 +855,44 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </div>
 
 <!-- ══ MODAL SERVIÇO ══ -->
-
 <div class="modal-bg" id="modal-servico-bg">
   <div class="modal" style="max-width:600px;">
     <button class="modal-close" onclick="fecharModalServico()">×</button>
     <div class="modal-title"><div class="panel-title-diamond"></div><span id="modal-servico-title">Novo Serviço</span></div>
     <input type="hidden" id="ms-id">
 
-```
-<!-- FOTO DO SERVIÇO -->
-<div class="servico-foto-area" onclick="document.getElementById('ms-foto-input').click()" id="ms-foto-area">
-  <div id="ms-foto-preview" style="display:none;">
-    <img id="ms-foto-img" src="" alt="Foto do servico">
-  </div>
-  <div id="ms-foto-placeholder">
-    <div style="font-size:28px;color:var(--gold-pale);margin-bottom:8px;">✦</div>
-    <div class="servico-foto-label">Foto do Serviço</div>
-    <div class="servico-foto-hint">Clique para adicionar uma imagem</div>
-  </div>
-</div>
-<input type="file" id="ms-foto-input" accept="image/*" style="display:none;" onchange="onFotoServicoChange(event)">
-<input type="hidden" id="ms-foto-data">
+    <!-- FOTO DO SERVIÇO -->
+    <div class="servico-foto-area" onclick="document.getElementById('ms-foto-input').click()" id="ms-foto-area">
+      <div id="ms-foto-preview" style="display:none;">
+        <img id="ms-foto-img" src="" alt="Foto do servico">
+      </div>
+      <div id="ms-foto-placeholder">
+        <div style="font-size:28px;color:var(--gold-pale);margin-bottom:8px;">✦</div>
+        <div class="servico-foto-label">Foto do Serviço</div>
+        <div class="servico-foto-hint">Clique para adicionar uma imagem</div>
+      </div>
+    </div>
+    <input type="file" id="ms-foto-input" accept="image/*" style="display:none;" onchange="onFotoServicoChange(event)">
+    <input type="hidden" id="ms-foto-data">
 
-<div class="form-grid" style="margin-bottom:20px;">
-  <div class="form-group"><label>Nome do Serviço *</label><input type="text" id="ms-nome" placeholder="Ex: Progressiva, Corte..."></div>
-  <div class="form-group"><label>Duracao</label><input type="text" id="ms-duracao" placeholder="Ex: 2h30"></div>
-  <div class="form-group"><label>Cor</label><input type="color" id="ms-cor" value="#7b9e7b" style="height:48px;padding:4px 8px;cursor:pointer;"></div>
-</div>
+    <div class="form-grid" style="margin-bottom:20px;">
+      <div class="form-group"><label>Nome do Serviço *</label><input type="text" id="ms-nome" placeholder="Ex: Progressiva, Corte..."></div>
+      <div class="form-group"><label>Duracao</label><input type="text" id="ms-duracao" placeholder="Ex: 2h30"></div>
+      <div class="form-group"><label>Cor</label><input type="color" id="ms-cor" value="#7b9e7b" style="height:48px;padding:4px 8px;cursor:pointer;"></div>
+    </div>
 
-<div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
-<p style="font-size:11px;color:var(--ink3);margin-bottom:16px;letter-spacing:0.1em;">Valor e duração por tamanho de cabelo:</p>
-<div id="ms-tamanhos-grid" style="display:grid;gap:12px;"></div>
+    <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
+    <p style="font-size:11px;color:var(--ink3);margin-bottom:16px;letter-spacing:0.1em;">Valor e duração por tamanho de cabelo:</p>
+    <div id="ms-tamanhos-grid" style="display:grid;gap:12px;"></div>
 
-<div style="display:flex;gap:12px;justify-content:flex-end;margin-top:30px;">
-  <button class="btn" onclick="fecharModalServico()"><span>Cancelar</span></button>
-  <button class="btn btn-dark" onclick="salvarServico()"><span>Salvar Serviço</span></button>
-</div>
-```
-
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:30px;">
+      <button class="btn" onclick="fecharModalServico()"><span>Cancelar</span></button>
+      <button class="btn btn-dark" onclick="salvarServico()"><span>Salvar Serviço</span></button>
+    </div>
   </div>
 </div>
 
 <!-- ══ MODAL DETALHE ATENDIMENTO ══ -->
-
 <div class="modal-bg" id="modal-det-at-bg">
   <div class="modal" style="max-width:640px;">
     <button class="modal-close" onclick="document.getElementById('modal-det-at-bg').classList.remove('open')">×</button>
@@ -916,7 +902,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </div>
 
 <!-- ══ MODAL WHATSAPP ══ -->
-
 <div class="modal-bg" id="modal-whats-bg">
   <div class="modal" style="max-width:560px;">
     <button class="modal-close" onclick="document.getElementById('modal-whats-bg').classList.remove('open')">×</button>
@@ -960,15 +945,28 @@ window.fazerLogin = async function(){
     await signInWithEmailAndPassword(auth,email,senha);
   }catch(e){
     const msgs={
-      'auth/user-not-found':'Usuario nao encontrado.',
+      'auth/user-not-found':'Usuário não encontrado. Crie o usuário no Firebase Console.',
       'auth/wrong-password':'Senha incorreta.',
-      'auth/invalid-email':'E-mail invalido.',
+      'auth/invalid-email':'E-mail inválido.',
       'auth/invalid-credential':'E-mail ou senha incorretos.',
-      'auth/too-many-requests':'Muitas tentativas. Aguarde um momento.'
+      'auth/too-many-requests':'Muitas tentativas. Aguarde alguns minutos.',
+      'auth/network-request-failed':'Sem conexão com internet.',
+      'auth/user-disabled':'Usuário desativado no Firebase.',
+      'auth/operation-not-allowed':'Login por e-mail desativado no Firebase Console.'
     };
-    errEl.textContent=msgs[e.code]||'Erro ao entrar. Verifique suas credenciais.';
+    const msg = msgs[e.code] || ('Erro: ' + (e.code||e.message||'desconhecido'));
+    errEl.innerHTML = msg + '<br><small style="opacity:0.7;font-size:11px;">código: ' + (e.code||'?') + '</small>';
     errEl.style.display='block';
+    console.error('Firebase login error:', e.code, e.message);
   }
+};
+
+window.acessarSemLogin = function(){
+  // Acesso local sem Firebase — dados ficam só no navegador
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  window.__modoLocal = true;
+  initApp();
 };
 
 window.fazerLogout = async function(){
@@ -994,7 +992,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 let atendimentos=[],clientes=[],servicos=[],servicosSelecionados=[],chipAberto=null,produtos=[];
 
 // Fallback: se Firebase nao configurado, usar localStorage
-function usandoFirebase(){return window.__fb && window.__fb.db;}
+function usandoFirebase(){return !window.__modoLocal && window.__fb && window.__fb.db;}
 
 async function fbSave(colecao, item){
   if(!usandoFirebase()){localStorage.setItem('am_'+colecao+'_'+item.id,JSON.stringify(item));return;}
@@ -1235,7 +1233,7 @@ function calcularDuracaoTotal(){
   if(!algumaTem) return servicosSelecionados.map(x => x.duracao).filter(d => d && d !== '—').join(' + ') || '—';
   const h = Math.floor(totalMin / 60);
   const m = totalMin % 60;
-  return (h > 0 ? h + 'h' : '') + (m > 0 ? (h > 0 ? '' : '') + m + 'min' : (h > 0 ? '' : '0min'));
+  return (h > 0 ? h + 'h' : '') + (m > 0 ? m + 'min' : (h > 0 ? '' : '0min'));
 }
 
 function parseDuracao(str){
@@ -1360,7 +1358,7 @@ function renderProdutos(){
 function atualizarTotalProdutos(){
   const totalEl = document.getElementById('produtos-total-display');
   const total = produtos.reduce((s,p) => s + (p.valor||0), 0);
-  if(produtos.length > 1 && total > 0){
+  if(produtos.length >= 1 && total > 0){
     totalEl.style.display = 'block';
     totalEl.textContent = 'Total produtos: ' + fmt(total);
   } else {
@@ -1858,6 +1856,5 @@ document.addEventListener('click',e=>{
     document.querySelectorAll('.autocomplete-list').forEach(el=>el.style.display='none');
 });
 </script>
-
 </body>
 </html>
