@@ -617,6 +617,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <button class="tab" onclick="showTab('clientes',this)">Clientes</button>
   <button class="tab" onclick="showTab('servicos',this)">Serviços</button>
   <button class="tab" onclick="showTab('agenda',this)">Agenda da Semana</button>
+  <button class="tab" onclick="showTab('aniversarios',this)">Aniversários</button>
 </nav>
 
 <main>
@@ -785,6 +786,25 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <tbody id="agenda-semana-body"></tbody>
     </table>
   </div>
+</section>
+
+<!-- ══ ANIVERSÁRIOS ══ -->
+<section id="sec-aniversarios" class="section">
+  <div class="sec-header">
+    <div class="sec-title">Aniversários <em>do Mês</em></div>
+    <div class="sec-sub" id="aniv-cal-label"></div>
+    <div class="ornament-row"><div class="ornament-line"></div><div class="ornament-star">✦</div><div class="ornament-diamond"></div><div class="ornament-star">✦</div><div class="ornament-line rev"></div></div>
+  </div>
+  <!-- Navegação do mês -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:32px;">
+    <button class="btn" onclick="anivMesOffset(-1)" style="padding:10px 20px;font-size:18px;">‹</button>
+    <div id="aniv-mes-titulo" style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--ink);min-width:220px;text-align:center;letter-spacing:0.06em;"></div>
+    <button class="btn" onclick="anivMesOffset(+1)" style="padding:10px 20px;font-size:18px;">›</button>
+  </div>
+  <!-- Grid do calendário -->
+  <div id="aniv-calendario" style="max-width:780px;margin:0 auto;"></div>
+  <!-- Lista de aniversariantes do mês -->
+  <div id="aniv-lista-mes" style="max-width:780px;margin:32px auto 0;"></div>
 </section>
 
 </main>
@@ -1041,6 +1061,7 @@ window.showTab=function(id,btn){
   if(id==='clientes')renderClientes();
   if(id==='servicos')renderServicos();
   if(id==='agenda')renderAgendaSemana();
+  if(id==='aniversarios')renderCalendarioAniversarios();
 };
 
 // ══════════════════════════════════════════════
@@ -1618,6 +1639,138 @@ function renderAgendaSemana(){
   document.getElementById('agenda-semana-body').innerHTML=horarios.map(hora=>`<tr><td class="hora-label">${hora}</td>${semana.map(d=>{const ds=d.toISOString().slice(0,10),isH=ds===todayStr;const ats=atendimentos.filter(a=>a.data===ds&&a.horario?.startsWith(hora));return`<td style="${isH?'background:rgba(201,168,76,0.04);':''}">${ats.map(a=>`<div class="agenda-item" style="background:${a.corServico||getCorServico(a.servico)};"><strong>${a.servico||'—'}</strong><span>${a.clienteNome||''}</span></div>`).join('')}</td>`;}).join('')}</tr>`).join('');
 }
 window.renderAgendaSemana=renderAgendaSemana;
+
+// ══════════════════════════════════════════════
+// CALENDÁRIO DE ANIVERSÁRIOS
+// ══════════════════════════════════════════════
+let anivBaseDate = new Date();
+
+window.anivMesOffset = function(delta){
+  anivBaseDate = new Date(anivBaseDate.getFullYear(), anivBaseDate.getMonth() + delta, 1);
+  renderCalendarioAniversarios();
+};
+
+window.renderCalendarioAniversarios = function(){
+  const ano = anivBaseDate.getFullYear();
+  const mes = anivBaseDate.getMonth(); // 0-based
+  const mesNum = mes + 1; // 1-based para comparar com aniv "YYYY-MM-DD"
+
+  // Título
+  document.getElementById('aniv-mes-titulo').textContent =
+    `${MESES_PT[mes].charAt(0).toUpperCase() + MESES_PT[mes].slice(1)} ${ano}`;
+  document.getElementById('aniv-cal-label').textContent =
+    'Aniversários cadastrados das suas clientes';
+
+  // Clientes com aniversário neste mês
+  const anivDoMes = clientes.filter(c => {
+    if(!c.aniv) return false;
+    const [,M] = c.aniv.split('-');
+    return parseInt(M) === mesNum;
+  }).map(c => {
+    const [,, D] = c.aniv.split('-');
+    return { ...c, dia: parseInt(D) };
+  });
+
+  // ── Calendário ──
+  const primeiroDia = new Date(ano, mes, 1).getDay(); // 0=Dom
+  const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+  const hoje = new Date();
+  const hojeStr = hoje.toISOString().slice(0,10);
+
+  const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+  let calHTML = `
+  <style>
+    .aniv-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+    .aniv-cal-header{text-align:center;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);padding:8px 4px;}
+    .aniv-cal-day{
+      min-height:72px;border:1px solid var(--pearl2);background:var(--white);
+      padding:6px 8px;position:relative;transition:background 0.15s;
+    }
+    .aniv-cal-day.outro-mes{background:var(--pearl);opacity:0.4;}
+    .aniv-cal-day.hoje-cal{border-color:var(--gold);background:var(--gold-bg);}
+    .aniv-cal-day-num{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--ink3);line-height:1;}
+    .aniv-cal-day.hoje-cal .aniv-cal-day-num{color:var(--gold-dim);font-weight:600;}
+    .aniv-cal-chip{
+      margin-top:4px;font-size:10px;background:var(--marrom-dark);color:var(--gold-light);
+      padding:2px 6px;border-radius:0;display:block;white-space:nowrap;overflow:hidden;
+      text-overflow:ellipsis;letter-spacing:0.03em;cursor:default;
+    }
+    .aniv-cal-chip:first-of-type{margin-top:6px;}
+    .aniv-lista-item{
+      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+      padding:16px 20px;border-bottom:1px solid var(--pearl2);
+    }
+    .aniv-lista-item:last-child{border-bottom:none;}
+    .aniv-lista-item:hover{background:var(--gold-bg);}
+    .aniv-lista-dia{
+      font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--gold-dim);
+      font-weight:300;line-height:1;min-width:48px;text-align:center;
+    }
+    .aniv-lista-info{flex:1;min-width:140px;}
+    .aniv-lista-nome{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+    .aniv-lista-sub{font-size:12px;color:var(--ink3);letter-spacing:0.05em;}
+  </style>
+  <div class="aniv-cal-grid">
+    ${DIAS_SEMANA.map(d=>`<div class="aniv-cal-header">${d}</div>`).join('')}`;
+
+  // Células vazias antes do dia 1
+  for(let i=0;i<primeiroDia;i++){
+    calHTML += `<div class="aniv-cal-day outro-mes"></div>`;
+  }
+
+  // Dias do mês
+  for(let d=1;d<=diasNoMes;d++){
+    const ds=`${ano}-${String(mesNum).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isHoje=(hoje.getDate()===d && hoje.getMonth()===mes && hoje.getFullYear()===ano);
+    const dAniv=anivDoMes.filter(c=>c.dia===d);
+    calHTML+=`<div class="aniv-cal-day${isHoje?' hoje-cal':''}">
+      <div class="aniv-cal-day-num">${d}</div>
+      ${dAniv.map(c=>`<span class="aniv-cal-chip" title="${c.nome}">🎂 ${c.nome.split(' ')[0]}</span>`).join('')}
+    </div>`;
+  }
+
+  // Células vazias após o último dia
+  const totalCelulas = primeiroDia + diasNoMes;
+  const resto = totalCelulas % 7;
+  if(resto !== 0){
+    for(let i=0;i<(7-resto);i++) calHTML+=`<div class="aniv-cal-day outro-mes"></div>`;
+  }
+
+  calHTML += `</div>`;
+  document.getElementById('aniv-calendario').innerHTML = calHTML;
+
+  // ── Lista abaixo do calendário ──
+  let listaHTML = '';
+  if(!anivDoMes.length){
+    listaHTML = `<div class="empty-state"><div class="empty-state-title">Nenhum aniversário este mês</div><div class="empty-state-sub">Cadastre a data de nascimento das clientes na aba Clientes</div></div>`;
+  } else {
+    const sorted = [...anivDoMes].sort((a,b)=>a.dia-b.dia);
+    listaHTML = `<div style="background:var(--white);border:1px solid var(--bege2);border-left:3px solid var(--gold);">
+      ${sorted.map(c=>{
+        const whatsNum=c.whats?c.whats.replace(/\D/g,''):'';
+        const msg=`Olá ${c.nome}! 🎂 Hoje é seu aniversário! Desejo a você um dia incrível e cheio de alegrias. Obrigada por ser nossa cliente especial! Com carinho, Angela Moraes Studio 💛`;
+        const btnWhats=c.whats?`<a href="https://wa.me/55${whatsNum}" target="_blank" class="btn btn-sm" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;border-color:#25D366;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.121 1.529 5.855L.057 23.882l6.198-1.448A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.793 9.793 0 01-5.034-1.389l-.361-.214-3.741.874.944-3.648-.235-.374A9.786 9.786 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
+          WhatsApp</a>`:
+          `<span style="font-size:11px;color:var(--ink3);">Sem WhatsApp</span>`;
+        const btnFeliz=c.whats?`<a href="https://wa.me/55${whatsNum}?text=${encodeURIComponent(msg)}" target="_blank" class="btn btn-sm" style="text-decoration:none;display:inline-flex;">🎂 Felicitações</a>`:'';
+        return`<div class="aniv-lista-item">
+          <div class="aniv-lista-dia">${String(c.dia).padStart(2,'0')}</div>
+          <div class="aniv-lista-info">
+            <div class="aniv-lista-nome">${c.nome}</div>
+            <div class="aniv-lista-sub">Dia ${c.dia} de ${MESES_PT[mes]}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            ${btnFeliz}
+            ${btnWhats}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+  document.getElementById('aniv-lista-mes').innerHTML = listaHTML;
+};
 
 // Fechar autocomplete ao clicar fora
 document.addEventListener('click',e=>{
