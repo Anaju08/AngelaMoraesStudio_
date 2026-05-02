@@ -39,6 +39,7 @@
 
   // Verificar autenticação ao carregar
   onAuthStateChanged(auth, (user) => {
+    document.getElementById('fb-loading').style.display='none';
     if (user) {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app-screen').style.display = 'block';
@@ -482,37 +483,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 }
 .spo-d{width:4px;height:4px;transform:rotate(45deg);}
 
-/* PRODUTOS MÚLTIPLOS */
-.produtos-lista{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
-.produto-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;background:var(--pearl);border:1px solid var(--bege2);padding:10px 12px;}
-.produto-row input{padding:9px 12px;font-size:14px;}
-.produto-row .rem-produto{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:18px;padding:0 6px;line-height:1;transition:color 0.15s;}
-.produto-row .rem-produto:hover{color:var(--danger);}
-.add-produto-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px dashed var(--gold);background:transparent;color:var(--gold-dim);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:all 0.18s;}
-.add-produto-btn:hover{background:var(--gold-bg);border-style:solid;}
-.produtos-total{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-dim);text-align:right;margin-top:6px;letter-spacing:0.05em;}
-
-/* MODAL DETALHE ATENDIMENTO */
-.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
-.det-item{background:var(--pearl);border:1px solid var(--bege2);padding:14px 16px;}
-.det-label{font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
-.det-val{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);font-weight:300;}
-.det-servicos-lista{margin:12px 0;}
-.det-servico-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--pearl2);font-size:14px;}
-.det-servico-item:last-child{border-bottom:none;}
-.det-produtos-lista{margin:10px 0;}
-.det-produto-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--pearl2);font-size:14px;}
-.det-produto-item:last-child{border-bottom:none;}
-
-/* BOTÃO WHATSAPP */
-.btn-whats{background:#25D366;color:#fff;border-color:#25D366;display:inline-flex;align-items:center;gap:8px;}
-.btn-whats:hover{background:#1ebe5d;border-color:#1ebe5d;color:#fff;}
-.btn-whats svg{width:16px;height:16px;fill:#fff;flex-shrink:0;}
-
-/* LINHA CLICÁVEL NO HISTÓRICO */
-.hist-row-click{cursor:pointer;transition:background 0.15s;}
-.hist-row-click:hover{background:var(--gold-bg) !important;}
-
 /* LOADING FIREBASE */
 #fb-loading{
   position:fixed;inset:0;background:var(--white);z-index:9999;
@@ -600,11 +570,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
       <button class="login-btn" onclick="fazerLogin()">Entrar</button>
       <div class="login-error" id="login-error"></div>
-      <div style="text-align:center;margin-top:20px;">
-        <button onclick="acessarSemLogin()" style="background:none;border:none;color:var(--ink3);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.15em;cursor:pointer;text-decoration:underline;text-underline-offset:3px;">
-          Entrar sem login (modo local)
-        </button>
-      </div>
     </div>
   </div>
 </div>
@@ -716,10 +681,11 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="form-group"><label>Duracao do Servico</label><input type="text" id="r-duracao" placeholder="—" readonly style="background:var(--pearl2);cursor:default;opacity:0.7;"></div>
     </div>
     <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
-    <div class="panel-title"><div class="panel-title-diamond"></div>Produtos Vendidos (opcional)</div>
-    <div class="produtos-lista" id="produtos-lista"></div>
-    <button class="add-produto-btn" onclick="adicionarProduto()">+ Adicionar Produto</button>
-    <div class="produtos-total" id="produtos-total-display" style="display:none;"></div>
+    <div class="panel-title"><div class="panel-title-diamond"></div>Item Vendido (opcional)</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Item Comprado</label><input type="text" id="r-item" placeholder="Ex: Shampoo, Mascara..."></div>
+      <div class="form-group"><label>Valor do Item (R$)</label><input type="number" id="r-item-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
+    </div>
     <div class="form-group" style="margin-bottom:26px;"><label>Observacoes</label><textarea id="r-obs" rows="2" placeholder="Anotacoes sobre o atendimento..."></textarea></div>
     <div class="resultado-box">
       <div class="rb-item"><div class="rb-label">Servico</div><div class="rb-val" id="rr-servico">—</div></div>
@@ -892,42 +858,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
-<!-- ══ MODAL DETALHE ATENDIMENTO ══ -->
-<div class="modal-bg" id="modal-det-at-bg">
-  <div class="modal" style="max-width:640px;">
-    <button class="modal-close" onclick="document.getElementById('modal-det-at-bg').classList.remove('open')">×</button>
-    <div class="modal-title"><div class="panel-title-diamond"></div><span id="modal-det-at-title">Detalhes do Atendimento</span></div>
-    <div id="modal-det-at-content"></div>
-  </div>
-</div>
-
-<!-- ══ MODAL WHATSAPP ══ -->
-<div class="modal-bg" id="modal-whats-bg">
-  <div class="modal" style="max-width:560px;">
-    <button class="modal-close" onclick="document.getElementById('modal-whats-bg').classList.remove('open')">×</button>
-    <div class="modal-title"><div class="panel-title-diamond"></div>Mensagem WhatsApp</div>
-    <div class="form-group" style="margin-bottom:16px;">
-      <label>Destinatário</label>
-      <input type="text" id="wh-dest" readonly style="background:var(--pearl2);">
-    </div>
-    <div class="form-group" style="margin-bottom:16px;">
-      <label>Número</label>
-      <input type="text" id="wh-num" placeholder="(11) 99999-9999">
-    </div>
-    <div class="form-group" style="margin-bottom:20px;">
-      <label>Mensagem</label>
-      <textarea id="wh-msg" rows="5"></textarea>
-    </div>
-    <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
-      <button class="btn" onclick="document.getElementById('modal-whats-bg').classList.remove('open')"><span>Cancelar</span></button>
-      <button class="btn btn-whats" onclick="enviarWhatsApp()">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        <span>Abrir no WhatsApp</span>
-      </button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -945,28 +875,15 @@ window.fazerLogin = async function(){
     await signInWithEmailAndPassword(auth,email,senha);
   }catch(e){
     const msgs={
-      'auth/user-not-found':'Usuário não encontrado. Crie o usuário no Firebase Console.',
+      'auth/user-not-found':'Usuario nao encontrado.',
       'auth/wrong-password':'Senha incorreta.',
-      'auth/invalid-email':'E-mail inválido.',
+      'auth/invalid-email':'E-mail invalido.',
       'auth/invalid-credential':'E-mail ou senha incorretos.',
-      'auth/too-many-requests':'Muitas tentativas. Aguarde alguns minutos.',
-      'auth/network-request-failed':'Sem conexão com internet.',
-      'auth/user-disabled':'Usuário desativado no Firebase.',
-      'auth/operation-not-allowed':'Login por e-mail desativado no Firebase Console.'
+      'auth/too-many-requests':'Muitas tentativas. Aguarde um momento.'
     };
-    const msg = msgs[e.code] || ('Erro: ' + (e.code||e.message||'desconhecido'));
-    errEl.innerHTML = msg + '<br><small style="opacity:0.7;font-size:11px;">código: ' + (e.code||'?') + '</small>';
+    errEl.textContent=msgs[e.code]||'Erro ao entrar. Verifique suas credenciais.';
     errEl.style.display='block';
-    console.error('Firebase login error:', e.code, e.message);
   }
-};
-
-window.acessarSemLogin = function(){
-  // Acesso local sem Firebase — dados ficam só no navegador
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  window.__modoLocal = true;
-  initApp();
 };
 
 window.fazerLogout = async function(){
@@ -975,24 +892,48 @@ window.fazerLogout = async function(){
   await signOut(auth);
 };
 
-// Esconder loading quando Firebase carregas
+// Esconder loading quando Firebase carrega
 document.addEventListener('DOMContentLoaded',()=>{
-  setTimeout(()=>{
+  // Fallback de segurança: se em 4 segundos o Firebase não responder, mostra login
+  const fallbackTimer = setTimeout(()=>{
     document.getElementById('fb-loading').style.display='none';
-    // Se Firebase nao configurado ainda, mostrar login mesmo assim
-    if(!window.__fb){
+    if(document.getElementById('login-screen').style.display==='none'||!document.getElementById('login-screen').style.display){
       document.getElementById('login-screen').style.display='flex';
     }
-  },1500);
+  },4000);
+
+  // Quando Firebase responder (sucesso ou falha), cancela o fallback
+  function firebaseReady(){
+    clearTimeout(fallbackTimer);
+    document.getElementById('fb-loading').style.display='none';
+  }
+
+  if(window.__fb){
+    firebaseReady();
+  } else {
+    // Aguarda o módulo Firebase inicializar
+    let checks=0;
+    const interval=setInterval(()=>{
+      checks++;
+      if(window.__fb){
+        clearInterval(interval);
+        firebaseReady();
+      } else if(checks>30){
+        clearInterval(interval);
+        firebaseReady();
+        document.getElementById('login-screen').style.display='flex';
+      }
+    },100);
+  }
 });
 
 // ══════════════════════════════════════════════
 // DADOS — Firebase Firestore
 // ══════════════════════════════════════════════
-let atendimentos=[],clientes=[],servicos=[],servicosSelecionados=[],chipAberto=null,produtos=[];
+let atendimentos=[],clientes=[],servicos=[];
 
 // Fallback: se Firebase nao configurado, usar localStorage
-function usandoFirebase(){return !window.__modoLocal && window.__fb && window.__fb.db;}
+function usandoFirebase(){return window.__fb && window.__fb.db;}
 
 async function fbSave(colecao, item){
   if(!usandoFirebase()){localStorage.setItem('am_'+colecao+'_'+item.id,JSON.stringify(item));return;}
@@ -1018,7 +959,7 @@ async function fbLoad(colecao){
 // ══════════════════════════════════════════════
 // INICIALIZAÇÃO
 // ══════════════════════════════════════════════
-const TAMANHOS=['Curto','Medio','Longo','Extra Longo'];
+const TAMANHOS=['Curto','Medio','Longo','Extra Longo','Promocional'];
 const CORES_DEFAULT=['#7b9e7b','#7a8bbf','#b08060','#8b7bb5','#b07898','#6a9aaa','#a09060','#bf7a7a'];
 const DIAS_PT=['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
 const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
@@ -1028,7 +969,7 @@ function fmt(v){return(v||0).toLocaleString('pt-BR',{style:'currency',currency:'
 function fmtDate(s){return s?new Date(s+'T12:00:00').toLocaleDateString('pt-BR'):'—';}
 function hoje(){return new Date().toISOString().slice(0,10);}
 function mesAtual(){return hoje().slice(0,7);}
-function inicioSemana(){const d=new Date(),dow=d.getDay(),diff=d.getDate()-dow+(dow===0?-6:1);return new Date(new Date().setDate(diff)).toISOString().slice(0,10);}
+function inicioSemana(){const d=new Date(),dow=d.getDay();const diff=d.getDate()-dow;return new Date(new Date().setDate(diff)).toISOString().slice(0,10);}
 function getCorServico(nome){const s=servicos.find(x=>x.nome?.toLowerCase()===nome?.toLowerCase());return s?.cor||'#9a8a7a';}
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3200);}
 function badgePagto(p){if(p==='Pix')return'badge-pix';if(p==='Dinheiro')return'badge-dinheiro';if(p==='Credito'||p==='Debito')return'badge-cartao';return'badge-outros';}
@@ -1049,8 +990,7 @@ window.initApp = async function(){
       {id:uid(),nome:'Iluminado',cor:'#7a8bbf',duracao:'3h30',tamanhos:{Curto:{valor:250},Medio:{valor:300},Longo:{valor:350},'Extra Longo':{valor:420}}},
       {id:uid(),nome:'Corte',cor:'#b08060',duracao:'1h',tamanhos:{Curto:{valor:60},Medio:{valor:70},Longo:{valor:80},'Extra Longo':{valor:90}}},
       {id:uid(),nome:'Tratamento',cor:'#8b7bb5',duracao:'1h30',tamanhos:{Curto:{valor:100},Medio:{valor:120},Longo:{valor:150},'Extra Longo':{valor:180}}},
-      {id:uid(),nome:'Tratamento 2',cor:'#b57b9e',duracao:'1h30',tamanhos:{Curto:{valor:110},Medio:{valor:130},Longo:{valor:160},'Extra Longo':{valor:200}}},
-      {id:uid(),nome:'Botox',cor:'#6a9aaa',duracao:'2h',tamanhos:{Curto:{valor:150},Medio:{valor:180},Longo:{valor:220},'Extra Longo':{valor:270}}}
+      {id:uid(),nome:'Cauterizacao',cor:'#c4956a',duracao:'1h',tamanhos:{Curto:{valor:120},Medio:{valor:150},Longo:{valor:180},'Extra Longo':{valor:220}}}
     ];
     for(const s of servicos) await fbSave('servicos',s);
   }
@@ -1085,7 +1025,7 @@ function verificarAniversarios(){
 
   banner.style.display='block';
   document.getElementById('aniv-lembrete-lista').innerHTML =
-    aniversariantes.map(c=>`<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">🌟 <strong>${c.nome}</strong>${c.whats?`<button class="btn btn-sm btn-whats" onclick="abrirModalWhats('${c.id}','aniversario')" style="padding:5px 12px;font-size:10px;"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#fff;display:inline-block;vertical-align:middle;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Felicitar no WhatsApp</button>`:'</div>'}</div>`).join('');
+    aniversariantes.map(c=>`<div>🌟 <strong>${c.nome}</strong>${c.whats?` — <a href="https://wa.me/55${c.whats.replace(/\D/g,'')}" target="_blank" style="color:var(--gold-dim);text-decoration:none;">Enviar mensagem no WhatsApp</a>`:''}</div>`).join('');
 }
 
 // ══════════════════════════════════════════════
@@ -1108,7 +1048,8 @@ window.showTab=function(id,btn){
 // ══════════════════════════════════════════════
 
 // servicosSelecionados: array de { servicoId, tamanho, valor, duracao, nome, cor }
-// servicosSelecionados e chipAberto declarados globalmente acima
+let servicosSelecionados = [];
+let chipAberto = null; // id do chip com tamanhos abertos
 
 function renderChipsServico(){
   const el=document.getElementById('servicos-chips-atend');
@@ -1233,7 +1174,7 @@ function calcularDuracaoTotal(){
   if(!algumaTem) return servicosSelecionados.map(x => x.duracao).filter(d => d && d !== '—').join(' + ') || '—';
   const h = Math.floor(totalMin / 60);
   const m = totalMin % 60;
-  return (h > 0 ? h + 'h' : '') + (m > 0 ? m + 'min' : (h > 0 ? '' : '0min'));
+  return (h > 0 ? h + 'h' : '') + (m > 0 ? (h > 0 ? '' : '') + m + 'min' : (h > 0 ? '' : '0min'));
 }
 
 function parseDuracao(str){
@@ -1315,64 +1256,9 @@ window.selecionarCliente=function(id,nome){
   document.getElementById('ac-cliente').style.display='none';
 };
 
-// ══════════════════════════════════════════════
-// PRODUTOS MÚLTIPLOS
-// ══════════════════════════════════════════════
-// produtos declarado globalmente acima
-
-window.adicionarProduto = function(){
-  produtos.push({nome:'', valor:0});
-  renderProdutos();
-};
-
-window.atualizarProduto = function(idx, campo, val){
-  if(!produtos[idx]) return;
-  produtos[idx][campo] = campo === 'valor' ? (parseFloat(val)||0) : val;
-  atualizarTotalProdutos();
-  calcAtendimento();
-};
-
-window.removerProduto = function(idx){
-  produtos.splice(idx,1);
-  renderProdutos();
-};
-
-function renderProdutos(){
-  const el = document.getElementById('produtos-lista');
-  if(!el) return;
-  el.innerHTML = produtos.map((p,i) => `
-    <div class="produto-row">
-      <input type="text" placeholder="Nome do produto (ex: Shampoo...)"
-        value="${p.nome.replace(/"/g,'&quot;')}"
-        oninput="atualizarProduto(${i},'nome',this.value)">
-      <input type="number" placeholder="R$ 0,00" step="0.01" min="0"
-        value="${p.valor||''}"
-        oninput="atualizarProduto(${i},'valor',this.value)"
-        style="width:110px;">
-      <button class="rem-produto" onclick="removerProduto(${i})" title="Remover">×</button>
-    </div>`).join('');
-  atualizarTotalProdutos();
-  calcAtendimento();
-}
-
-function atualizarTotalProdutos(){
-  const totalEl = document.getElementById('produtos-total-display');
-  const total = produtos.reduce((s,p) => s + (p.valor||0), 0);
-  if(produtos.length >= 1 && total > 0){
-    totalEl.style.display = 'block';
-    totalEl.textContent = 'Total produtos: ' + fmt(total);
-  } else {
-    totalEl.style.display = 'none';
-  }
-}
-
-function totalProdutos(){
-  return produtos.reduce((s,p) => s + (p.valor||0), 0);
-}
-
 function calcAtendimento(){
   const v=parseFloat(document.getElementById('r-valor').value)||0;
-  const iv=totalProdutos();
+  const iv=parseFloat(document.getElementById('r-item-valor').value)||0;
   const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
   const descValor=parseFloat(((v*pct)/100).toFixed(2));
   const total=(v-descValor)+iv;
@@ -1391,6 +1277,7 @@ window.registrarAtendimento=async function(){
   const clienteNome=document.getElementById('r-cliente').value.trim();
   const clienteId=document.getElementById('r-cliente-id').value;
 
+  // Nomes e cores dos serviços selecionados
   const servico = servicosSelecionados.length
     ? servicosSelecionados.map(x => x.nome + (x.tamanho && x.tamanho!=='Único'?' ('+x.tamanho+')':'')).join(' + ')
     : '';
@@ -1400,12 +1287,8 @@ window.registrarAtendimento=async function(){
   const duracao=document.getElementById('r-duracao').value;
   const valor=parseFloat(document.getElementById('r-valor').value)||0;
   const pagto=document.getElementById('r-pagto').value;
-
-  // Produtos
-  const produtosReg = produtos.filter(p => p.nome || p.valor > 0);
-  const itemValor = totalProdutos();
-  const item = produtosReg.map(p=>p.nome).filter(Boolean).join(', ');
-
+  const item=document.getElementById('r-item').value.trim();
+  const itemValor=parseFloat(document.getElementById('r-item-valor').value)||0;
   const descPct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
   const descValor=parseFloat(((valor*descPct)/100).toFixed(2));
   const obs=document.getElementById('r-obs').value;
@@ -1414,17 +1297,13 @@ window.registrarAtendimento=async function(){
   if(!valor){toast('Informe o valor.');return;}
   const total=(valor-descValor)+itemValor;
   const id=uid();
-  const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,descPct,descValor,pagto,
-    item,itemValor,
-    produtos: JSON.parse(JSON.stringify(produtosReg)),
-    total,obs,
+  const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,descPct,descValor,pagto,item,itemValor,total,obs,
     servicosSelecionados: JSON.parse(JSON.stringify(servicosSelecionados)),
     ts:Date.now()};
   atendimentos.push(registro);
   await fbSave('atendimentos',registro);
-  ['r-cliente','r-cliente-id','r-valor','r-desconto','r-duracao','r-obs'].forEach(x=>document.getElementById(x).value='');
-  produtos = [];
-  renderProdutos();
+  ['r-cliente','r-cliente-id','r-valor','r-desconto','r-duracao','r-item','r-item-valor','r-obs'].forEach(x=>document.getElementById(x).value='');
+  // Resetar seleção múltipla
   servicosSelecionados = [];
   chipAberto = null;
   renderChipsServico();
@@ -1477,110 +1356,6 @@ function renderAgendaHoje(){
 }
 
 // ══════════════════════════════════════════════
-// MODAL DETALHE ATENDIMENTO
-// ══════════════════════════════════════════════
-window.verDetalheAtendimento = function(id){
-  const a = atendimentos.find(x=>x.id===id); if(!a) return;
-  const c = clientes.find(x=>x.id===a.clienteId);
-  document.getElementById('modal-det-at-title').textContent =
-    (a.clienteNome||'Atendimento') + ' · ' + fmtDate(a.data);
-
-  const produtosHTML = (a.produtos && a.produtos.length)
-    ? `<div class="det-produtos-lista">${a.produtos.map(p=>`
-        <div class="det-produto-item">
-          <span>${p.nome||'—'}</span>
-          <strong style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-dim)">${fmt(p.valor)}</strong>
-        </div>`).join('')}
-      </div>`
-    : (a.item ? `<div style="font-size:14px;color:var(--ink2);">${a.item} · <strong>${fmt(a.itemValor)}</strong></div>` : '<div style="color:var(--ink3);font-size:13px;">Nenhum produto</div>');
-
-  const servicosHTML = (a.servicosSelecionados && a.servicosSelecionados.length)
-    ? a.servicosSelecionados.map(s=>`
-        <div class="det-servico-item">
-          <span style="width:10px;height:10px;border-radius:50%;background:${s.cor};flex-shrink:0;display:inline-block;"></span>
-          <span style="flex:1;">${s.nome}</span>
-          ${s.tamanho?`<span style="font-size:11px;background:var(--pearl2);padding:2px 8px;color:var(--ink3);">${s.tamanho}</span>`:''}
-          <strong style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-dim)">${fmt(s.valor)}</strong>
-        </div>`).join('')
-    : `<div class="det-servico-item"><span>${a.servico||'—'}</span></div>`;
-
-  const whatsBtn = c?.whats
-    ? `<button class="btn btn-whats" onclick="abrirModalWhats('${c.id}','aniversario')">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Enviar mensagem
-      </button>`
-    : '';
-
-  document.getElementById('modal-det-at-content').innerHTML = `
-    <div class="det-grid">
-      <div class="det-item"><div class="det-label">Data</div><div class="det-val">${fmtDate(a.data)}</div></div>
-      <div class="det-item"><div class="det-label">Horário</div><div class="det-val">${a.horario||'—'}</div></div>
-      <div class="det-item"><div class="det-label">Cliente</div><div class="det-val" style="font-size:16px;">${a.clienteNome||'—'}</div></div>
-      <div class="det-item"><div class="det-label">Pagamento</div><div class="det-val"><span class="badge ${badgePagto(a.pagto)}" style="font-size:13px;">${a.pagto||'—'}</span></div></div>
-      <div class="det-item"><div class="det-label">Duração</div><div class="det-val" style="font-size:16px;">⏱ ${a.duracao||'—'}</div></div>
-      <div class="det-item"><div class="det-label">Total</div><div class="det-val" style="color:var(--success);font-size:28px;">${fmt(a.total)}</div></div>
-    </div>
-    <div style="margin-bottom:16px;">
-      <div style="font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;">Serviços</div>
-      <div class="det-servicos-lista">${servicosHTML}</div>
-    </div>
-    ${a.descValor>0?`<div style="margin-bottom:16px;font-size:13px;color:var(--danger);">Desconto aplicado: - ${fmt(a.descValor)} (${a.descPct}%)</div>`:''}
-    <div style="margin-bottom:20px;">
-      <div style="font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;">Produtos vendidos</div>
-      ${produtosHTML}
-    </div>
-    ${a.obs?`<div style="margin-bottom:20px;background:var(--pearl2);padding:12px 16px;font-size:14px;color:var(--ink2);border-left:3px solid var(--gold-pale);"><div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Obs</div>${a.obs}</div>`:''}
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      ${whatsBtn}
-      ${c?.whats?`<button class="btn btn-whats" onclick="abrirModalWhats('${c.id}','retorno')">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Mensagem de retorno
-      </button>`:''}
-      <button class="btn btn-sm btn-danger" onclick="removerAtendimentoDeModal('${a.id}')"><span>Remover atendimento</span></button>
-    </div>`;
-  document.getElementById('modal-det-at-bg').classList.add('open');
-};
-
-window.removerAtendimentoDeModal = async function(id){
-  if(!confirm('Remover este atendimento?'))return;
-  document.getElementById('modal-det-at-bg').classList.remove('open');
-  await removerAtendimento(id);
-};
-
-// ══════════════════════════════════════════════
-// WHATSAPP
-// ══════════════════════════════════════════════
-window.abrirModalWhats = function(clienteId, tipo){
-  const c = clientes.find(x=>x.id===clienteId); if(!c) return;
-  document.getElementById('wh-dest').value = c.nome;
-  document.getElementById('wh-num').value = c.whats||'';
-
-  let msg = '';
-  if(tipo==='aniversario'){
-    msg = `Olá ${c.nome}! 🎂✨\nFeliz aniversário! Que seu dia seja lindo e especial.\nConto com você aqui no estúdio em breve. Um beijo! 💛\n— Angela Moraes Studio`;
-  } else if(tipo==='retorno'){
-    msg = `Olá ${c.nome}! 🌟\nFoi um prazer ter você aqui no estúdio. Quando for a hora do seu retorno, pode me chamar aqui que agendamos. Beijo! 💛\n— Angela Moraes Studio`;
-  } else {
-    msg = `Olá ${c.nome}! 😊\n`;
-  }
-  document.getElementById('wh-msg').value = msg;
-  document.getElementById('modal-whats-bg').classList.add('open');
-};
-
-window.abrirWhatsCustom = function(clienteId){
-  abrirModalWhats(clienteId, 'custom');
-};
-
-window.enviarWhatsApp = function(){
-  const num = document.getElementById('wh-num').value.replace(/\D/g,'');
-  const msg = document.getElementById('wh-msg').value;
-  if(!num){ toast('Informe o número.'); return; }
-  const url = `https://wa.me/55${num}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-  document.getElementById('modal-whats-bg').classList.remove('open');
-};
-
-// ══════════════════════════════════════════════
 // HISTÓRICO
 // ══════════════════════════════════════════════
 function renderHistorico(){
@@ -1603,21 +1378,11 @@ function renderHistorico(){
   document.getElementById('hist-total').textContent=fmt(arr.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('hist-qtd').textContent=arr.length;
   document.getElementById('hist-ticket').textContent=arr.length?fmt(arr.reduce((s,a)=>s+(a.total||0),0)/arr.length):fmt(0);
-  document.getElementById('hist-itens').textContent=arr.filter(a=>a.item||a.produtos?.length).length;
+  document.getElementById('hist-itens').textContent=arr.filter(a=>a.item).length;
   const el=document.getElementById('hist-lista'),empty=document.getElementById('hist-empty');
   if(!arr.length){empty.style.display='block';el.innerHTML='';return;}
   empty.style.display='none';
-  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horario</th><th>Cliente</th><th>Serviço</th><th>Pagamento</th><th>Produtos</th><th>Total</th></tr></thead><tbody>${
-    arr.map(a=>`<tr class="hist-row-click" onclick="verDetalheAtendimento('${a.id}')" title="Clique para ver detalhes">
-      <td>${fmtDate(a.data)}</td>
-      <td>${a.horario||'—'}</td>
-      <td><strong>${a.clienteNome||'—'}</strong></td>
-      <td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td>
-      <td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td>
-      <td>${(a.produtos?.length)?`<span class="badge badge-item">${a.produtos.length} item${a.produtos.length!==1?'s':''}</span>`:a.item?`<span class="badge badge-item">${a.item}</span>`:'—'}</td>
-      <td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td>
-    </tr>`).join('')
-  }</tbody></table></div><p style="font-size:11px;color:var(--ink3);text-align:center;margin-top:12px;letter-spacing:0.15em;">Clique em qualquer linha para ver os detalhes completos</p>`;
+  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horario</th><th>Cliente</th><th>Servico</th><th>Tamanho</th><th>Duracao</th><th>Pagamento</th><th>Item</th><th>Total</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td></tr>`).join('')}</tbody></table></div>`;
 }
 window.renderHistorico=renderHistorico;
 
@@ -1641,7 +1406,7 @@ function renderClientes(){
       if(diff>=0&&diff<=30)anivBadge=`<span class="aniv-badge">Em ${diff} dias</span>`;
       else if(diff<0){const prox=new Date(ag.getFullYear()+1,parseInt(M)-1,parseInt(D));const d2=Math.round((prox-ag)/(1000*60*60*24));if(d2<=30)anivBadge=`<span class="aniv-badge">Em ${d2} dias</span>`;}
     }
-    return`<tr><td><strong>${c.nome}</strong></td><td>${c.whats?`<div style="display:flex;align-items:center;gap:8px;"><a href="https://wa.me/55${c.whats.replace(/\D/g,'')}" target="_blank" style="color:var(--success);text-decoration:none;">${c.whats}</a><button class="btn btn-sm btn-whats" onclick="abrirWhatsCustom('${c.id}')" title="Enviar mensagem" style="padding:4px 10px;font-size:11px;"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button></div>`:'—'}</td><td>${anivStr}${anivBadge}${c.aniv&&c.whats?` <button class="btn btn-sm btn-whats" onclick="abrirModalWhats('${c.id}','aniversario')" style="padding:4px 10px;font-size:10px;">🎂 Felicitar</button>`:''}</td><td>${c.ig||'—'}</td><td>${c.como||'—'}</td><td style="text-align:center"><span class="badge badge-pix">${qtd} visita${qtd!==1?'s':''}</span></td><td>${ultima?fmtDate(ultima):'—'}</td><td><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn btn-sm" onclick="verHistoricoCliente('${c.id}')"><span>Historico</span></button><button class="btn btn-sm" onclick="editarCliente('${c.id}')"><span>Editar</span></button><button class="btn btn-sm btn-danger" onclick="removerCliente('${c.id}')"><span>Remover</span></button></div></td></tr>`;
+    return`<tr><td><strong>${c.nome}</strong></td><td>${c.whats?`<a href="https://wa.me/55${c.whats.replace(/\D/g,'')}" target="_blank" style="color:var(--success);text-decoration:none;">${c.whats}</a>`:'—'}</td><td>${anivStr}${anivBadge}</td><td>${c.ig||'—'}</td><td>${c.como||'—'}</td><td style="text-align:center"><span class="badge badge-pix">${qtd} visita${qtd!==1?'s':''}</span></td><td>${ultima?fmtDate(ultima):'—'}</td><td><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn btn-sm" onclick="verHistoricoCliente('${c.id}')"><span>Historico</span></button><button class="btn btn-sm" onclick="editarCliente('${c.id}')"><span>Editar</span></button><button class="btn btn-sm btn-danger" onclick="removerCliente('${c.id}')"><span>Remover</span></button></div></td></tr>`;
   }).join('');
 }
 
@@ -1734,7 +1499,7 @@ function renderServicos(){
 
 function buildTamanhosGrid(servico){
   document.getElementById('ms-tamanhos-grid').innerHTML=TAMANHOS.map(t=>{
-    const key=t.replace(' ','_');
+    const key=t.replace(/\s/g,'_');
     const info=servico?.tamanhos?.[t]||{};
     return`<div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:end;border-bottom:1px solid var(--pearl2);padding-bottom:14px;">
       <div class="form-group"><label>${t} — Valor (R$)</label><input type="number" id="ms-val-${key}" placeholder="0,00" step="0.01" value="${info.valor||''}"></div>
@@ -1780,7 +1545,7 @@ window.salvarServico=async function(){
   const foto=document.getElementById('ms-foto-data').value||'';
   const tamanhos={};
   TAMANHOS.forEach(t=>{
-    const key=t.replace(' ','_');
+    const key=t.replace(/\s/g,'_');
     tamanhos[t]={
       valor:parseFloat(document.getElementById('ms-val-'+key).value)||0,
       duracao:document.getElementById('ms-dur-'+key).value.trim()||''
