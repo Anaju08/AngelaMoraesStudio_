@@ -616,7 +616,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <button class="tab" onclick="showTab('historico',this)">Historico</button>
   <button class="tab" onclick="showTab('clientes',this)">Clientes</button>
   <button class="tab" onclick="showTab('servicos',this)">Serviços</button>
-  <button class="tab" onclick="showTab('agenda',this)">Agenda da Semana</button>
   <button class="tab" onclick="showTab('aniversarios',this)">Aniversários</button>
 </nav>
 
@@ -682,11 +681,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="form-group"><label>Duracao do Servico</label><input type="text" id="r-duracao" placeholder="—" readonly style="background:var(--pearl2);cursor:default;opacity:0.7;"></div>
     </div>
     <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
-    <div class="panel-title"><div class="panel-title-diamond"></div>Item Vendido (opcional)</div>
-    <div class="form-grid">
-      <div class="form-group"><label>Item Comprado</label><input type="text" id="r-item" placeholder="Ex: Shampoo, Mascara..."></div>
-      <div class="form-group"><label>Valor do Item (R$)</label><input type="number" id="r-item-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
-    </div>
+    <div class="panel-title"><div class="panel-title-diamond"></div>Itens Vendidos (opcional)</div>
+    <div id="itens-lista"></div>
+    <button class="btn btn-sm" onclick="adicionarItem()" style="margin-bottom:18px;"><span>+ Adicionar Item</span></button>
     <div class="form-group" style="margin-bottom:26px;"><label>Observacoes</label><textarea id="r-obs" rows="2" placeholder="Anotacoes sobre o atendimento..."></textarea></div>
     <div class="resultado-box">
       <div class="rb-item"><div class="rb-label">Servico</div><div class="rb-val" id="rr-servico">—</div></div>
@@ -729,6 +726,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="form-grid">
       <div class="form-group"><label>De</label><input type="date" id="f-de" oninput="renderHistorico()"></div>
       <div class="form-group"><label>Ate</label><input type="date" id="f-ate" oninput="renderHistorico()"></div>
+      <div class="form-group"><label>Cliente</label><input type="text" id="f-cliente" placeholder="Pesquisar por cliente..." oninput="renderHistorico()"></div>
       <div class="form-group"><label>Servico</label><input type="text" id="f-servico" placeholder="Filtrar por serviço..." oninput="renderHistorico()"></div>
     </div>
     <div style="display:flex;gap:20px;align-items:center;padding:18px 0 0;border-top:1px solid var(--pearl2);flex-wrap:wrap;">
@@ -1277,9 +1275,45 @@ window.selecionarCliente=function(id,nome){
   document.getElementById('ac-cliente').style.display='none';
 };
 
+// ── Itens vendidos (múltiplos) ──
+let itensVendidos = []; // [{id, nome, valor}]
+
+window.adicionarItem = function(){
+  const id = uid();
+  itensVendidos.push({id, nome:'', valor:0});
+  renderItens();
+};
+
+window.removerItem = function(id){
+  itensVendidos = itensVendidos.filter(i=>i.id!==id);
+  renderItens();
+  calcAtendimento();
+};
+
+function renderItens(){
+  const lista = document.getElementById('itens-lista');
+  if(!itensVendidos.length){lista.innerHTML='';return;}
+  lista.innerHTML = itensVendidos.map(it=>`
+    <div class="form-grid" style="align-items:flex-end;margin-bottom:10px;">
+      <div class="form-group" style="margin-bottom:0;">
+        <label>Item</label>
+        <input type="text" placeholder="Ex: Shampoo, Máscara..." value="${it.nome}"
+          oninput="itensVendidos.find(x=>x.id==='${it.id}').nome=this.value">
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label>Valor (R$)</label>
+        <input type="number" placeholder="0,00" step="0.01" value="${it.valor||''}"
+          oninput="itensVendidos.find(x=>x.id==='${it.id}').valor=parseFloat(this.value)||0;calcAtendimento()">
+      </div>
+      <div style="padding-bottom:2px;">
+        <button class="btn btn-sm btn-danger" onclick="removerItem('${it.id}')"><span>✕</span></button>
+      </div>
+    </div>`).join('');
+}
+
 function calcAtendimento(){
   const v=parseFloat(document.getElementById('r-valor').value)||0;
-  const iv=parseFloat(document.getElementById('r-item-valor').value)||0;
+  const iv=itensVendidos.reduce((s,i)=>s+(i.valor||0),0);
   const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
   const descValor=parseFloat(((v*pct)/100).toFixed(2));
   const total=(v-descValor)+iv;
@@ -1308,8 +1342,8 @@ window.registrarAtendimento=async function(){
   const duracao=document.getElementById('r-duracao').value;
   const valor=parseFloat(document.getElementById('r-valor').value)||0;
   const pagto=document.getElementById('r-pagto').value;
-  const item=document.getElementById('r-item').value.trim();
-  const itemValor=parseFloat(document.getElementById('r-item-valor').value)||0;
+  const item=itensVendidos.map(i=>i.nome).filter(Boolean).join(', ');
+  const itemValor=itensVendidos.reduce((s,i)=>s+(i.valor||0),0);
   const descPct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
   const descValor=parseFloat(((valor*descPct)/100).toFixed(2));
   const obs=document.getElementById('r-obs').value;
@@ -1323,7 +1357,9 @@ window.registrarAtendimento=async function(){
     ts:Date.now()};
   atendimentos.push(registro);
   await fbSave('atendimentos',registro);
-  ['r-cliente','r-cliente-id','r-valor','r-desconto','r-duracao','r-item','r-item-valor','r-obs'].forEach(x=>document.getElementById(x).value='');
+  ['r-cliente','r-cliente-id','r-valor','r-desconto','r-duracao','r-obs'].forEach(x=>document.getElementById(x).value='');
+  itensVendidos=[];
+  renderItens();
   // Resetar seleção múltipla
   servicosSelecionados = [];
   chipAberto = null;
@@ -1390,11 +1426,12 @@ function renderHistorico(){
   document.getElementById('hsum-semana-qtd').textContent=atS.length+' atendimento'+(atS.length!==1?'s':'');
   document.getElementById('hsum-mes').textContent=fmt(atM.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('hsum-mes-qtd').textContent=atM.length+' atendimento'+(atM.length!==1?'s':'');
-  const de=document.getElementById('f-de').value,ate=document.getElementById('f-ate').value,fs=document.getElementById('f-servico').value.toLowerCase();
+  const de=document.getElementById('f-de').value,ate=document.getElementById('f-ate').value,fs=document.getElementById('f-servico').value.toLowerCase(),fc=document.getElementById('f-cliente').value.toLowerCase();
   let arr=[...atendimentos];
   if(de)arr=arr.filter(a=>a.data>=de);
   if(ate)arr=arr.filter(a=>a.data<=ate);
   if(fs)arr=arr.filter(a=>a.servico?.toLowerCase().includes(fs));
+  if(fc)arr=arr.filter(a=>a.clienteNome?.toLowerCase().includes(fc));
   arr.sort((a,b)=>((b.data||'')+(b.horario||'')).localeCompare((a.data||'')+(a.horario||'')));
   document.getElementById('hist-total').textContent=fmt(arr.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('hist-qtd').textContent=arr.length;
