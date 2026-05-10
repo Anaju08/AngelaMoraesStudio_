@@ -518,6 +518,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <table class="tbl">
         <thead>
           <tr>
+            <th style="width:40px;text-align:center;">#</th>
             <th>Nome</th>
             <th>WhatsApp</th>
             <th>Aniversário</th>
@@ -1024,7 +1025,7 @@ function renderClientes(){
   if(!clientes.length){empty.style.display='block';tbl.style.display='none';return;}
   empty.style.display='none';tbl.style.display='block';
 
-  tbody.innerHTML=[...clientes].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR')).map(c=>{
+  tbody.innerHTML=[...clientes].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR')).map((c,idx)=>{
     const ats=atendimentos.filter(a=>a.clienteId===c.id).sort((a,b)=>b.data?.localeCompare(a.data||'')||0);
     const qtd=ats.length,ultima=ats[0]?.data;
     let anivStr='—',anivBadge='';
@@ -1050,6 +1051,7 @@ function renderClientes(){
     const locCell=locPill(c.bairro,c.cidade);
 
     return`<tr class="tbl-row-clicavel" onclick="editarCliente('${c.id}')" title="Clique para editar">
+      <td style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--ink3);font-weight:300;">${idx+1}</td>
       <td><strong>${c.nome}</strong></td>
       <td>${whatsCell}</td>
       <td>${anivCell}</td>
