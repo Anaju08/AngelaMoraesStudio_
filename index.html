@@ -636,6 +636,51 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
+<!-- ══ MODAL EDITAR ATENDIMENTO ══ -->
+<div class="modal-bg" id="modal-edit-atend-bg">
+  <div class="modal" style="max-width:660px;">
+    <button class="modal-close" onclick="fecharModalEditAtend()">×</button>
+    <div class="modal-title"><div class="panel-title-diamond"></div><span>Editar Atendimento</span></div>
+    <input type="hidden" id="ea-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Data *</label><input type="date" id="ea-data"></div>
+      <div class="form-group"><label>Horário</label><input type="time" id="ea-horario"></div>
+      <div class="form-group"><label>Cliente</label><input type="text" id="ea-cliente"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Serviço</label><input type="text" id="ea-servico" placeholder="Ex: Progressiva (Longo)"></div>
+      <div class="form-group"><label>Tamanho</label><input type="text" id="ea-tamanho" placeholder="Ex: Longo"></div>
+      <div class="form-group"><label>Duração</label><input type="text" id="ea-duracao" placeholder="Ex: 2h30"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Valor do Serviço (R$)</label><input type="number" id="ea-valor" step="0.01" placeholder="0,00" oninput="calcEditAtend()"></div>
+      <div class="form-group"><label>Desconto (%)</label><input type="number" id="ea-desconto" step="0.01" placeholder="0" oninput="calcEditAtend()"></div>
+      <div class="form-group"><label>Pagamento</label>
+        <select id="ea-pagto">
+          <option value="Pix">Pix</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Credito">Crédito</option>
+          <option value="Debito">Débito</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Item Vendido</label><input type="text" id="ea-item" placeholder="Ex: Shampoo..."></div>
+      <div class="form-group"><label>Valor do Item (R$)</label><input type="number" id="ea-itemvalor" step="0.01" placeholder="0,00" oninput="calcEditAtend()"></div>
+    </div>
+    <div class="form-group" style="margin-bottom:20px;"><label>Observações</label><textarea id="ea-obs" rows="2"></textarea></div>
+    <div style="background:var(--gold-bg);border:1px solid var(--gold-pale);border-left:3px solid var(--gold);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div style="font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);">Total Calculado</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold-dim);font-weight:300;" id="ea-total-preview">R$ 0,00</div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <button class="btn" onclick="fecharModalEditAtend()"><span>Cancelar</span></button>
+      <button class="btn btn-dark" onclick="salvarEditAtend()"><span>Salvar Alterações</span></button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1012,9 +1057,77 @@ function renderHistorico(){
   const el=document.getElementById('hist-lista'),empty=document.getElementById('hist-empty');
   if(!arr.length){empty.style.display='block';el.innerHTML='';return;}
   empty.style.display='none';
-  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Item</th><th>Total</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td></tr>`).join('')}</tbody></table></div>`;
+  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Item</th><th>Total</th><th>Ações</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td><td><button class="btn btn-sm" onclick="abrirModalEditAtend('${a.id}')"><span>Editar</span></button></td></tr>`).join('')}</tbody></table></div>`;
 }
 window.renderHistorico=renderHistorico;
+
+// ══════════════════════════════════════════════
+// EDITAR ATENDIMENTO
+// ══════════════════════════════════════════════
+window.abrirModalEditAtend=function(id){
+  const a=atendimentos.find(x=>x.id===id);if(!a)return;
+  document.getElementById('ea-id').value=a.id;
+  document.getElementById('ea-data').value=a.data||'';
+  document.getElementById('ea-horario').value=a.horario||'';
+  document.getElementById('ea-cliente').value=a.clienteNome||'';
+  document.getElementById('ea-servico').value=a.servico||'';
+  document.getElementById('ea-tamanho').value=a.tamanho||'';
+  document.getElementById('ea-duracao').value=a.duracao||'';
+  document.getElementById('ea-valor').value=a.valor||'';
+  document.getElementById('ea-desconto').value=a.descPct||'';
+  document.getElementById('ea-pagto').value=a.pagto||'Pix';
+  document.getElementById('ea-item').value=a.item||'';
+  document.getElementById('ea-itemvalor').value=a.itemValor||'';
+  document.getElementById('ea-obs').value=a.obs||'';
+  calcEditAtend();
+  document.getElementById('modal-edit-atend-bg').classList.add('open');
+};
+
+window.fecharModalEditAtend=function(){
+  document.getElementById('modal-edit-atend-bg').classList.remove('open');
+};
+
+window.calcEditAtend=function(){
+  const v=parseFloat(document.getElementById('ea-valor').value)||0;
+  const iv=parseFloat(document.getElementById('ea-itemvalor').value)||0;
+  const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('ea-desconto').value)||0));
+  const descValor=parseFloat(((v*pct)/100).toFixed(2));
+  const total=(v-descValor)+iv;
+  document.getElementById('ea-total-preview').textContent=fmt(total);
+};
+
+window.salvarEditAtend=async function(){
+  const id=document.getElementById('ea-id').value;
+  const data=document.getElementById('ea-data').value;
+  if(!data){toast('Informe a data.');return;}
+  const idx=atendimentos.findIndex(a=>a.id===id);if(idx<0)return;
+  const a=atendimentos[idx];
+  const valor=parseFloat(document.getElementById('ea-valor').value)||0;
+  const iv=parseFloat(document.getElementById('ea-itemvalor').value)||0;
+  const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('ea-desconto').value)||0));
+  const descValor=parseFloat(((valor*pct)/100).toFixed(2));
+  const total=(valor-descValor)+iv;
+  const atualizado={
+    ...a,
+    data,
+    horario:document.getElementById('ea-horario').value,
+    clienteNome:document.getElementById('ea-cliente').value.trim(),
+    servico:document.getElementById('ea-servico').value.trim(),
+    tamanho:document.getElementById('ea-tamanho').value.trim(),
+    duracao:document.getElementById('ea-duracao').value.trim(),
+    valor,descPct:pct,descValor,
+    pagto:document.getElementById('ea-pagto').value,
+    item:document.getElementById('ea-item').value.trim(),
+    itemValor:iv,
+    obs:document.getElementById('ea-obs').value.trim(),
+    total
+  };
+  atendimentos[idx]=atualizado;
+  await fbSave('atendimentos',atualizado);
+  fecharModalEditAtend();
+  renderHistorico();updateHeader();renderAgendaHoje();
+  toast('Atendimento atualizado!');
+};
 
 // ══════════════════════════════════════════════
 // CLIENTES — com Bairro/Cidade e linhas clicáveis
