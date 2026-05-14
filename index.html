@@ -463,8 +463,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
   <div class="cards-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
     <div class="card"><div class="card-label">Hoje</div><div class="card-value rose" id="card-hoje-qtd">0</div></div>
-    <div class="card"><div class="card-label">Serviços Hoje</div><div class="card-value gold" id="card-hoje-total">R$ 0</div><div style="font-size:12px;color:var(--rose);margin-top:6px;" id="card-hoje-itens" style="display:none;"></div></div>
-    <div class="card"><div class="card-label">Serviços Semana</div><div class="card-value gold" id="card-semana-total">R$ 0</div><div style="font-size:12px;color:var(--rose);margin-top:6px;" id="card-semana-itens"></div></div>
+    <div class="card"><div class="card-label">Faturamento Hoje</div><div class="card-value gold" id="card-hoje-total">R$ 0</div></div>
+    <div class="card"><div class="card-label">Semana</div><div class="card-value gold" id="card-semana-total">R$ 0</div></div>
     <div class="card"><div class="card-label">Clientes</div><div class="card-value" id="card-clientes-total">0</div></div>
   </div>
   <div id="agenda-lista"></div>
@@ -491,10 +491,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="form-group"><label>Serviço</label><input type="text" id="f-servico" placeholder="Filtrar por serviço..." oninput="renderHistorico()"></div>
     </div>
     <div style="display:flex;gap:20px;align-items:center;padding:18px 0 0;border-top:1px solid var(--pearl2);flex-wrap:wrap;">
-      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Serviços</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold-dim);" id="hist-total">R$ 0</div></div>
-      <div style="padding-left:20px;border-left:1px solid var(--pearl2);"><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Itens Vendidos</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--rose);" id="hist-itens-valor">R$ 0</div></div>
-      <div style="padding-left:20px;border-left:1px solid var(--pearl2);"><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Atendimentos</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink);" id="hist-qtd">0</div></div>
+      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Total</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold-dim);" id="hist-total">R$ 0</div></div>
+      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Atendimentos</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink);" id="hist-qtd">0</div></div>
       <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Ticket Médio</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink);" id="hist-ticket">R$ 0</div></div>
+      <div><div style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;">Itens Vendidos</div><div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--ink);" id="hist-itens">0</div></div>
     </div>
   </div>
   <div id="hist-empty" class="empty-state" style="display:none;"><div class="empty-state-title">Nenhum registro encontrado</div><div class="empty-state-sub">Tente ajustar os filtros</div></div>
@@ -518,7 +518,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <table class="tbl">
         <thead>
           <tr>
-            <th style="width:40px;text-align:center;">#</th>
             <th>Nome</th>
             <th>WhatsApp</th>
             <th>Aniversário</th>
@@ -636,51 +635,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
-<!-- ══ MODAL EDITAR ATENDIMENTO ══ -->
-<div class="modal-bg" id="modal-edit-atend-bg">
-  <div class="modal" style="max-width:660px;">
-    <button class="modal-close" onclick="fecharModalEditAtend()">×</button>
-    <div class="modal-title"><div class="panel-title-diamond"></div><span>Editar Atendimento</span></div>
-    <input type="hidden" id="ea-id">
-    <div class="form-grid">
-      <div class="form-group"><label>Data *</label><input type="date" id="ea-data"></div>
-      <div class="form-group"><label>Horário</label><input type="time" id="ea-horario"></div>
-      <div class="form-group"><label>Cliente</label><input type="text" id="ea-cliente"></div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group"><label>Serviço</label><input type="text" id="ea-servico" placeholder="Ex: Progressiva (Longo)"></div>
-      <div class="form-group"><label>Tamanho</label><input type="text" id="ea-tamanho" placeholder="Ex: Longo"></div>
-      <div class="form-group"><label>Duração</label><input type="text" id="ea-duracao" placeholder="Ex: 2h30"></div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group"><label>Valor do Serviço (R$)</label><input type="number" id="ea-valor" step="0.01" placeholder="0,00" oninput="calcEditAtend()"></div>
-      <div class="form-group"><label>Desconto (%)</label><input type="number" id="ea-desconto" step="0.01" placeholder="0" oninput="calcEditAtend()"></div>
-      <div class="form-group"><label>Pagamento</label>
-        <select id="ea-pagto">
-          <option value="Pix">Pix</option>
-          <option value="Dinheiro">Dinheiro</option>
-          <option value="Credito">Crédito</option>
-          <option value="Debito">Débito</option>
-          <option value="Outro">Outro</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group"><label>Item Vendido</label><input type="text" id="ea-item" placeholder="Ex: Shampoo..."></div>
-      <div class="form-group"><label>Valor do Item (R$)</label><input type="number" id="ea-itemvalor" step="0.01" placeholder="0,00" oninput="calcEditAtend()"></div>
-    </div>
-    <div class="form-group" style="margin-bottom:20px;"><label>Observações</label><textarea id="ea-obs" rows="2"></textarea></div>
-    <div style="background:var(--gold-bg);border:1px solid var(--gold-pale);border-left:3px solid var(--gold);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-      <div style="font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);">Total Calculado</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold-dim);font-weight:300;" id="ea-total-preview">R$ 0,00</div>
-    </div>
-    <div style="display:flex;gap:12px;justify-content:flex-end;">
-      <button class="btn" onclick="fecharModalEditAtend()"><span>Cancelar</span></button>
-      <button class="btn btn-dark" onclick="salvarEditAtend()"><span>Salvar Alterações</span></button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -743,8 +697,7 @@ const CORES_DEFAULT=['#7b9e7b','#7a8bbf','#b08060','#8b7bb5','#b07898','#6a9aaa'
 const DIAS_PT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const MESES_PT=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 
-function totalServico(a){return parseFloat(((a.valor||0)-((a.descValor)||((a.valor||0)*(a.descPct||0)/100))).toFixed(2));}
-
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 function fmt(v){return(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
 function fmtDate(s){return s?new Date(s+'T12:00:00').toLocaleDateString('pt-BR'):'—';}
 function hoje(){return new Date().toISOString().slice(0,10);}
@@ -838,9 +791,10 @@ function buildTamanhosInlineHTML(s){
   const temTam=s.tamanhos&&TAMANHOS.some(t=>s.tamanhos[t]?.valor>0);
   const sel=servicosSelecionados.find(x=>x.servicoId===s.id);
   if(!temTam){
+    const valorUnico=s.tamanhos?.Único?.valor||s.tamanhos?.['Valor Único']?.valor||0;
     return`<span class="tamanhos-label" style="width:auto;margin-bottom:0;">Valor único</span>
-    <button class="tamanho-btn ${sel?'active':''}" onclick="selecionarTamanhoMulti('${s.id}','Único','${s.duracao||'—'}')">
-      <span class="tb-nome">Único</span><span class="tb-val">${fmt(0)}</span>
+    <button class="tamanho-btn ${sel?'active':''}" onclick="selecionarTamanhoMulti('${s.id}','Único','${s.duracao||'—'}',${valorUnico})">
+      <span class="tb-nome">Único</span><span class="tb-val">${fmt(valorUnico)}</span>
       ${s.duracao?`<span class="tb-dur">⏱ ${s.duracao}</span>`:''}
     </button>`;
   }
@@ -952,13 +906,13 @@ function calcAtendimento(){
   const iv=itensVendidos.reduce((s,i)=>s+(i.valor||0),0);
   const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('r-desconto').value)||0));
   const descValor=parseFloat(((v*pct)/100).toFixed(2));
-  const total=(v-descValor);
+  const total=(v-descValor)+iv;
   const cor=servicosSelecionados[0]?.cor||'var(--ink)';
   document.getElementById('rr-servico').textContent=v>0?fmt(v):'—';
   document.getElementById('rr-servico').style.color=cor;
   document.getElementById('rr-item').textContent=iv>0?fmt(iv):'—';
   document.getElementById('rr-desconto').textContent=descValor>0?'- '+fmt(descValor):'—';
-  document.getElementById('rr-total').textContent=v?fmt(total):'—';
+  document.getElementById('rr-total').textContent=(v||iv)?fmt(total):'—';
 }
 window.calcAtendimento=calcAtendimento;
 
@@ -979,9 +933,9 @@ window.registrarAtendimento=async function(){
   const descValor=parseFloat(((valor*descPct)/100).toFixed(2));
   const obs=document.getElementById('r-obs').value;
   if(!data){toast('Informe a data.');return;}
-  if(!servico){toast('Selecione pelo menos um serviço com tamanho.');return;}
-  if(!valor){toast('Informe o valor.');return;}
-  const total=(valor-descValor);
+  if(!servico){toast('Selecione um serviço e clique no tamanho.');return;}
+  const valorField=document.getElementById('r-valor').value;if(valorField===''||valorField===null){toast('Informe o valor do atendimento.');return;}
+  const total=(valor-descValor)+itemValor;
   const id=uid();
   const registro={id,data,horario,clienteNome,clienteId,servico,corServico,tamanho,duracao,valor,descPct,descValor,pagto,item,itemValor,total,obs,servicosSelecionados:JSON.parse(JSON.stringify(servicosSelecionados)),ts:Date.now()};
   atendimentos.push(registro);
@@ -990,7 +944,7 @@ window.registrarAtendimento=async function(){
   itensVendidos=[];renderItens();
   servicosSelecionados=[];chipAberto=null;
   renderChipsServico();calcAtendimento();updateHeader();renderAgendaHoje();
-  toast('Atendimento registrado! Serviço: '+fmt(total)+(itemValor?'  ·  Itens: '+fmt(itemValor):''));
+  toast('Atendimento registrado! Total: '+fmt(total));
 };
 
 window.removerAtendimento=async function(id){
@@ -1009,8 +963,8 @@ function updateHeader(){
   const atS=atendimentos.filter(a=>a.data>=ini&&a.data<=h);
   const atM=atendimentos.filter(a=>a.data?.slice(0,7)===mes);
   document.getElementById('hs-hoje').textContent=atH.length;
-  document.getElementById('hs-semana').textContent=fmt(atS.reduce((s,a)=>s+totalServico(a),0));
-  document.getElementById('hs-mes').textContent=fmt(atM.reduce((s,a)=>s+totalServico(a),0));
+  document.getElementById('hs-semana').textContent=fmt(atS.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('hs-mes').textContent=fmt(atM.reduce((s,a)=>s+(a.total||0),0));
 }
 
 // ══════════════════════════════════════════════
@@ -1022,20 +976,12 @@ function renderAgendaHoje(){
   const atHoje=atendimentos.filter(a=>a.data===h).sort((a,b)=>(a.horario||'').localeCompare(b.horario||''));
   const atSemana=atendimentos.filter(a=>a.data>=ini&&a.data<=h);
   document.getElementById('card-hoje-qtd').textContent=atHoje.length;
-  const hojeServicos=atHoje.reduce((s,a)=>s+totalServico(a),0);
-  const hojeItens=atHoje.reduce((s,a)=>s+(a.itemValor||0),0);
-  const semanaServicos=atSemana.reduce((s,a)=>s+totalServico(a),0);
-  const semanaItens=atSemana.reduce((s,a)=>s+(a.itemValor||0),0);
-  document.getElementById('card-hoje-total').textContent=fmt(hojeServicos);
-  const hojeItensEl=document.getElementById('card-hoje-itens');
-  hojeItensEl.textContent=hojeItens>0?'+ '+fmt(hojeItens)+' em itens':'';
-  document.getElementById('card-semana-total').textContent=fmt(semanaServicos);
-  const semanaItensEl=document.getElementById('card-semana-itens');
-  semanaItensEl.textContent=semanaItens>0?'+ '+fmt(semanaItens)+' em itens':'';
+  document.getElementById('card-hoje-total').textContent=fmt(atHoje.reduce((s,a)=>s+(a.total||0),0));
+  document.getElementById('card-semana-total').textContent=fmt(atSemana.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('card-clientes-total').textContent=clientes.length;
   const el=document.getElementById('agenda-lista');
   if(!atHoje.length){el.innerHTML=`<div class="empty-state"><div class="empty-state-title">Nenhum atendimento hoje</div><div class="empty-state-sub">Registre um atendimento acima</div></div>`;return;}
-  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Item</th><th>Total Serviço</th><th>Ação</th></tr></thead><tbody>${atHoje.map(a=>`<tr><td><strong>${a.horario||'—'}</strong></td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<div style="display:flex;flex-direction:column;gap:2px;"><span class="badge badge-item">${a.item}</span><span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--rose);">${fmt(a.itemValor)}</span></div>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(totalServico(a))}</strong></td><td><button class="btn btn-sm btn-danger" onclick="removerAtendimento('${a.id}')"><span>Remover</span></button></td></tr>`).join('')}</tbody></table></div>`;
+  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Item</th><th>Total</th><th>Ação</th></tr></thead><tbody>${atHoje.map(a=>`<tr><td><strong>${a.horario||'—'}</strong></td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td><td><button class="btn btn-sm btn-danger" onclick="removerAtendimento('${a.id}')"><span>Remover</span></button></td></tr>`).join('')}</tbody></table></div>`;
 }
 
 // ══════════════════════════════════════════════
@@ -1046,11 +992,11 @@ function renderHistorico(){
   const atH=atendimentos.filter(a=>a.data===h);
   const atS=atendimentos.filter(a=>a.data>=ini&&a.data<=h);
   const atM=atendimentos.filter(a=>a.data?.slice(0,7)===mes);
-  document.getElementById('hsum-dia').textContent=fmt(atH.reduce((s,a)=>s+totalServico(a),0));
+  document.getElementById('hsum-dia').textContent=fmt(atH.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('hsum-dia-qtd').textContent=atH.length+' atendimento'+(atH.length!==1?'s':'');
-  document.getElementById('hsum-semana').textContent=fmt(atS.reduce((s,a)=>s+totalServico(a),0));
+  document.getElementById('hsum-semana').textContent=fmt(atS.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('hsum-semana-qtd').textContent=atS.length+' atendimento'+(atS.length!==1?'s':'');
-  document.getElementById('hsum-mes').textContent=fmt(atM.reduce((s,a)=>s+totalServico(a),0));
+  document.getElementById('hsum-mes').textContent=fmt(atM.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('hsum-mes-qtd').textContent=atM.length+' atendimento'+(atM.length!==1?'s':'');
   const de=document.getElementById('f-de').value,ate=document.getElementById('f-ate').value;
   const fs=document.getElementById('f-servico').value.toLowerCase(),fc=document.getElementById('f-cliente').value.toLowerCase();
@@ -1059,86 +1005,16 @@ function renderHistorico(){
   if(fs)arr=arr.filter(a=>a.servico?.toLowerCase().includes(fs));
   if(fc)arr=arr.filter(a=>a.clienteNome?.toLowerCase().includes(fc));
   arr.sort((a,b)=>((b.data||'')+(b.horario||'')).localeCompare((a.data||'')+(a.horario||'')));
-  const totalServicos=arr.reduce((s,a)=>s+totalServico(a),0);
-  const totalItens=arr.reduce((s,a)=>s+(a.itemValor||0),0);
-  document.getElementById('hist-total').textContent=fmt(totalServicos);
-  document.getElementById('hist-itens-valor').textContent=fmt(totalItens);
+  document.getElementById('hist-total').textContent=fmt(arr.reduce((s,a)=>s+(a.total||0),0));
   document.getElementById('hist-qtd').textContent=arr.length;
-  document.getElementById('hist-ticket').textContent=arr.length?fmt(totalServicos/arr.length):fmt(0);
+  document.getElementById('hist-ticket').textContent=arr.length?fmt(arr.reduce((s,a)=>s+(a.total||0),0)/arr.length):fmt(0);
+  document.getElementById('hist-itens').textContent=arr.filter(a=>a.item).length;
   const el=document.getElementById('hist-lista'),empty=document.getElementById('hist-empty');
   if(!arr.length){empty.style.display='block';el.innerHTML='';return;}
   empty.style.display='none';
-  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Total Serviço</th><th>Itens Vendidos</th><th>Ações</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(totalServico(a))}</strong></td><td>${a.item?`<div style="display:flex;flex-direction:column;gap:2px;"><span class="badge badge-item">${a.item}</span><span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--rose);">${fmt(a.itemValor)}</span></div>`:'—'}</td><td><button class="btn btn-sm" onclick="abrirModalEditAtend('${a.id}')"><span>Editar</span></button></td></tr>`).join('')}</tbody></table></div>`;
+  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Item</th><th>Total</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td></tr>`).join('')}</tbody></table></div>`;
 }
 window.renderHistorico=renderHistorico;
-
-// ══════════════════════════════════════════════
-// EDITAR ATENDIMENTO
-// ══════════════════════════════════════════════
-window.abrirModalEditAtend=function(id){
-  const a=atendimentos.find(x=>x.id===id);if(!a)return;
-  document.getElementById('ea-id').value=a.id;
-  document.getElementById('ea-data').value=a.data||'';
-  document.getElementById('ea-horario').value=a.horario||'';
-  document.getElementById('ea-cliente').value=a.clienteNome||'';
-  document.getElementById('ea-servico').value=a.servico||'';
-  document.getElementById('ea-tamanho').value=a.tamanho||'';
-  document.getElementById('ea-duracao').value=a.duracao||'';
-  document.getElementById('ea-valor').value=a.valor||'';
-  document.getElementById('ea-desconto').value=a.descPct||'';
-  document.getElementById('ea-pagto').value=a.pagto||'Pix';
-  document.getElementById('ea-item').value=a.item||'';
-  document.getElementById('ea-itemvalor').value=a.itemValor||'';
-  document.getElementById('ea-obs').value=a.obs||'';
-  calcEditAtend();
-  document.getElementById('modal-edit-atend-bg').classList.add('open');
-};
-
-window.fecharModalEditAtend=function(){
-  document.getElementById('modal-edit-atend-bg').classList.remove('open');
-};
-
-window.calcEditAtend=function(){
-  const v=parseFloat(document.getElementById('ea-valor').value)||0;
-  const iv=parseFloat(document.getElementById('ea-itemvalor').value)||0;
-  const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('ea-desconto').value)||0));
-  const descValor=parseFloat(((v*pct)/100).toFixed(2));
-  const total=(v-descValor);
-  document.getElementById('ea-total-preview').textContent=fmt(total)+(iv>0?' (+ '+fmt(iv)+' em itens)':'');
-};
-
-window.salvarEditAtend=async function(){
-  const id=document.getElementById('ea-id').value;
-  const data=document.getElementById('ea-data').value;
-  if(!data){toast('Informe a data.');return;}
-  const idx=atendimentos.findIndex(a=>a.id===id);if(idx<0)return;
-  const a=atendimentos[idx];
-  const valor=parseFloat(document.getElementById('ea-valor').value)||0;
-  const iv=parseFloat(document.getElementById('ea-itemvalor').value)||0;
-  const pct=Math.min(100,Math.max(0,parseFloat(document.getElementById('ea-desconto').value)||0));
-  const descValor=parseFloat(((valor*pct)/100).toFixed(2));
-  const total=(valor-descValor);
-  const atualizado={
-    ...a,
-    data,
-    horario:document.getElementById('ea-horario').value,
-    clienteNome:document.getElementById('ea-cliente').value.trim(),
-    servico:document.getElementById('ea-servico').value.trim(),
-    tamanho:document.getElementById('ea-tamanho').value.trim(),
-    duracao:document.getElementById('ea-duracao').value.trim(),
-    valor,descPct:pct,descValor,
-    pagto:document.getElementById('ea-pagto').value,
-    item:document.getElementById('ea-item').value.trim(),
-    itemValor:iv,
-    obs:document.getElementById('ea-obs').value.trim(),
-    total
-  };
-  atendimentos[idx]=atualizado;
-  await fbSave('atendimentos',atualizado);
-  fecharModalEditAtend();
-  renderHistorico();updateHeader();renderAgendaHoje();
-  toast('Atendimento atualizado!');
-};
 
 // ══════════════════════════════════════════════
 // CLIENTES — com Bairro/Cidade e linhas clicáveis
@@ -1149,7 +1025,7 @@ function renderClientes(){
   if(!clientes.length){empty.style.display='block';tbl.style.display='none';return;}
   empty.style.display='none';tbl.style.display='block';
 
-  tbody.innerHTML=[...clientes].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR')).map((c,idx)=>{
+  tbody.innerHTML=[...clientes].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR')).map(c=>{
     const ats=atendimentos.filter(a=>a.clienteId===c.id).sort((a,b)=>b.data?.localeCompare(a.data||'')||0);
     const qtd=ats.length,ultima=ats[0]?.data;
     let anivStr='—',anivBadge='';
@@ -1175,7 +1051,6 @@ function renderClientes(){
     const locCell=locPill(c.bairro,c.cidade);
 
     return`<tr class="tbl-row-clicavel" onclick="editarCliente('${c.id}')" title="Clique para editar">
-      <td style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--ink3);font-weight:300;">${idx+1}</td>
       <td><strong>${c.nome}</strong></td>
       <td>${whatsCell}</td>
       <td>${anivCell}</td>
