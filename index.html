@@ -319,6 +319,42 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .loc-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);background:var(--pearl2);padding:3px 10px;white-space:nowrap;}
 .loc-pill svg{flex-shrink:0;color:var(--gold-dim);}
 
+/* ═══ FECHAMENTO PLANILHA ═══ */
+.fech-sheet { display:flex; flex-direction:column; gap:3px; }
+.fech-sheet-row2 { display:grid; grid-template-columns: 1fr 340px; gap:3px; align-items:start; }
+.fech-block-main { min-width:0; }
+.fech-sheet-sidebar { display:flex; flex-direction:column; gap:3px; }
+.fech-sheet-block { background:var(--white); border:1px solid var(--bege2); border-top:2px solid var(--gold); overflow:hidden; }
+.fech-sheet-block-header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:var(--bege); border-bottom:1px solid var(--bege2); }
+.fech-sheet-block-title { font-size:11px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold-dim); font-weight:500; font-family:'Jost',sans-serif; }
+.fech-sheet-count { font-size:11px; color:var(--ink3); letter-spacing:0.1em; }
+.fech-sheet-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.fech-tbl { width:100%; border-collapse:collapse; font-size:14px; }
+.fech-tbl thead tr { background:var(--pearl); border-bottom:2px solid var(--gold-pale); }
+.fech-tbl th { padding:10px 14px; text-align:left; font-size:10px; letter-spacing:0.35em; text-transform:uppercase; color:var(--ink3); font-weight:500; white-space:nowrap; font-family:'Jost',sans-serif; }
+.fech-tbl td { padding:11px 14px; border-bottom:1px solid var(--pearl2); vertical-align:middle; font-family:'Jost',sans-serif; color:var(--ink2); }
+.fech-tbl tbody tr:hover { background:var(--gold-bg); }
+.fech-tbl tfoot td { padding:12px 14px; background:var(--pearl); border-top:2px solid var(--gold-pale); font-weight:600; font-size:13px; }
+.fech-tbl tfoot .fech-td-val { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; }
+.fech-row-destaque { background:rgba(201,168,76,0.04); }
+.fech-row-total { background:var(--pearl); border-top:2px solid var(--gold-pale) !important; }
+.fech-row-total td { border-top:2px solid var(--gold-pale); }
+.fech-td-label { font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--ink3); font-family:'Jost',sans-serif; padding:14px 18px; }
+.fech-td-val { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--ink); padding:14px 18px; white-space:nowrap; }
+.fech-td-val.gold { color:var(--gold-dim); }
+.fech-td-val.danger { color:var(--danger); }
+.fech-num { font-size:11px; color:var(--ink3); text-align:center; }
+.fech-val-cell { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--success); text-align:right; white-space:nowrap; }
+.fech-val-danger { color:var(--danger) !important; }
+.fech-pct { font-size:11px; color:var(--ink3); text-align:right; }
+.fech-qtd-cell { text-align:center; font-size:13px; color:var(--ink3); }
+.fech-empty { padding:24px 16px; font-size:13px; color:var(--ink3); letter-spacing:0.1em; text-align:center; }
+.fech-rank-bar { height:4px; background:var(--gold-pale); margin-top:4px; border-radius:0; overflow:hidden; }
+.fech-rank-fill { height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); }
+
+@media(max-width:900px){
+  .fech-sheet-row2 { grid-template-columns:1fr; }
+}
 @media(max-width:600px){
   .header-brand{gap:14px;}.brand-text .salon-title{font-size:20px;}
   .hstat-val{font-size:18px;}.hstat{padding:0 14px;}
@@ -568,33 +604,141 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <section id="sec-fechamento" class="section">
   <div class="sec-header">
     <div class="sec-title">Fechamento <em>Semanal</em></div>
-    <div class="sec-sub">Resumo financeiro da semana</div>
+    <div class="sec-sub">Planilha de resultados da semana</div>
     <div class="ornament-row"><div class="ornament-line"></div><div class="ornament-star">✦</div><div class="ornament-diamond"></div><div class="ornament-star">✦</div><div class="ornament-line rev"></div></div>
   </div>
-  <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:32px;">
-    <button class="btn" onclick="fechamentoSemOffset(-1)" style="padding:10px 20px;font-size:18px;">‹</button>
-    <div id="fechamento-semana-titulo" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--ink);min-width:280px;text-align:center;letter-spacing:0.04em;"></div>
-    <button class="btn" onclick="fechamentoSemOffset(+1)" style="padding:10px 20px;font-size:18px;">›</button>
+
+  <!-- Navegação de semana -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <button class="btn" onclick="fechamentoSemOffset(-1)" style="padding:10px 18px;font-size:18px;">‹</button>
+      <div id="fechamento-semana-titulo" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--ink);letter-spacing:0.04em;"></div>
+      <button class="btn" onclick="fechamentoSemOffset(+1)" style="padding:10px 18px;font-size:18px;">›</button>
+    </div>
+    <button class="btn btn-dark" onclick="exportarFechamento()" style="font-size:10px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Exportar CSV</span>
+    </button>
   </div>
-  <div class="cards-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:36px;">
-    <div class="card"><div class="card-label">Faturamento Bruto</div><div class="card-value gold" id="fech-bruto">R$ 0</div></div>
-    <div class="card"><div class="card-label">Gastos da Semana</div><div class="card-value rose" id="fech-gastos">R$ 0</div></div>
-    <div class="card"><div class="card-label">Lucro Líquido</div><div class="card-value gold" id="fech-liquido">R$ 0</div></div>
-    <div class="card"><div class="card-label">Atendimentos</div><div class="card-value" id="fech-qtd">0</div></div>
-    <div class="card"><div class="card-label">Ticket Médio</div><div class="card-value" id="fech-ticket">R$ 0</div></div>
-  </div>
-  <div class="panel" style="margin-bottom:30px;">
-    <div class="panel-title"><div class="panel-title-diamond"></div>Serviços mais realizados</div>
-    <div id="fech-servicos-rank"></div>
-  </div>
-  <div class="panel" style="margin-bottom:30px;">
-    <div class="panel-title"><div class="panel-title-diamond"></div>Formas de Pagamento</div>
-    <div id="fech-pagtos"></div>
-  </div>
-  <div class="panel">
-    <div class="panel-title"><div class="panel-title-diamond"></div>Atendimentos da Semana</div>
-    <div id="fech-lista"></div>
-  </div>
+
+  <!-- ═══ PLANILHA PRINCIPAL ═══ -->
+  <div class="fech-sheet">
+
+    <!-- Bloco 1: Resumo financeiro -->
+    <div class="fech-sheet-block">
+      <div class="fech-sheet-block-header">
+        <div class="fech-sheet-block-title">◆ Resumo Financeiro</div>
+      </div>
+      <div class="fech-sheet-table-wrap">
+        <table class="fech-tbl">
+          <thead>
+            <tr>
+              <th class="fech-th-label">Indicador</th>
+              <th class="fech-th-val">Valor</th>
+              <th class="fech-th-label">Qtd. Atendimentos</th>
+              <th class="fech-th-val">Ticket Médio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="fech-row-destaque">
+              <td class="fech-td-label">Faturamento Bruto</td>
+              <td class="fech-td-val gold" id="fech-bruto">R$ 0</td>
+              <td class="fech-td-label" rowspan="3" style="vertical-align:middle;text-align:center;">
+                <span id="fech-qtd" style="font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--ink);display:block;line-height:1;">0</span>
+                <span style="font-size:10px;letter-spacing:0.3em;color:var(--ink3);text-transform:uppercase;">atendimentos</span>
+              </td>
+              <td class="fech-td-val" id="fech-ticket" rowspan="3" style="vertical-align:middle;text-align:center;font-size:28px;">R$ 0</td>
+            </tr>
+            <tr>
+              <td class="fech-td-label">Gastos da Semana</td>
+              <td class="fech-td-val danger" id="fech-gastos">R$ 0</td>
+            </tr>
+            <tr class="fech-row-total">
+              <td class="fech-td-label" style="font-weight:600;letter-spacing:0.2em;">LUCRO LÍQUIDO</td>
+              <td class="fech-td-val" id="fech-liquido" style="font-size:28px;">R$ 0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bloco 2: Atendimentos + Breakdown lado a lado -->
+    <div class="fech-sheet-row2">
+
+      <!-- Planilha de atendimentos -->
+      <div class="fech-sheet-block fech-block-main">
+        <div class="fech-sheet-block-header">
+          <div class="fech-sheet-block-title">◆ Atendimentos da Semana</div>
+          <div id="fech-lista-count" class="fech-sheet-count">0 registros</div>
+        </div>
+        <div class="fech-sheet-table-wrap">
+          <table class="fech-tbl" id="fech-tbl-atend">
+            <thead>
+              <tr>
+                <th style="width:36px;text-align:center;">#</th>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Serviço</th>
+                <th>Pagamento</th>
+                <th style="text-align:right;">Valor</th>
+              </tr>
+            </thead>
+            <tbody id="fech-tbody"></tbody>
+            <tfoot id="fech-tfoot"></tfoot>
+          </table>
+        </div>
+        <div id="fech-lista-empty" class="fech-empty" style="display:none;">Nenhum atendimento nesta semana.</div>
+      </div>
+
+      <!-- Coluna lateral: serviços + pagamentos -->
+      <div class="fech-sheet-sidebar">
+
+        <!-- Rank de serviços -->
+        <div class="fech-sheet-block">
+          <div class="fech-sheet-block-header">
+            <div class="fech-sheet-block-title">◆ Serviços</div>
+          </div>
+          <div class="fech-sheet-table-wrap">
+            <table class="fech-tbl">
+              <thead>
+                <tr>
+                  <th>Serviço</th>
+                  <th style="text-align:center;width:52px;">Qtd</th>
+                  <th style="text-align:right;">Total</th>
+                </tr>
+              </thead>
+              <tbody id="fech-tbody-servicos"></tbody>
+              <tfoot id="fech-tfoot-servicos"></tfoot>
+            </table>
+          </div>
+          <div id="fech-servicos-empty" class="fech-empty" style="display:none;">Sem dados.</div>
+        </div>
+
+        <!-- Formas de pagamento -->
+        <div class="fech-sheet-block" style="margin-top:0;">
+          <div class="fech-sheet-block-header">
+            <div class="fech-sheet-block-title">◆ Pagamentos</div>
+          </div>
+          <div class="fech-sheet-table-wrap">
+            <table class="fech-tbl">
+              <thead>
+                <tr>
+                  <th>Forma</th>
+                  <th style="text-align:center;width:52px;">Qtd</th>
+                  <th style="text-align:right;">Total</th>
+                  <th style="text-align:right;width:60px;">%</th>
+                </tr>
+              </thead>
+              <tbody id="fech-tbody-pagtos"></tbody>
+              <tfoot id="fech-tfoot-pagtos"></tfoot>
+            </table>
+          </div>
+          <div id="fech-pagtos-empty" class="fech-empty" style="display:none;">Sem dados.</div>
+        </div>
+
+      </div><!-- /sidebar -->
+    </div><!-- /row2 -->
+  </div><!-- /fech-sheet -->
 </section>
 
 <!-- GASTOS -->
@@ -1380,57 +1524,145 @@ function renderFechamento() {
   const liquido = bruto - totalGastos;
   const ticket = ats.length ? bruto / ats.length : 0;
 
+  // ── Resumo financeiro ──
   document.getElementById('fech-bruto').textContent = fmt(bruto);
   document.getElementById('fech-gastos').textContent = fmt(totalGastos);
-  document.getElementById('fech-liquido').textContent = fmt(liquido);
-  document.getElementById('fech-liquido').style.color = liquido >= 0 ? 'var(--success)' : 'var(--danger)';
+  const liquidoEl = document.getElementById('fech-liquido');
+  liquidoEl.textContent = fmt(liquido);
+  liquidoEl.className = 'fech-td-val ' + (liquido >= 0 ? 'gold' : 'danger');
   document.getElementById('fech-qtd').textContent = ats.length;
   document.getElementById('fech-ticket').textContent = fmt(ticket);
 
-  // Rank de serviços
+  // ── Planilha de atendimentos ──
+  const sorted = [...ats].sort((a,b) => a.data.localeCompare(b.data));
+  const tbody = document.getElementById('fech-tbody');
+  const tfoot = document.getElementById('fech-tfoot');
+  const emptyAtend = document.getElementById('fech-lista-empty');
+  const countEl = document.getElementById('fech-lista-count');
+  countEl.textContent = ats.length + (ats.length === 1 ? ' registro' : ' registros');
+
+  if (!sorted.length) {
+    tbody.innerHTML = '';
+    tfoot.innerHTML = '';
+    emptyAtend.style.display = 'block';
+    document.getElementById('fech-tbl-atend').style.display = 'none';
+  } else {
+    emptyAtend.style.display = 'none';
+    document.getElementById('fech-tbl-atend').style.display = 'table';
+    tbody.innerHTML = sorted.map((a,i) =>
+      `<tr>
+        <td class="fech-num">${i+1}</td>
+        <td style="white-space:nowrap;font-size:13px;">${fmtDate(a.data)}</td>
+        <td style="font-size:14px;">${a.clienteNome||'—'}</td>
+        <td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}<span style="font-size:13px;">${a.servico||'—'}</span></span></td>
+        <td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td>
+        <td class="fech-val-cell">${fmt(a.total)}</td>
+      </tr>`
+    ).join('');
+    tfoot.innerHTML = `<tr>
+      <td colspan="5" style="font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);text-align:right;">Total da semana</td>
+      <td class="fech-td-val gold" style="text-align:right;padding:12px 14px;">${fmt(bruto)}</td>
+    </tr>`;
+  }
+
+  // ── Planilha de serviços ──
   const rankMap = {};
   ats.forEach(a => {
     const nome = a.servico || 'Sem serviço';
-    rankMap[nome] = (rankMap[nome] || 0) + 1;
+    if (!rankMap[nome]) rankMap[nome] = { qtd:0, total:0 };
+    rankMap[nome].qtd++;
+    rankMap[nome].total += (a.total||0);
   });
-  const rankArr = Object.entries(rankMap).sort((a,b) => b[1]-a[1]);
-  const rankEl = document.getElementById('fech-servicos-rank');
+  const rankArr = Object.entries(rankMap).sort((a,b) => b[1].qtd - a[1].qtd);
+  const maxQtd = rankArr.length ? rankArr[0][1].qtd : 1;
+  const tbodyServ = document.getElementById('fech-tbody-servicos');
+  const tfootServ = document.getElementById('fech-tfoot-servicos');
+  const emptyServ = document.getElementById('fech-servicos-empty');
+
   if (!rankArr.length) {
-    rankEl.innerHTML = '<p style="color:var(--ink3);font-size:14px;">Sem atendimentos nesta semana.</p>';
+    tbodyServ.innerHTML = ''; tfootServ.innerHTML = '';
+    emptyServ.style.display = 'block';
   } else {
-    rankEl.innerHTML = rankArr.map(([nome,qtd]) =>
-      `<div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--pearl2);">
-        <div style="min-width:80px;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-dim);">${qtd}×</div>
-        <div style="flex:1;font-size:15px;color:var(--ink);">${nome}</div>
-      </div>`
+    emptyServ.style.display = 'none';
+    tbodyServ.innerHTML = rankArr.map(([nome, d]) =>
+      `<tr>
+        <td style="font-size:13px;">
+          <span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(getCorServico(nome))}${nome}</span>
+          <div class="fech-rank-bar"><div class="fech-rank-fill" style="width:${Math.round(d.qtd/maxQtd*100)}%"></div></div>
+        </td>
+        <td class="fech-qtd-cell">${d.qtd}×</td>
+        <td class="fech-val-cell">${fmt(d.total)}</td>
+      </tr>`
     ).join('');
+    const totalServ = rankArr.reduce((s,[,d])=>s+d.total,0);
+    tfootServ.innerHTML = `<tr>
+      <td colspan="2" style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);">Total</td>
+      <td class="fech-td-val gold" style="text-align:right;padding:10px 14px;font-size:20px;">${fmt(totalServ)}</td>
+    </tr>`;
   }
 
-  // Pagamentos
+  // ── Planilha de pagamentos ──
   const pagMap = {};
-  ats.forEach(a => { const p = a.pagto||'Outros'; pagMap[p] = (pagMap[p]||0) + (a.total||0); });
-  const pagArr = Object.entries(pagMap).sort((a,b) => b[1]-a[1]);
-  const pagEl = document.getElementById('fech-pagtos');
-  if (!pagArr.length) {
-    pagEl.innerHTML = '<p style="color:var(--ink3);font-size:14px;">Sem dados.</p>';
-  } else {
-    pagEl.innerHTML = pagArr.map(([tipo,val]) =>
-      `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--pearl2);">
-        <span class="badge ${badgePagto(tipo)}">${tipo}</span>
-        <strong style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-dim);">${fmt(val)}</strong>
-      </div>`
-    ).join('');
-  }
+  ats.forEach(a => {
+    const p = a.pagto||'Outros';
+    if (!pagMap[p]) pagMap[p] = { qtd:0, total:0 };
+    pagMap[p].qtd++;
+    pagMap[p].total += (a.total||0);
+  });
+  const pagArr = Object.entries(pagMap).sort((a,b) => b[1].total - a[1].total);
+  const tbodyPag = document.getElementById('fech-tbody-pagtos');
+  const tfootPag = document.getElementById('fech-tfoot-pagtos');
+  const emptyPag = document.getElementById('fech-pagtos-empty');
 
-  // Lista de atendimentos
-  const listaEl = document.getElementById('fech-lista');
-  if (!ats.length) {
-    listaEl.innerHTML = '<p style="color:var(--ink3);font-size:14px;padding:16px 0;">Nenhum atendimento nesta semana.</p>';
+  if (!pagArr.length) {
+    tbodyPag.innerHTML = ''; tfootPag.innerHTML = '';
+    emptyPag.style.display = 'block';
   } else {
-    const sorted = [...ats].sort((a,b) => a.data.localeCompare(b.data));
-    listaEl.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Cliente</th><th>Serviço</th><th>Pagamento</th><th>Total</th></tr></thead><tbody>${sorted.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td></tr>`).join('')}</tbody></table></div>`;
+    emptyPag.style.display = 'none';
+    tbodyPag.innerHTML = pagArr.map(([tipo, d]) =>
+      `<tr>
+        <td><span class="badge ${badgePagto(tipo)}">${tipo}</span></td>
+        <td class="fech-qtd-cell">${d.qtd}</td>
+        <td class="fech-val-cell">${fmt(d.total)}</td>
+        <td class="fech-pct">${bruto ? Math.round(d.total/bruto*100) : 0}%</td>
+      </tr>`
+    ).join('');
+    tfootPag.innerHTML = `<tr>
+      <td colspan="3" style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);">Total</td>
+      <td class="fech-pct" style="font-size:13px;font-weight:600;">100%</td>
+    </tr>`;
   }
 }
+
+// Exportar CSV do fechamento
+window.exportarFechamento = function() {
+  const titulo = document.getElementById('fechamento-semana-titulo').textContent;
+  const { ini, fim } = getInicioFimSemana(fechBaseDate);
+  const iniStr = isoDate(ini), fimStr = isoDate(fim);
+  const ats = atendimentos.filter(a => a.data >= iniStr && a.data <= fimStr);
+  if (!ats.length) { toast('Nenhum atendimento para exportar.'); return; }
+  const sorted = [...ats].sort((a,b) => a.data.localeCompare(b.data));
+  const header = ['#','Data','Cliente','Serviço','Pagamento','Total'];
+  const rows = sorted.map((a,i) => [
+    i+1,
+    fmtDate(a.data),
+    (a.clienteNome||'').replace(/,/g,';'),
+    (a.servico||'').replace(/,/g,';'),
+    a.pagto||'—',
+    (a.total||0).toFixed(2).replace('.',',')
+  ]);
+  const bruto = sorted.reduce((s,a)=>s+(a.total||0),0);
+  rows.push(['','','','','TOTAL',bruto.toFixed(2).replace('.',',')]);
+  const csv = [header,...rows].map(r=>r.join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `fechamento-${titulo.replace(/\s/g,'-')}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV exportado!');
+};
 
 // ══════════════════════════════════════════════
 // GASTOS
