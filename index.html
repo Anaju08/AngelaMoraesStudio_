@@ -690,6 +690,24 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div id="fech-lista-empty" class="fech-empty" style="display:none;">Nenhum atendimento nesta semana.</div>
       </div>
 
+    </div><!-- /row2 -->
+
+    <!-- ═══ PLANILHA CRUZADA: Cliente × Dia da Semana ═══ -->
+    <div class="fech-sheet-block" style="margin-top:0;">
+      <div class="fech-sheet-block-header">
+        <div class="fech-sheet-block-title">◆ Grade de Atendimentos</div>
+        <div id="fech-grade-count" class="fech-sheet-count">0 clientes</div>
+      </div>
+      <div class="fech-sheet-table-wrap" style="overflow-x:auto;">
+        <table class="fech-tbl" id="fech-tbl-grade" style="min-width:100%;">
+          <thead id="fech-grade-thead"></thead>
+          <tbody id="fech-grade-tbody"></tbody>
+          <tfoot id="fech-grade-tfoot"></tfoot>
+        </table>
+      </div>
+      <div id="fech-grade-empty" class="fech-empty" style="display:none;">Nenhum atendimento nesta semana.</div>
+    </div>
+
       <!-- Coluna lateral: serviços + pagamentos -->
       <div class="fech-sheet-sidebar">
 
@@ -1564,6 +1582,75 @@ function renderFechamento() {
       <td class="fech-td-val gold" style="text-align:right;padding:12px 14px;">${fmt(bruto)}</td>
     </tr>`;
   }
+
+  // ── Grade cruzada: Cliente × Dia da Semana ──
+  (function() {
+    const DIAS_NOMES = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    const diasDaSemana = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(ini); d.setDate(ini.getDate() + i);
+      diasDaSemana.push({ dow: i, iso: isoDate(d), label: DIAS_NOMES[i], data: d });
+    }
+    const diasAtivos = diasDaSemana.filter(dia => ats.some(a => a.data === dia.iso));
+
+    const gradeEmpty = document.getElementById('fech-grade-empty');
+    const gradeTbl   = document.getElementById('fech-tbl-grade');
+    const gradeThead = document.getElementById('fech-grade-thead');
+    const gradeTbody = document.getElementById('fech-grade-tbody');
+    const gradeTfoot = document.getElementById('fech-grade-tfoot');
+    const gradeCount = document.getElementById('fech-grade-count');
+
+    if (!diasAtivos.length) {
+      gradeEmpty.style.display = 'block'; gradeTbl.style.display = 'none';
+      gradeCount.textContent = '0 clientes'; return;
+    }
+    gradeEmpty.style.display = 'none'; gradeTbl.style.display = 'table';
+
+    const clienteMap = {};
+    ats.forEach(a => {
+      const nome = a.clienteNome || '—';
+      if (!clienteMap[nome]) clienteMap[nome] = {};
+      if (!clienteMap[nome][a.data]) clienteMap[nome][a.data] = 0;
+      clienteMap[nome][a.data] += (a.total || 0);
+    });
+    const clientes = Object.keys(clienteMap).sort();
+    gradeCount.textContent = clientes.length + (clientes.length === 1 ? ' cliente' : ' clientes');
+
+    const totalPorDia = {};
+    diasAtivos.forEach(d => {
+      totalPorDia[d.iso] = ats.filter(a => a.data === d.iso).reduce((s,a) => s+(a.total||0), 0);
+    });
+
+    function fmtDiaLabel(dia) {
+      const dd = String(dia.data.getDate()).padStart(2,'0');
+      const mm = String(dia.data.getMonth()+1).padStart(2,'0');
+      return dia.label + '<br><span style="font-size:11px;font-weight:300;">' + dd + '/' + mm + '</span>';
+    }
+
+    gradeThead.innerHTML = '<tr><th style="text-align:left;min-width:140px;">Cliente</th>' +
+      diasAtivos.map(d => '<th style="text-align:right;min-width:90px;">' + fmtDiaLabel(d) + '</th>').join('') +
+      '<th style="text-align:right;min-width:90px;color:var(--gold);">Total</th></tr>';
+
+    gradeTbody.innerHTML = clientes.map(nome => {
+      const row = clienteMap[nome];
+      const totalCliente = diasAtivos.reduce((s,d) => s + (row[d.iso]||0), 0);
+      const cells = diasAtivos.map(d =>
+        row[d.iso]
+          ? '<td style="text-align:right;font-size:14px;">' + fmt(row[d.iso]) + '</td>'
+          : '<td style="text-align:right;color:var(--ink3);opacity:0.3;font-size:12px;">—</td>'
+      ).join('');
+      return '<tr><td style="font-size:14px;font-weight:400;">' + nome + '</td>' + cells +
+        '<td style="text-align:right;font-weight:600;color:var(--gold);font-size:14px;">' + fmt(totalCliente) + '</td></tr>';
+    }).join('');
+
+    const totalGeral = diasAtivos.reduce((s,d) => s + (totalPorDia[d.iso]||0), 0);
+    gradeTfoot.innerHTML = '<tr style="border-top:2px solid var(--gold-pale);">' +
+      '<td style="font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3);padding:12px 14px;">Total</td>' +
+      diasAtivos.map(d =>
+        '<td style="text-align:right;font-weight:600;font-size:14px;padding:12px 14px;">' + fmt(totalPorDia[d.iso]) + '</td>'
+      ).join('') +
+      '<td style="text-align:right;font-weight:700;color:var(--gold);font-size:16px;padding:12px 14px;">' + fmt(totalGeral) + '</td></tr>';
+  })();
 
   // ── Planilha de serviços ──
   const rankMap = {};
