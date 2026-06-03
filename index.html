@@ -644,14 +644,22 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
             </tr>
           </thead>
           <tbody>
-            <tr class="fech-row-destaque">
-              <td class="fech-td-label">Faturamento Bruto</td>
-              <td class="fech-td-val gold" id="fech-bruto">R$ 0</td>
-              <td class="fech-td-label" rowspan="3" style="vertical-align:middle;text-align:center;">
+            <tr>
+              <td class="fech-td-label" style="color:var(--ink3);font-size:12px;padding-left:22px;">↳ Serviços</td>
+              <td class="fech-td-val" id="fech-bruto-servicos" style="font-size:18px;color:var(--marrom);">R$ 0</td>
+              <td class="fech-td-label" rowspan="5" style="vertical-align:middle;text-align:center;">
                 <span id="fech-qtd" style="font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--ink);display:block;line-height:1;">0</span>
                 <span style="font-size:10px;letter-spacing:0.3em;color:var(--ink3);text-transform:uppercase;">atendimentos</span>
               </td>
-              <td class="fech-td-val" id="fech-ticket" rowspan="3" style="vertical-align:middle;text-align:center;font-size:28px;">R$ 0</td>
+              <td class="fech-td-val" id="fech-ticket" rowspan="5" style="vertical-align:middle;text-align:center;font-size:28px;">R$ 0</td>
+            </tr>
+            <tr>
+              <td class="fech-td-label" style="color:var(--ink3);font-size:12px;padding-left:22px;">↳ Produtos</td>
+              <td class="fech-td-val" id="fech-bruto-produtos" style="font-size:18px;color:var(--marrom);">R$ 0</td>
+            </tr>
+            <tr class="fech-row-destaque">
+              <td class="fech-td-label">Faturamento Bruto</td>
+              <td class="fech-td-val gold" id="fech-bruto">R$ 0</td>
             </tr>
             <tr>
               <td class="fech-td-label">Gastos da Semana</td>
@@ -684,7 +692,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
                 <th>Cliente</th>
                 <th>Serviço</th>
                 <th>Pagamento</th>
-                <th style="text-align:right;">Valor</th>
+                <th style="text-align:right;">Serviço</th>
+                <th style="text-align:right;">Produto</th>
+                <th style="text-align:right;">Total</th>
               </tr>
             </thead>
             <tbody id="fech-tbody"></tbody>
@@ -734,6 +744,26 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
             </table>
           </div>
           <div id="fech-servicos-empty" class="fech-empty" style="display:none;">Sem dados.</div>
+        </div>
+
+        <!-- Produtos vendidos -->
+        <div class="fech-sheet-block" style="margin-top:0;">
+          <div class="fech-sheet-block-header">
+            <div class="fech-sheet-block-title">◆ Produtos Vendidos</div>
+          </div>
+          <div class="fech-sheet-table-wrap">
+            <table class="fech-tbl">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th style="text-align:right;">Total</th>
+                </tr>
+              </thead>
+              <tbody id="fech-tbody-produtos"></tbody>
+              <tfoot id="fech-tfoot-produtos"></tfoot>
+            </table>
+          </div>
+          <div id="fech-produtos-empty" class="fech-empty" style="display:none;">Nenhum produto vendido.</div>
         </div>
 
         <!-- Formas de pagamento -->
@@ -859,6 +889,42 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:30px;">
       <button class="btn" onclick="fecharModalServico()"><span>Cancelar</span></button>
       <button class="btn btn-dark" onclick="salvarServico()"><span>Salvar Serviço</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL EDITAR ATENDIMENTO ══ -->
+<div class="modal-bg" id="modal-editar-at-bg">
+  <div class="modal" style="max-width:640px;">
+    <button class="modal-close" onclick="fecharModalEditarAt()">×</button>
+    <div class="modal-title"><div class="panel-title-diamond"></div>Editar Atendimento</div>
+    <input type="hidden" id="ea-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Cliente</label><input type="text" id="ea-cliente" placeholder="Nome do cliente"></div>
+      <div class="form-group"><label>Data</label><input type="date" id="ea-data"></div>
+      <div class="form-group"><label>Horário</label><input type="time" id="ea-horario"></div>
+      <div class="form-group"><label>Serviço</label><input type="text" id="ea-servico" placeholder="Ex: Progressiva"></div>
+      <div class="form-group"><label>Tamanho</label>
+        <select id="ea-tamanho">
+          <option value="">—</option>
+          <option>Curto</option><option>Medio</option><option>Longo</option><option>Extra Longo</option><option>Promocional</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Duração</label><input type="text" id="ea-duracao" placeholder="Ex: 2h30"></div>
+      <div class="form-group"><label>Forma de Pagamento</label>
+        <select id="ea-pagto">
+          <option value="Pix">Pix</option><option value="Dinheiro">Dinheiro</option>
+          <option value="Credito">Cartão Crédito</option><option value="Debito">Cartão Débito</option><option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Valor Total (R$)</label><input type="number" id="ea-total" placeholder="0,00" step="0.01" min="0"></div>
+      <div class="form-group"><label>Item Vendido</label><input type="text" id="ea-item" placeholder="Nome do produto (opcional)"></div>
+      <div class="form-group"><label>Valor do Item (R$)</label><input type="number" id="ea-itemvalor" placeholder="0,00" step="0.01" min="0"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Observações</label><textarea id="ea-obs" rows="2" placeholder="Observações..."></textarea></div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px;">
+      <button class="btn" onclick="fecharModalEditarAt()"><span>Cancelar</span></button>
+      <button class="btn btn-dark" onclick="salvarEdicaoAt()"><span>Salvar Alterações</span></button>
     </div>
   </div>
 </div>
@@ -1244,9 +1310,61 @@ function renderHistorico(){
   const el=document.getElementById('hist-lista'),empty=document.getElementById('hist-empty');
   if(!arr.length){empty.style.display='block';el.innerHTML='';return;}
   empty.style.display='none';
-  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Item</th><th>Total</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td></tr>`).join('')}</tbody></table></div>`;
+  el.innerHTML=`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Horário</th><th>Cliente</th><th>Serviço</th><th>Tamanho</th><th>Duração</th><th>Pagamento</th><th>Item</th><th>Total</th><th style="width:110px;"></th></tr></thead><tbody>${arr.map(a=>`<tr><td>${fmtDate(a.data)}</td><td>${a.horario||'—'}</td><td>${a.clienteNome||'—'}</td><td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}${a.servico||'—'}</span></td><td>${a.tamanho||'—'}</td><td>${a.duracao||'—'}</td><td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td><td>${a.item?`<span class="badge badge-item">${a.item} · ${fmt(a.itemValor)}</span>`:'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--success)">${fmt(a.total)}</strong></td><td style="white-space:nowrap;"><div style="display:flex;gap:6px;"><button class="btn btn-sm" onclick="abrirModalEditarAt('${a.id}')"><span>Editar</span></button><button class="btn btn-sm btn-danger" onclick="removerAtendimentoHistorico('${a.id}')"><span>✕</span></button></div></td></tr>`).join('')}</tbody></table></div>`;
 }
 window.renderHistorico=renderHistorico;
+
+// ══════════════════════════════════════════════
+// EDITAR ATENDIMENTO (HISTÓRICO)
+// ══════════════════════════════════════════════
+window.abrirModalEditarAt=function(id){
+  const a=atendimentos.find(x=>x.id===id);if(!a)return;
+  document.getElementById('ea-id').value=a.id;
+  document.getElementById('ea-cliente').value=a.clienteNome||'';
+  document.getElementById('ea-data').value=a.data||'';
+  document.getElementById('ea-horario').value=a.horario||'';
+  document.getElementById('ea-servico').value=a.servico||'';
+  document.getElementById('ea-tamanho').value=a.tamanho||'';
+  document.getElementById('ea-duracao').value=a.duracao||'';
+  document.getElementById('ea-pagto').value=a.pagto||'Pix';
+  document.getElementById('ea-total').value=a.total||'';
+  document.getElementById('ea-item').value=a.item||'';
+  document.getElementById('ea-itemvalor').value=a.itemValor||'';
+  document.getElementById('ea-obs').value=a.obs||'';
+  document.getElementById('modal-editar-at-bg').classList.add('open');
+};
+window.fecharModalEditarAt=function(){
+  document.getElementById('modal-editar-at-bg').classList.remove('open');
+};
+window.salvarEdicaoAt=async function(){
+  const id=document.getElementById('ea-id').value;
+  const idx=atendimentos.findIndex(a=>a.id===id);if(idx<0)return;
+  const a=atendimentos[idx];
+  const clienteNome=document.getElementById('ea-cliente').value.trim()||a.clienteNome;
+  const data=document.getElementById('ea-data').value||a.data;
+  const horario=document.getElementById('ea-horario').value||a.horario;
+  const servico=document.getElementById('ea-servico').value.trim()||a.servico;
+  const tamanho=document.getElementById('ea-tamanho').value;
+  const duracao=document.getElementById('ea-duracao').value.trim();
+  const pagto=document.getElementById('ea-pagto').value;
+  const total=parseFloat(document.getElementById('ea-total').value)||0;
+  const item=document.getElementById('ea-item').value.trim();
+  const itemValor=parseFloat(document.getElementById('ea-itemvalor').value)||0;
+  const obs=document.getElementById('ea-obs').value.trim();
+  const updated={...a,clienteNome,data,horario,servico,tamanho,duracao,pagto,total,item,itemValor,obs};
+  atendimentos[idx]=updated;
+  await fbSave('atendimentos',updated);
+  fecharModalEditarAt();
+  renderHistorico();renderAgendaHoje();updateHeader();
+  toast('Atendimento atualizado!');
+};
+window.removerAtendimentoHistorico=async function(id){
+  if(!confirm('Remover este atendimento?'))return;
+  atendimentos=atendimentos.filter(a=>a.id!==id);
+  await fbDelete('atendimentos',id);
+  renderHistorico();renderAgendaHoje();updateHeader();
+  toast('Atendimento removido.');
+};
 
 // ══════════════════════════════════════════════
 // CLIENTES — com Bairro/Cidade e linhas clicáveis
@@ -1541,12 +1659,16 @@ function renderFechamento() {
   const ats = atendimentos.filter(a => a.data >= iniStr && a.data <= fimStr);
   const gastosArr = (window._gastos || []).filter(g => g.data >= iniStr && g.data <= fimStr);
 
-  const bruto = ats.reduce((s,a) => s + (a.total||0), 0);
+  const brutoServicos = ats.reduce((s,a) => s + (a.valor||0) - (a.descValor||0), 0);
+  const brutoProdutos = ats.reduce((s,a) => s + (a.itemValor||0), 0);
+  const bruto = brutoServicos + brutoProdutos;
   const totalGastos = gastosArr.reduce((s,g) => s + (g.valor||0), 0);
   const liquido = bruto - totalGastos;
   const ticket = ats.length ? bruto / ats.length : 0;
 
   // ── Resumo financeiro ──
+  document.getElementById('fech-bruto-servicos').textContent = fmt(brutoServicos);
+  document.getElementById('fech-bruto-produtos').textContent = fmt(brutoProdutos);
   document.getElementById('fech-bruto').textContent = fmt(bruto);
   document.getElementById('fech-gastos').textContent = fmt(totalGastos);
   const liquidoEl = document.getElementById('fech-liquido');
@@ -1571,18 +1693,24 @@ function renderFechamento() {
   } else {
     emptyAtend.style.display = 'none';
     document.getElementById('fech-tbl-atend').style.display = 'table';
-    tbody.innerHTML = sorted.map((a,i) =>
-      `<tr>
+    tbody.innerHTML = sorted.map((a,i) => {
+      const vServico = (a.valor||0) - (a.descValor||0);
+      const vProduto = a.itemValor||0;
+      return `<tr>
         <td class="fech-num">${i+1}</td>
         <td style="white-space:nowrap;font-size:13px;">${fmtDate(a.data)}</td>
         <td style="font-size:14px;">${a.clienteNome||'—'}</td>
         <td><span style="display:inline-flex;align-items:center;gap:7px;">${dotServico(a.corServico||getCorServico(a.servico))}<span style="font-size:13px;">${a.servico||'—'}</span></span></td>
         <td><span class="badge ${badgePagto(a.pagto)}">${a.pagto||'—'}</span></td>
+        <td class="fech-val-cell">${vServico > 0 ? fmt(vServico) : '<span style="color:var(--ink3);opacity:0.4;">—</span>'}</td>
+        <td class="fech-val-cell" style="color:var(--marrom);">${vProduto > 0 ? fmt(vProduto) : '<span style="color:var(--ink3);opacity:0.4;">—</span>'}</td>
         <td class="fech-val-cell">${fmt(a.total)}</td>
-      </tr>`
-    ).join('');
+      </tr>`;
+    }).join('');
     tfoot.innerHTML = `<tr>
       <td colspan="5" style="font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:var(--ink3);text-align:right;">Total da semana</td>
+      <td class="fech-td-val" style="text-align:right;padding:12px 14px;font-size:16px;">${fmt(brutoServicos)}</td>
+      <td class="fech-td-val" style="text-align:right;padding:12px 14px;font-size:16px;color:var(--marrom);">${fmt(brutoProdutos)}</td>
       <td class="fech-td-val gold" style="text-align:right;padding:12px 14px;">${fmt(bruto)}</td>
     </tr>`;
   }
@@ -1689,6 +1817,51 @@ function renderFechamento() {
     tfootServ.innerHTML = `<tr>
       <td colspan="2" style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);">Total</td>
       <td class="fech-td-val gold" style="text-align:right;padding:10px 14px;font-size:20px;">${fmt(totalServ)}</td>
+    </tr>`;
+  }
+
+  // ── Planilha de produtos vendidos ──
+  const prodMap = {};
+  ats.forEach(a => {
+    if (!a.itemValor || a.itemValor <= 0) return;
+    const nomes = a.item ? a.item.split(', ') : ['Produto'];
+    nomes.forEach(nome => {
+      const n = nome.trim() || 'Produto';
+      if (!prodMap[n]) prodMap[n] = 0;
+    });
+    // distribui o valor proporcionalmente (ou agrega no primeiro se não separável)
+    const nmsUnicos = nomes.filter(Boolean);
+    if (nmsUnicos.length === 1) {
+      prodMap[nmsUnicos[0]] = (prodMap[nmsUnicos[0]] || 0) + (a.itemValor || 0);
+    } else {
+      nmsUnicos.forEach(n => { prodMap[n] = (prodMap[n] || 0); });
+      // Agrupa o total no bloco, não divide (valores individuais não são salvos)
+      const chave = nmsUnicos.join(', ');
+      if (!prodMap[chave]) prodMap[chave] = 0;
+      prodMap[chave] += (a.itemValor || 0);
+      nmsUnicos.forEach(n => { delete prodMap[n]; });
+    }
+  });
+  const prodArr = Object.entries(prodMap).filter(([,v]) => v > 0).sort((a,b) => b[1] - a[1]);
+  const tbodyProd = document.getElementById('fech-tbody-produtos');
+  const tfootProd = document.getElementById('fech-tfoot-produtos');
+  const emptyProd = document.getElementById('fech-produtos-empty');
+
+  if (!prodArr.length) {
+    tbodyProd.innerHTML = ''; tfootProd.innerHTML = '';
+    emptyProd.style.display = 'block';
+  } else {
+    emptyProd.style.display = 'none';
+    tbodyProd.innerHTML = prodArr.map(([nome, total]) =>
+      `<tr>
+        <td style="font-size:13px;">${nome}</td>
+        <td class="fech-val-cell" style="color:var(--marrom);">${fmt(total)}</td>
+      </tr>`
+    ).join('');
+    const totalProd = prodArr.reduce((s,[,v]) => s+v, 0);
+    tfootProd.innerHTML = `<tr>
+      <td style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink3);">Total</td>
+      <td class="fech-td-val" style="text-align:right;padding:10px 14px;font-size:20px;color:var(--marrom);">${fmt(totalProd)}</td>
     </tr>`;
   }
 
