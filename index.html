@@ -425,12 +425,12 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 
 <nav>
   <button class="tab active" onclick="showTab('atendimento',this)">Atendimento</button>
+  <button class="tab" onclick="showTab('gastos',this)">Gastos</button>
+  <button class="tab" onclick="showTab('fechamento',this)">Fechamento Semanal</button>
   <button class="tab" onclick="showTab('historico',this)">Histórico</button>
   <button class="tab" onclick="showTab('clientes',this)">Clientes</button>
   <button class="tab" onclick="showTab('servicos',this)">Serviços</button>
   <button class="tab" onclick="showTab('aniversarios',this)">Aniversários</button>
-  <button class="tab" onclick="showTab('fechamento',this)">Fechamento Semanal</button>
-  <button class="tab" onclick="showTab('gastos',this)">Gastos</button>
 </nav>
 
 <main>
@@ -449,24 +449,13 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="panel">
     <div class="panel-title"><div class="panel-title-diamond"></div>Dados do Atendimento</div>
     <div class="form-grid">
-      <div class="form-group"><label>Cliente</label>
+      <div class="form-group" style="grid-column:1/-1"><label>Cliente</label>
         <div class="autocomplete-wrap">
           <input type="text" id="r-cliente" placeholder="Digite o nome..." autocomplete="off" oninput="autocompleteCliente(this.value)">
           <div class="autocomplete-list" id="ac-cliente" style="display:none"></div>
         </div>
         <input type="hidden" id="r-cliente-id">
       </div>
-      <div class="form-group"><label>Data</label><input type="date" id="r-data"></div>
-      <input type="hidden" id="r-horario">
-      <div class="form-group"><label>Forma de Pagamento</label>
-        <select id="r-pagto">
-          <option value="Pix">Pix</option><option value="Dinheiro">Dinheiro</option>
-          <option value="Credito">Cartão Crédito</option><option value="Debito">Cartão Débito</option><option value="Outros">Outros</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Valor Cobrado (R$)</label><input type="number" id="r-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
-      <div class="form-group"><label>Desconto (%)</label><input type="number" id="r-desconto" placeholder="0" min="0" max="100" step="1" oninput="calcAtendimento()"></div>
-      <div class="form-group"><label>Duração do Serviço</label><input type="text" id="r-duracao" placeholder="—" readonly style="background:var(--pearl2);cursor:default;opacity:0.7;"></div>
     </div>
     <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
     <div class="panel-title"><div class="panel-title-diamond"></div>Selecione os Serviços</div>
@@ -479,6 +468,21 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div><div class="resumo-total-label">Total dos Serviços</div><div class="resumo-dur-val" id="resumo-dur-total"></div></div>
         <div class="resumo-total-val" id="resumo-val-total"></div>
       </div>
+    </div>
+    <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
+    <div class="panel-title"><div class="panel-title-diamond"></div>Detalhes do Atendimento</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Data</label><input type="date" id="r-data"></div>
+      <input type="hidden" id="r-horario">
+      <div class="form-group"><label>Forma de Pagamento</label>
+        <select id="r-pagto">
+          <option value="Pix">Pix</option><option value="Dinheiro">Dinheiro</option>
+          <option value="Credito">Cartão Crédito</option><option value="Debito">Cartão Débito</option><option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Valor Cobrado (R$)</label><input type="number" id="r-valor" placeholder="0,00" step="0.01" oninput="calcAtendimento()"></div>
+      <div class="form-group"><label>Desconto (%)</label><input type="number" id="r-desconto" placeholder="0" min="0" max="100" step="1" oninput="calcAtendimento()"></div>
+      <div class="form-group"><label>Duração do Serviço</label><input type="text" id="r-duracao" placeholder="—" readonly style="background:var(--pearl2);cursor:default;opacity:0.7;"></div>
     </div>
     <div class="panel-ornament"><div class="panel-ornament-line"></div><div class="panel-ornament-diamond"></div><div class="panel-ornament-line"></div></div>
     <div class="panel-title"><div class="panel-title-diamond"></div>Itens Vendidos <span style="font-size:13px;font-family:'Jost',sans-serif;font-weight:300;color:var(--ink3);">(opcional)</span></div>
@@ -1791,17 +1795,75 @@ function renderGastos() {
   const ini = inicioSemana(), mes = mesAtual();
   const gastos = window._gastos;
   const gSemana = gastos.filter(g => g.data >= ini && g.data <= hoje());
-  const gMes = gastos.filter(g => g.data?.slice(0,7) === mes);
-  document.getElementById('gastos-semana').textContent = fmt(gSemana.reduce((s,g)=>s+(g.valor||0),0));
-  document.getElementById('gastos-mes').textContent = fmt(gMes.reduce((s,g)=>s+(g.valor||0),0));
-  document.getElementById('gastos-total').textContent = fmt(gastos.reduce((s,g)=>s+(g.valor||0),0));
+  const gMes    = gastos.filter(g => g.data?.slice(0,7) === mes);
+  const totalSemana = gSemana.reduce((s,g)=>s+(g.valor||0),0);
+  const totalMes    = gMes.reduce((s,g)=>s+(g.valor||0),0);
+  const totalGeral  = gastos.reduce((s,g)=>s+(g.valor||0),0);
+  document.getElementById('gastos-semana').textContent = fmt(totalSemana);
+  document.getElementById('gastos-mes').textContent    = fmt(totalMes);
+  document.getElementById('gastos-total').textContent  = fmt(totalGeral);
 
   const empty = document.getElementById('gastos-empty');
   const lista = document.getElementById('gastos-lista');
   if (!gastos.length) { empty.style.display='block'; lista.innerHTML=''; return; }
   empty.style.display = 'none';
+
   const sorted = [...gastos].sort((a,b) => b.data.localeCompare(a.data));
-  lista.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Descrição</th><th>Valor</th><th>Ação</th></tr></thead><tbody>${sorted.map(g=>`<tr><td>${fmtDate(g.data)}</td><td>${g.desc||'—'}</td><td><strong style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--danger)">${fmt(g.valor)}</strong></td><td><button class="btn btn-sm btn-danger" onclick="removerGasto('${g.id}')"><span>Remover</span></button></td></tr>`).join('')}</tbody></table></div>`;
+
+  // Maior gasto da semana
+  let maiorGastoHTML = '';
+  if (gSemana.length) {
+    const maior = gSemana.reduce((m,g) => (g.valor||0) > (m.valor||0) ? g : m, gSemana[0]);
+    const pct = totalSemana ? Math.round((maior.valor / totalSemana) * 100) : 0;
+    maiorGastoHTML = `<div style="display:flex;align-items:center;gap:20px;background:var(--pearl2);border:1px solid var(--bege2);border-left:3px solid var(--rose);padding:18px 22px;margin-bottom:28px;">
+      <div style="flex:0 0 auto;">
+        <div style="font-size:10px;letter-spacing:0.45em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;">Maior gasto da semana</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--danger);line-height:1;">${fmt(maior.valor)}</div>
+      </div>
+      <div style="width:1px;height:44px;background:var(--bege2);flex-shrink:0;"></div>
+      <div style="flex:1;">
+        <div style="font-size:15px;color:var(--ink2);font-weight:400;">${maior.desc||'—'}</div>
+        <div style="font-size:12px;color:var(--ink3);margin-top:3px;">${fmtDate(maior.data)} · representa ${pct}% dos gastos da semana</div>
+      </div>
+    </div>`;
+  }
+
+  // Linhas da tabela
+  const tbodyRows = sorted.map(g => {
+    const isMaior = gSemana.length && g.id === gSemana.reduce((m,x)=>(x.valor||0)>(m.valor||0)?x:m,gSemana[0]).id;
+    return `<tr${isMaior ? ' style="background:rgba(201,137,122,0.06);"' : ''}>
+      <td style="font-size:13px;white-space:nowrap;">${fmtDate(g.data)}</td>
+      <td style="font-size:14px;">${g.desc||'—'}${isMaior ? ' <span style="font-size:10px;letter-spacing:0.3em;color:var(--rose);text-transform:uppercase;margin-left:6px;">★ maior</span>' : ''}</td>
+      <td style="text-align:right;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--danger);">${fmt(g.valor)}</td>
+      <td style="text-align:right;"><button class="btn btn-sm btn-danger" onclick="removerGasto('${g.id}')"><span>Remover</span></button></td>
+    </tr>`;
+  }).join('');
+
+  lista.innerHTML = maiorGastoHTML + `
+    <div class="fech-sheet-block" style="margin-bottom:0;">
+      <div class="fech-sheet-block-header">
+        <div class="fech-sheet-block-title">◆ Todos os Gastos</div>
+        <div class="fech-sheet-count">${gastos.length} ${gastos.length===1?'registro':'registros'}</div>
+      </div>
+      <div class="fech-sheet-table-wrap">
+        <table class="fech-tbl">
+          <thead><tr>
+            <th style="width:110px;">Data</th>
+            <th>Descrição</th>
+            <th style="text-align:right;width:130px;">Valor</th>
+            <th style="width:90px;"></th>
+          </tr></thead>
+          <tbody>${tbodyRows}</tbody>
+          <tfoot>
+            <tr style="border-top:2px solid var(--gold-pale);">
+              <td colspan="2" style="font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink3);padding:12px 14px;">Total geral</td>
+              <td style="text-align:right;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--danger);padding:12px 14px;font-weight:600;">${fmt(totalGeral)}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>`;
 }
 
 // Fechar autocomplete ao clicar fora
